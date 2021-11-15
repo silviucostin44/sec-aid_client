@@ -1,0 +1,35 @@
+<app-modal-wrapper (closeModal)="closeModal()" modalId="authModal" title="Autentificare">
+  <form #authForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    <div *ngIf="false" class="alert alert-danger">  <!--todo: submit errors-->
+      <div *ngIf="false">
+        Nu există un cont asociat acestei adrese.
+      </div>
+      <div *ngIf="false">
+        Parola este greșită.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="inputEmail">Adresa de email</label>
+      <input [(ngModel)]="email" class="form-control" email
+             id="inputEmail" name="email" pattern=".+@.+\..+"
+             required type="email">
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="inputPassword">Parolă</label>
+      <input #pass="ngModel" [(ngModel)]="password" class="form-control"
+             id="inputPassword" name="password"
+             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{6,24}$" required type="password">
+      <div *ngIf="pass.invalid && !pass.pristine" class="alert alert-danger">
+        <div *ngIf="pass.errors?.pattern">
+          Parola trebuie să aibă între 6 și 24 de caractere. <br>
+          Minim o literă mare, una mică și un caracter special.
+        </div>
+      </div>
+    </div>
+  </form>
+  <div footer>
+    <span class="d-inline-block" data-bs-toggle="tooltip" tabindex="0" title="Toate campurile sunt obligatorii.">
+      <button [disabled]="!authForm.form.valid" class="btn btn-success" type="submit">Autentifică</button>
+    </span>
+  </div>
+</app-modal-wrapper>

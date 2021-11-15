@@ -7,10 +7,19 @@ import {Component, OnInit} from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  modalTitle: string;
+
   constructor() {
   }
 
   ngOnInit(): void {
   }
 
+  openLoginModal() {
+    this.modalTitle = 'Înregistrare';
+  }
+
+  openAuthModal() {
+    this.modalTitle = 'Autentificare';
+  }
 }

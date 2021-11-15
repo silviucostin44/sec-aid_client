@@ -1,0 +1,11 @@
+.ng-invalid .ng-dirty:not(form) {
+  border: 1px solid red;
+}
+
+.ng-valid:not(form) {
+  border: 1px solid #ced4da !important;
+}
+
+.invalid {
+  background: rgb(248 215 218);
+}
