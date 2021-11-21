@@ -1,5 +1,6 @@
 import {Component, Input, ViewChild} from '@angular/core';
 import {AngularFileUploaderComponent} from 'angular-file-uploader';
+import ro from 'src/assets/text/ro.json';
 
 @Component({
   selector: 'app-upload-modal',
@@ -7,6 +8,8 @@ import {AngularFileUploaderComponent} from 'angular-file-uploader';
   styleUrls: ['./upload-modal.component.scss']
 })
 export class UploadModalComponent {
+  text = ro;
+
   @Input() objectName: string;
   configs = {
     uploadAPI: {
@@ -17,13 +20,13 @@ export class UploadModalComponent {
     hideSelectBtn: false,
     hideResetBtn: false,
     replaceTexts: {
-      selectFileBtn: 'Alege fișier',
-      resetBtn: 'Resetează',
-      uploadBtn: 'Încarcă',
-      dragNDropBox: 'Trage fișierul aici',
-      afterUploadMsg_success: 'Fișier încărcat cu succes.',
-      afterUploadMsg_error: 'Încărcarea fișierului a eșuat.',
-      sizeLimit: 'Dimensiunea maximă a fișierului'
+      selectFileBtn: this.text.MODAL.UPLOAD_CONFIG.CHOOSE_FILE,
+      resetBtn: this.text.MODAL.UPLOAD_CONFIG.RESET,
+      uploadBtn: this.text.MODAL.UPLOAD,
+      dragNDropBox: this.text.MODAL.UPLOAD_CONFIG.DRAG_N_DROP,
+      afterUploadMsg_success: this.text.MODAL.UPLOAD_CONFIG.SUCCESS,
+      afterUploadMsg_error: this.text.MODAL.UPLOAD_CONFIG.FAIL,
+      sizeLimit: this.text.MODAL.UPLOAD_CONFIG.LIMIT
     }
   };
   @ViewChild('uploader') private uploader: AngularFileUploaderComponent;

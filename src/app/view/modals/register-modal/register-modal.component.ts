@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {matchingPassValidator} from '../../shared/customValidators';
+import {matchingPassValidator} from '../../../shared/customValidators';
+import ro from 'src/assets/text/ro.json';
 
 @Component({
   selector: 'app-register-modal',
@@ -8,6 +9,7 @@ import {matchingPassValidator} from '../../shared/customValidators';
   styleUrls: ['./register-modal.component.scss']
 })
 export class RegisterModalComponent {
+  text = ro;
 
   registerForm = this.fb.group({
     email: ['', [Validators.required, Validators.email, Validators.pattern('.+@.+\..+')]],

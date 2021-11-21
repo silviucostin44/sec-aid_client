@@ -1,0 +1,74 @@
+{
+  "HOME": {
+    "WELCOME": "Bine ați venit!",
+    "APP_TITLE": {
+      "FIRST_HALF": "Sec",
+      "SECOND_HALF": "Aid"
+    },
+    "START_NEW_Q": "Începe evaluare nouă",
+    "START_NEW_PROGRAM": "Începe program nou",
+    "IMPORT_Q": "Importă evaluare",
+    "IMPORT_PROGRAM": "Importă program",
+    "AUTH": "Autentificare",
+    "REGISTER": "Înregistrare"
+  },
+  "QUEST": {
+    "TITLE": "Chestionar",
+    "CONTENTS": "Cuprins",
+    "SELF_ASSES": "Autoevaluare",
+    "CONTENT": {
+      "TITLE_C": "C. Contextul organizației",
+      "TITLE_C_1": "C.1 Descrierea organizației",
+      "TITLE_C_2": "C.2 Situația strategică a organizației",
+      "TITLE_1": "1. Conducerea organizației",
+      "TITLE_1_1": "1.1 Atitudinea conducerii",
+      "TITLE_1_2": "1.2 Guvernanță și responsabilitatea socială",
+      "TITLE_2": "2. Strategia",
+      "TITLE_2_1": "2.1 Planificarea strategiei",
+      "TITLE_2_2": "2.2 Implementarea strategiei",
+      "TITLE_3": "3. Pacienții/Clienții",
+      "TITLE_3_1": "3.1 Satisfacerea pacienților",
+      "TITLE_3_2": "3.2 Implicarea pacienților",
+      "TITLE_4": "4. Măsurători, analiză și managementul informației",
+      "TITLE_4_1": "4.1 Măsurători, analiză și îmbunătățirea performanțelor",
+      "TITLE_4_2": "4.2 Managementul informației",
+      "TITLE_5": "5. Angajații",
+      "TITLE_5_1": "5.1 Mediul de lucru",
+      "TITLE_5_2": "5.2 Implicarea angajaților",
+      "TITLE_6": "6. Angajații",
+      "TITLE_6_1": "6.1 Procese de lucru",
+      "TITLE_6_2": "6.2 Eficiența operațională",
+      "TITLE_7": "7. Rezultate",
+      "TITLE_7_1": "7.1 Procese",
+      "TITLE_7_2": "7.2 Pacienți",
+      "TITLE_7_3": "7.3 Angajați",
+      "TITLE_7_4": "7.4 Conducere și guvernanță",
+      "TITLE_7_5": "7.5 Strategie și rezultate financiare"
+    }
+  },
+  "PAGE": {
+    "BACK": "Înapoi",
+    "SAVE": "Salvează"
+  },
+  "MODAL": {
+    "INEXISTENT_ACCOUNT": "Nu există un cont asociat acestei adrese.",
+    "WRONG_PASS": "Parola este greșită.",
+    "EMAIL": "Adresa de email",
+    "PASSWORD": "Parolă",
+    "PASS_ERROR_1": "Parola trebuie să aibă între 6 și 24 de caractere.",
+    "PASS_ERROR_2": "Minim o literă mare, una mică și un caracter special.",
+    "AUTH": "Autentifică",
+    "EXISTING_ACCOUNT": "Există deja un cont asociat acestei adrese.",
+    "CONFIRM_PASS": "Confirmă parola",
+    "REGISTER": "Înregistreză",
+    "UPLOAD": "Încarcă",
+    "UPLOAD_CONFIG": {
+      "CHOOSE_FILE": "Alege fișier",
+      "RESET": "Resetează",
+      "DRAG_N_DROP": "Trage fișierul aici",
+      "SUCCESS": "Fișier încărcat cu succes.",
+      "FAIL": "Încărcarea fișierului a eșuat.",
+      "LIMIT": "Dimensiunea maximă a fișieruluiDimensiunea maximă a fișierului"
+    }
+  }
+}

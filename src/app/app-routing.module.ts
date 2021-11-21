@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from './pages/home/home.component';
-import {QuestionnaireComponent} from './pages/questionnaire/questionnaire.component';
-import {ProgramComponent} from './pages/program/program.component';
-import {SelfAssessmentComponent} from './pages/self-assessment/self-assessment.component';
+import {HomeComponent} from './view/pages/home/home.component';
+import {QuestionnaireComponent} from './view/pages/questionnaire/questionnaire.component';
+import {ProgramComponent} from './view/pages/program/program.component';
+import {SelfAssessmentComponent} from './view/pages/self-assessment/self-assessment.component';
 
 
 const routes: Routes = [

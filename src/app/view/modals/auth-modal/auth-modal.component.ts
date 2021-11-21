@@ -1,5 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
+import ro from 'src/assets/text/ro.json';
 
 @Component({
   selector: 'app-auth-modal',
@@ -7,6 +8,7 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./auth-modal.component.scss']
 })
 export class AuthModalComponent {
+  text = ro;
 
   @ViewChild('authForm', {static: true}) authForm: NgForm;
 

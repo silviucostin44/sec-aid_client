@@ -1,26 +1,26 @@
-<app-modal-wrapper (closeModal)="closeModal()" modalId="registerModal" title="Înregistrare">
+<app-modal-wrapper (closeModal)="closeModal()" modalId="registerModal" title="{{text.HOME.REGISTER}}">
   <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" novalidate>
     <div *ngIf="false" class="alert alert-danger">  <!--todo: submit errors-->
       <div *ngIf="false">
-        Există deja un cont asociat acestei adrese.
+        {{text.MODAL.EXISTING_ACCOUNT}}
       </div>
     </div>
     <div class="mb-3">
-      <label class="form-label" for="inputEmail1">Adresa de email</label>   <!--todo: remove 1-->
+      <label class="form-label" for="inputEmail1">{{text.MODAL.EMAIL}}</label>   <!--todo: remove 1-->
       <input class="form-control" formControlName="email" id="inputEmail1" type="email">
     </div>
     <div class="mb-3">
-      <label class="form-label" for="inputPassword1">Parolă</label>
+      <label class="form-label" for="inputPassword1">{{text.MODAL.PASSWORD}}</label>
       <input class="form-control" formControlName="password" id="inputPassword1" type="password">
       <div *ngIf="passField.invalid && !passField.pristine" class="alert alert-danger">
         <div *ngIf="passField.errors?.pattern">
-          Parola trebuie să aibă între 6 și 24 de caractere. <br>
-          Minim o literă mare, una mică și un caracter special.
+          {{text.MODAL.PASS_ERROR_1}} <br>
+          {{text.MODAL.PASS_ERROR_2}}
         </div>
       </div>
     </div>
     <div class="mb-3">
-      <label class="form-label" for="inputConfirmPassword">Confirmă parola</label>
+      <label class="form-label" for="inputConfirmPassword">{{text.MODAL.CONFIRM_PASS}}</label>
       <input [ngClass]="{'invalid': registerForm.errors?.unmatchingPass}" class="form-control"
              formControlName="confirmPass"
              id="inputConfirmPassword" type="password">
@@ -28,7 +28,7 @@
   </form>
   <div footer>
     <span class="d-inline-block" data-bs-toggle="tooltip" tabindex="0" title="Toate campurile sunt obligatorii.">
-      <button [disabled]="!registerForm.valid" class="btn btn-success" type="submit">Înregistreză</button>
+      <button [disabled]="!registerForm.valid" class="btn btn-success" type="submit">{{text.MODAL.REGISTER}}</button>
     </span>
   </div>
 </app-modal-wrapper>

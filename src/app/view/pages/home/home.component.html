@@ -1,42 +1,45 @@
 <div class="container d-flex flex-column align-items-center">
   <p class="display-4 fw-bold m-5" style="font-family: Cambria,serif">
-    <span style="color: cornflowerblue">Sec</span>
-    <span style="color: cadetblue">Aid</span>
+    <span style="color: cornflowerblue">{{text.APP_TITLE.FIRST_HALF}}</span>
+    <span style="color: cadetblue">{{text.APP_TITLE.SECOND_HALF}}</span>
   </p>
   <div class="border border-dark border-2 rounded shadow" style="width: 60%">
-    <p class="display-6 fs-4 text-center mt-5">Bine ați venit!</p>
+    <p class="display-6 fs-4 text-center mt-5">{{text.WELCOME}}</p>
     <br>
     <div class="container">
       <div class="row row-cols-2 g-4 m-3">
         <div class="col d-flex justify-content-center">
-          <a class="btn btn-primary btn-lg w-75" role="button" routerLink="/questionnaire/{{0}}">Începe evaluare
-            nouă</a>
+          <a class="btn btn-primary btn-lg w-75" role="button" routerLink="/questionnaire/{{questionnaireId}}">
+            {{text.START_NEW_Q}}
+          </a>
         </div>
         <div class="col d-flex justify-content-center">
-          <a class="btn btn-primary btn-lg w-75" role="button" routerLink="/program/{{0}}">Începe program nou</a>
+          <a class="btn btn-primary btn-lg w-75" role="button" routerLink="/program/{{programId}}">
+            {{text.START_NEW_PROGRAM}}
+          </a>
         </div>
         <div class="col d-flex justify-content-center">
           <button class="btn btn-secondary btn-lg w-75" data-bs-target="#uploadModal"
                   data-bs-toggle="modal" type="button">
-            Importă evaluare
+            {{text.IMPORT_Q}}
           </button>
         </div>
         <div class="col d-flex justify-content-center">
           <button class="btn btn-secondary btn-lg w-75" data-bs-target="#uploadModal"
                   data-bs-toggle="modal" type="button">
-            Importă program
+            {{text.IMPORT_PROGRAM}}
           </button>
         </div>
         <div class="col d-flex justify-content-center">
           <button class="btn btn-link btn-lg w-75" data-bs-target="#authModal"
                   data-bs-toggle="modal" disabled type="button">
-            Autentificare
+            {{text.AUTH}}
           </button>
         </div>
         <div class="col d-flex justify-content-center">
           <button class="btn btn-link btn-lg w-75" data-bs-target="#registerModal"
                   data-bs-toggle="modal" disabled type="button">
-            Înregistrare
+            {{text.REGISTER}}
           </button>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import ro from 'src/assets/text/ro.json';
 
 @Component({
   selector: 'app-home-page',
@@ -6,20 +7,15 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  text = ro.HOME;
 
-  modalTitle: string;
+  questionnaireId = '0';
+  programId = '0';
 
   constructor() {
   }
 
   ngOnInit(): void {
   }
-
-  openLoginModal() {
-    this.modalTitle = 'Înregistrare';
-  }
-
-  openAuthModal() {
-    this.modalTitle = 'Autentificare';
-  }
 }
+

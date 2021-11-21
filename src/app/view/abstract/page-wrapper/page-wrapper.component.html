@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="d-flex justify-content-between mt-5">
+    <button (click)="goBack()" class="btn btn-secondary" type="button">{{text.BACK}}</button>
+    <button (click)="saveAction()" class="btn btn-success" disabled type="button">
+      {{text.SAVE}}
+    </button>
+  </div>
+  <ng-content></ng-content>
+</div>

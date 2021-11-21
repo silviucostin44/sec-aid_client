@@ -1,4 +1,4 @@
-<app-modal-wrapper (closeModal)="closeModal()" modalId="uploadModal" title="{{'Încarcă ' + objectName}}">
+<app-modal-wrapper (closeModal)="closeModal()" modalId="uploadModal" title="{{text.MODAL.UPLOAD + ' ' + objectName}}">
   <div class="d-flex justify-content-center">
     <angular-file-uploader #uploader
                            (ApiResponse)="docUpload($event)"

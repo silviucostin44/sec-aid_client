@@ -1,0 +1,27 @@
+.overlap-top-40 {
+  margin-top: -40px;
+}
+
+.bottom-20 {
+  bottom: 20px;
+}
+
+.nav-link {
+  display: block;
+  padding: 0 0.5rem;
+  font-size: smaller;
+}
+
+.content-panel {
+  flex-direction: column;
+  align-items: stretch;
+  // margin-left: -6rem;  /*todo quest page aspect: content movement to left side*/
+  border-radius: 0.25rem;
+  padding: 0 0.5rem;
+}
+
+.fixed-panel {
+  position: fixed;
+  width: 310px;
+  // z-index: -1; /*todo quest page aspect: find better solution for zoom in problem*/
+}
