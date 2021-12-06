@@ -1,0 +1,12 @@
+<div class="position-relative m-4">
+  <div class="progress" style="height: 2px;">
+    <div [ngStyle]="{ width: progressPercentage() }" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
+         class="progress-bar progress-bar-striped" role="progressbar"></div>
+  </div>
+  <button #progressButton (click)="updateStep(i)"
+          *ngFor="let button of buttons; let i=index" [disabled]="isUntouchedStep(i)"
+          [ngClass]="[button.position, buttonStyle(button.isComputed, i)]"
+          class="position-absolute top-0 translate-middle btn btn-sm rounded-pill" type="button">
+    {{i + 1}}
+  </button>
+</div>

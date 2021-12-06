@@ -7,6 +7,8 @@ import {Questionnaire, QuestSection} from '../../../models/questionnaire.model';
 import {QuestContent} from '../../../models/questionnaire-content.interface';
 import {Question} from '../../../models/question.model';
 import {ViewportScroller} from '@angular/common';
+import QuestionnaireHelper from '../../../helpers/questionnaire.helper';
+import {Response} from '../../../models/response.model';
 
 @Component({
   selector: 'app-questionnaire',
@@ -18,11 +20,15 @@ export class QuestionnaireComponent implements OnInit {
 
   id: string;
   content: QuestContent[] = QUEST_CONTENT;
-  responses: FormArray = this.fb.array([]);
-  questionsGroup: FormGroup = new FormGroup({
+  responses: FormArray = new FormArray([]);
+  responsesGroup: FormGroup = new FormGroup({
     responses: this.responses
   });
+  responseCriteriaKeys: string[] = QuestionnaireHelper.getResponseCriteriaKeys();
+  responseOptions: string[] = QuestionnaireHelper.getMaturityLevelsAsList();
   questionnaire: Questionnaire;
+
+  displayScores: boolean = false;
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private scroller: ViewportScroller) {
   }
@@ -50,12 +56,44 @@ export class QuestionnaireComponent implements OnInit {
     this.scroller.scrollToAnchor(anchor);
   }
 
+  getLabelBySection(sectionIndex: number, crtIndex: number): string {
+    return sectionIndex === 7
+      ? this.text.EVAL['R_CRT_' + (crtIndex + 1)]
+      : this.text.EVAL['P_CRT_' + (crtIndex + 1)];
+  }
+
+  generateScores(): void {
+    // todo refactor: better way to iterate over questionnaire
+    this.save();  /* todo refactor: don't use save here */
+    for (let section of this.questionnaire.sections) {
+      this.computeScores(section);
+      section.setRating(section.subsections
+        .map((question) => question.getRating())
+        .reduce((sum, current) => sum + current)
+      );
+    }
+    this.displayScores = true;
+  }
+
+  resetScores(): void {
+    this.displayScores = false;
+  }
+
+  getScoreColor(score: number): string {
+    return QuestionnaireHelper.getColorFromMaturityLevel(Math.ceil(score));
+  }
+
+  translateMaturityLevel(maturityLevel: string) {
+    return ro.QUEST.EVAL['MAT_LVL_' + maturityLevel];
+  }
+
   private updateQuestionsResponse(section: QuestSection): void {
     for (let subsection of section.subsections) {
       this.updateQuestionsResponse(subsection);
     }
     for (let question of section.questions) {
-      question.response = this.responses.at(question.responseControlIndex).value;
+      // todo response: fix
+      question.response = Response.formGroupToResponse(this.responses.at(question.responseControlIndex));
     }
   }
 
@@ -78,7 +116,26 @@ export class QuestionnaireComponent implements OnInit {
 
   private addQuestResponseControls(controlsNo: number): void {
     for (let i = 0; i < controlsNo; i++) {
-      this.responses.push(this.fb.control('', Validators.required));
+      const responseFormGroup = this.fb.group({
+        crt_1: this.fb.control('', Validators.required),
+        crt_2: this.fb.control('', Validators.required),
+        crt_3: this.fb.control('', Validators.required),
+        crt_4: this.fb.control('', Validators.required)
+      });
+      this.responses.push(responseFormGroup);
+    }
+  }
+
+  private computeScores(section: QuestSection): void {
+    for (let subsection of section.subsections) {
+      this.computeScores(subsection);
+      subsection.setRating(subsection.questions
+        .map((question) => question.getRating())
+        .reduce((sum, current) => sum + current)
+      );
+    }
+    for (let question of section.questions) {
+      question.setRating(question.response.computeRating());
     }
   }
 

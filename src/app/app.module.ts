@@ -14,6 +14,12 @@ import {AuthModalComponent} from './view/modals/auth-modal/auth-modal.component'
 import {RegisterModalComponent} from './view/modals/register-modal/register-modal.component';
 import {UploadModalComponent} from './view/modals/upload-modal/upload-modal.component';
 import {AngularFileUploaderModule} from 'angular-file-uploader';
+import {ProgressButtons} from './view/widgets/progress-buttons/progress-buttons.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CDropdownComponent} from './view/widgets/c-dropdown/c-dropdown.component';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {ScoreComponent} from './view/widgets/score/score.component';
 
 @NgModule({
   declarations: [
@@ -27,13 +33,19 @@ import {AngularFileUploaderModule} from 'angular-file-uploader';
     AuthModalComponent,
     RegisterModalComponent,
     UploadModalComponent,
+    ProgressButtons,
+    CDropdownComponent,
+    ScoreComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFileUploaderModule
+    AngularFileUploaderModule,
+    BrowserAnimationsModule,
+    BsDropdownModule.forRoot(),
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

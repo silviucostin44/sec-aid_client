@@ -1,0 +1,7 @@
+<div [ngStyle]="{ 'color': color }" class="position-relative w-fit-content">
+  <span [ngStyle]="{ 'font-size': fontSize + 'px' }"
+        class="position-absolute fw-bold top-50 start-50 translate-middle">
+    {{number}}
+  </span>
+  <fa-icon [icon]="faCircle" [ngStyle]="{ 'font-size': fontSize + sizeDiff + 'px' }"></fa-icon>
+</div>

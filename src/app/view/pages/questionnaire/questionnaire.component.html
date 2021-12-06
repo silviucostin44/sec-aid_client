@@ -28,20 +28,40 @@
                     data-bs-toggle="collapse" type="button">
               {{section.title}}
             </button>
+            <widget-score [color]="getScoreColor(section.getRating())" [hidden]="!displayScores"
+                          [number]="section.getRating()"
+                          class="header-score">
+            </widget-score>
           </h2>
-          <div [attr.aria-labelledby]="'flush-heading' + i1" [formGroup]="questionsGroup"
+          <div [attr.aria-labelledby]="'flush-heading' + i1" [formGroup]="responsesGroup"
                [id]="'flush-collapse' + i1" class="accordion-collapse collapse">
             <div class="accordion-body" formArrayName="responses">
               <li *ngFor="let subsection of section.subsections; let i2=index">
-                <span [id]="'item' + i1 + i2" class="fw-bold">{{subsection.title}}</span>
-                <div *ngFor="let question of subsection.questions" class="mb-3">
-                  <label class="form-label" for="response{{i1 + i2 + question.number}}">
+                <span [id]="'item' + i1 + i2" class="fw-bold score-holder">
+                  {{subsection.title}}
+                  <widget-score [color]="getScoreColor(subsection.getRating())" [hidden]="!displayScores"
+                                [number]="subsection.getRating()"
+                                class="score">
+                  </widget-score>
+                </span>
+                <div *ngFor="let question of subsection.questions" [formGroupName]="question.responseControlIndex"
+                     class="mb-3">
+                  <p class="form-label score-holder">
                     {{question.text}}
-                  </label>
-                  <textarea [formControlName]="question.responseControlIndex" class="form-control"
-                            id="response{{i1 + i2 + question.number}}"
-                            rows="1">
-                  </textarea>
+                    <widget-score [color]="getScoreColor(question.getRating())" [fontSize]="10"
+                                  [hidden]="!displayScores"
+                                  [number]="question.getRating()" class="score">
+                    </widget-score>
+                  </p>
+                  <div class="row align-items-start">
+                    <widget-c-dropdown *ngFor="let crtKey of responseCriteriaKeys; let crtIndex=index"
+                                       [formControlName]="crtKey"
+                                       [optionDisplayForm]="translateMaturityLevel"
+                                       [options]="responseOptions"
+                                       class="col"
+                                       label="{{getLabelBySection(i1, crtIndex)}}">
+                    </widget-c-dropdown>
+                  </div>
                 </div>
               </li>
             </div>
@@ -51,11 +71,12 @@
     </div>
   </div>
 
-  <a [ngClass]="{ 'position-sticky bottom-20': isQuestionnaireComplete(), 'disabled': !isQuestionnaireComplete()}"
-     class="btn btn-primary float-end my-3"
-     role="button"
-     routerLink="self-assessment/{{id}}"
-  >
-    {{text.SELF_ASSES}}
-  </a>
+  <div [ngClass]="{ 'position-sticky bottom-20': isQuestionnaireComplete() }"
+       class="float-end my-3">  <!--todo: add z index to bring front-->
+    <div *ngIf="displayScores" class="d-inline">
+      <button class="btn btn-info me-2" disabled>{{text.EXPORT}}</button>
+      <button (click)="resetScores()" class="btn btn-danger me-2" role="button">{{text.RESET}}</button>
+    </div>
+    <button (click)="generateScores()" class="btn btn-primary" role="button">{{text.GENERATE_SCORE}}</button>
+  </div>
 </app-page-wrapper>

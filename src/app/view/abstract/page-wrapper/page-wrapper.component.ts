@@ -3,8 +3,7 @@ import {Location} from '@angular/common';
 import ro from 'src/assets/text/ro.json';
 
 @Component({
-  selector: '' +
-    'app-page-wrapper',
+  selector: 'app-page-wrapper',
   templateUrl: './page-wrapper.component.html',
   styleUrls: ['./page-wrapper.component.scss']
 })

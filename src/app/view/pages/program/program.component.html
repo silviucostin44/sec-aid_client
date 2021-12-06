@@ -1,18 +1,12 @@
-<app-page-wrapper>
-  <!--  todo progress-bar: continue-->
-  <div class="position-relative m-4">
-    <div class="progress" style="height: 1px;">
-      <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress-bar" role="progressbar"
-           style="width: 50%;"></div>
-    </div>
-    <button class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill"
-            style="width: 2rem; height:2rem;" type="button">1
-    </button>
-    <button class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-primary rounded-pill"
-            style="width: 2rem; height:2rem;" type="button">2
-    </button>
-    <button class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill"
-            style="width: 2rem; height:2rem;" type="button">3
-    </button>
+<app-page-wrapper>  <!--todo text: use text constants-->
+  <div class="d-float align-self-center" style="width: 75%; margin: auto">
+    <widget-progress-buttons [next]="nextStepEvent"></widget-progress-buttons>
   </div>
+  <p class="display-6 text-center">{{text.TITLES["TITLE_" + id]}}</p>
+  <a (click)="nextStep()" [hidden]="false"
+     [ngClass]="{ 'disabled': !isStepComplete() }"
+     class="btn btn-primary float-end my-3" role="button"
+  >   <!--todo program: hide button on 7th step-->
+    {{text.NEXT_STEP}}
+  </a>
 </app-page-wrapper>

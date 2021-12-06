@@ -15,7 +15,9 @@
   "QUEST": {
     "TITLE": "Chestionar",
     "CONTENTS": "Cuprins",
-    "SELF_ASSES": "Autoevaluare",
+    "GENERATE_SCORE": "Generează scoruri",
+    "RESET": "Resetează",
+    "EXPORT": "Exportă",
     "CONTENT": {
       "TITLE_C": "C. Contextul organizației",
       "TITLE_C_1": "C.1 Descrierea organizației",
@@ -44,7 +46,36 @@
       "TITLE_7_3": "7.3 Angajați",
       "TITLE_7_4": "7.4 Conducere și guvernanță",
       "TITLE_7_5": "7.5 Strategie și rezultate financiare"
+    },
+    "EVAL": {
+      "MAT_LVL_0": "Inexistent",
+      "MAT_LVL_1": "Reactiv",
+      "MAT_LVL_2": "Incipient",
+      "MAT_LVL_3": "În dezvoltare",
+      "MAT_LVL_4": "Matur",
+      "MAT_LVL_5": "De top",
+      "MAT_LVL_6": "Exemplar",
+      "P_CRT_1": "Abordare",
+      "P_CRT_2": "Dezvoltare",
+      "P_CRT_3": "Învățare",
+      "P_CRT_4": "Integrare",
+      "R_CRT_1": "Nivelul actual",
+      "R_CRT_2": "Trend",
+      "R_CRT_3": "Comparativ",
+      "R_CRT_4": "Integrare"
     }
+  },
+  "PROGRAM": {
+    "TITLES": {
+      "TITLE_1": "Stabilirea obiectivelor",
+      "TITLE_2": "Orientare",
+      "TITLE_3": "Profil țintă",
+      "TITLE_4": "Evaluarea riscului",
+      "TITLE_5": "Profil curent",
+      "TITLE_6": "Analiza diferențelor",
+      "TITLE_7": "Implementare acțiuni"
+    },
+    "NEXT_STEP": "Următorul pas"
   },
   "PAGE": {
     "BACK": "Înapoi",

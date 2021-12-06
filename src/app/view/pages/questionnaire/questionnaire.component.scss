@@ -1,15 +1,8 @@
 .overlap-top-40 {
   margin-top: -40px;
 }
-
 .bottom-20 {
   bottom: 20px;
-}
-
-.nav-link {
-  display: block;
-  padding: 0 0.5rem;
-  font-size: smaller;
 }
 
 .content-panel {
@@ -25,3 +18,40 @@
   width: 310px;
   // z-index: -1; /*todo quest page aspect: find better solution for zoom in problem*/
 }
+
+.header-score {
+  position: absolute;
+  top: 50%; /*todo: 4 duplicates lines for score*/
+  transform: translate(0, -50%);
+  z-index: 100;
+  right: 4rem;
+}
+
+.score-holder {
+  position: relative;
+  display: inline-flex;
+
+  .score {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    z-index: 100;
+    right: -3rem;
+  }
+}
+
+/* Overwritten */
+.nav-link {
+  display: block;
+  padding: 0 0.5rem;
+  font-size: smaller;
+}
+
+.accordion-header {
+  position: relative;
+  display: flex;
+}
+
+/*position: absolute;
+    right: 3rem;
+    top: -1rem;*/
