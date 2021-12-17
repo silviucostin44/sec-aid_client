@@ -16,14 +16,14 @@ export class CDropdownComponent implements OnInit, ControlValueAccessor {
   @Input() label: string = '';
   @Input() options: string[] = [];
   @Input() buttonClassAttr: string = 'btn-primary';
+  @Input() optionDisplayForm: (option: string) => string = (option) => option;
   selectedOption: string;
   onChange: (_: any) => {};
+
   onTouched: (_: any) => {};
 
   constructor() {
   }
-
-  @Input() optionDisplayForm: (option: string) => string = (option) => option;
 
   ngOnInit(): void {
     // todo delete: if not used

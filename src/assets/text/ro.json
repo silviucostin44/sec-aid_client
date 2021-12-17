@@ -75,7 +75,69 @@
       "TITLE_6": "Analiza diferențelor",
       "TITLE_7": "Implementare acțiuni"
     },
-    "NEXT_STEP": "Următorul pas"
+    "NEXT_STEP": "Următorul pas",
+    "PRECONDITIONS": "Precondiții",
+    "TEMPLATE_DESC": "Va trebui să completați un tabel conform imaginii de mai jos. Template-ul poate fi descărcat de aici: ",
+    "ASSIGNMENT_DESC": "După completare puteți încărca documentul obținut aici:",
+    "UPLOAD_DOC": "Încarcă document",
+    "TEMPLATE_DOWNLOAD": "Puteți drescărca un template de aici:",
+    "STEP_1": {
+      "PRECONDITION_1": "a fost decis scopul aplicării programului, dacă se aplică pe întreaga organizație sau doar pe una sau mai multe secții.",
+      "PRECONDITION_2": "au fost stabilite obiectivele și prioritățile în ceea ce privește securitatea cibernetică.",
+      "ACTIVITY": "Realizați inventarul activelor (fizice sau virtuale) companiei. Pot fi împărțite în categorii în funcție de",
+      "ASSET_CATEGORY_1": "manipularea sau nu a informațiilor privind starea pacienților.",
+      "ASSET_CATEGORY_2": "importanța pentru desfășurarea activităților.",
+      "ASSET_CATEGORY_3": "cât de sensibile și critice sunt informațiile manipulate.",
+      "TEMPLATE_NAME": "model inventar active"
+    },
+    "STEP_2": {
+      "INITIAL_DIRECTIVE": "Pentru activele inventariate la pasul 1 va trebui să:",
+      "DIRECTIVE_1": "realizați analiza vulnerabilităților și a amenințărilor.",
+      "DIRECTIVE_2": "identificați cerințele legale și regulatorii care vizează activele respective, precum și abordările practice.",
+      "TEMPLATE_NAME": "model analiză amenințări"
+    },
+    "STEP_3": {
+      "PRECONDITION_1": "analizați nucleul framework-ului NIST, acesta poate fi gasit aici: ",
+      "PRECONDITION_2": "analizați nivelurile de implementare propuse de noi, acestea pot fi gasite aici: ",
+      "TEMPLATE_NAME_1": "nucleu framework NIST",
+      "TEMPLATE_NAME_2": "nivele de implementare",
+      "TEMPLATE_NAME_3": "model profil",
+      "ACTIVITY_PREFACE": "În urma analizei va trebui să:",
+      "ACTIVITY_1": "stabiliți pentru fiecare element al nucleului framework-ului NIST un grad de implementare la care organizația își propune să ajungă.",
+      "ACTIVITY_1_POSTFACE": "Gradele de implementare sunt descrise în imaginea de mai jos:",
+      "ACTIVITY_2": "stabiliți un nivel de implementare la care organizația dorește să ajungă."
+    },
+    "STEP_4": {
+      "INITIAL_DIRECTIVE": "În acest pas se contabilizează rezultatul procesului de evaluare a riscurilor identificate în pasul al doilea pentru fiecare bun al companiei. În cazul în care acest proces era deja prevăzut în guvernanța organizației se va prelua direct rezultatul.",
+      "ACTIVITY": "Pentru fiecare activ din inventar trebuie definit nivelul riscului în funcție de probabilitatea de apariție și de impactul estimat (calculat ca sumă a acestora), după cum se poate observa în imaginea următoare:",
+      "TEMPLATE_NAME": "model evaluarea riscului"
+    },
+    "STEP_5": {
+      "INITIAL_DIRECTIVE_1": "În urma realizării pasului 4, o mai bună cunoaștere a organizației este obținută, astfel este un moment prielnic pentru conturarea profilului curent.",
+      "INITIAL_DIRECTIVE_2": "Structura este aceeași ca în cazul profilului țintă, scopul fiind de a identifica diferențele pozitive și, mai ales, negative pentru a fi analizate în pasul următor.",
+      "TEMPLATE_DESC_1": "Puteți descărca documentele descriptive de aici:",
+      "TEMPLATE_DESC_2": "iar modelul de aici:"
+    },
+    "STEP_6": {
+      "INITIAL_DIRECTIVE": "Scopul acestui pas este de a identifica diferențele negative dintre profilul țintă și profilul curent și de a stabili o serie de acțiuni ce vor fi integrate în activitatea organizației (pasul 7) pentru a obține obiectivele selectate în cadrul pasului 4. Nu este neapărat ca toate diferențele să fie tratate, în acest pas se stabilește și pentru care diferențe riscul aferent este tolerat.",
+      "TEMPLATE_EXPLANATION_1": "acțiune - acțiune stabilită pentru îmbunătățirea securității cibernetice.",
+      "TEMPLATE_EXPLANATION_2": "subcategorie - subcategoria din profiluri vizată de acțiune.",
+      "TEMPLATE_EXPLANATION_3": "rată impact - furnizată pentru fiecare subcategorie în următorul document:",
+      "TEMPLATE_EXPLANATION_4": "grad de implementare - stabilit la pasul 5, documentul poate fi descărcat de aici:",
+      "TEMPLATE_EXPLANATION_5": "scorul de risc - este calculat conform formulei: [(100 - GI) / 100] x [(RI - 1) x 25].",
+      "TEMPLATE_EXPLANATION_6": "indice cost beneficiu - este stabilit in pasul curent de către utilizator folosind un sistem propriu de cuantificare.",
+      "TEMPLATE_EXPLANATION_7": "cod prioritate - furnizat pentru fiecare subcategorie în următorul document:",
+      "TEMPLATE_EXPLANATION_8": "prioritate - ordinea priorității finale, stabilită de utilizator pe baza metricilor din tabel, este indicată compararea metricilor de la dreapta la stânga.",
+      "TEMPLATE_NAME_1": "model prioritate acțiuni",
+      "TEMPLATE_NAME_2": "tabel rate impact",
+      "TEMPLATE_NAME_3": "profil curent",
+      "TEMPLATE_NAME_4": "tabel coduri prioritate"
+    },
+    "STEP_7": {
+      "INITIAL_DIRECTIVE": "Felicitări! Ați parcurs întregul program se securitate cibernetică din cadrul aplicației noastre.",
+      "FINAL_DIRECTIVE": "Acest ultim pas este, cel mai probabil, cel mai lung ca durată și nu se desfășoară în cadrul aplicației. El prevede implementarea acțiunilor stabilite la pasul anterior în cadrul și în concordanță cu celelalte activități desfășurate de organizație. Pentru urmărirea progresului se va modela profilul curent, marcând subcategoriile unde s-au înregistrat schimbări și ținând evidența celor care nu s-au modificat, dar care sunt vizate de obținerea unor îmbunătățiri. De asemenea, stadiul curent al nivelul de implementare poate fi actualizat în cadrul profilului. Este indicată stabilirea și urmărirea unor indici de performanță, diferiți de cei din cadrul profilului, care să ofere informații mai detaliate despre evoluția înregistrată. Pentru fiecare subcategorie unde este nevoie de îmbunătățiri, descrierea nucleul menționează o listă de standarde de referință care definesc soluții adecvate.",
+      "ASSIGNMENT_DESC": "Cu toate acestea puteți încărca mai multe documente în acest pas care să vă ajute în implementarea lui. Tipul și scopul acestoara este la latitudinea dumneavoastră:"
+    }
   },
   "PAGE": {
     "BACK": "Înapoi",

@@ -15,7 +15,7 @@ export interface ProgressButton {
 export class ProgressButtons implements OnInit {
 
   @Input() next: EventEmitter<any>;
-  @Output() currentStepEmitter = new EventEmitter();
+  @Output('currentStep') currentStepEmitter = new EventEmitter();
   currentStep: number = 0;
   lastComputedStep: number = 0;
   buttons: ProgressButton[] = cloneDeep(PROGRESS_BUTTONS);
