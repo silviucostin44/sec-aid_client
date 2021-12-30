@@ -88,13 +88,15 @@
       "ASSET_CATEGORY_1": "manipularea sau nu a informațiilor privind starea pacienților.",
       "ASSET_CATEGORY_2": "importanța pentru desfășurarea activităților.",
       "ASSET_CATEGORY_3": "cât de sensibile și critice sunt informațiile manipulate.",
-      "TEMPLATE_NAME": "model inventar active"
+      "TEMPLATE_NAME": "model inventar active",
+      "UPLOAD_NAME": "inventar active"
     },
     "STEP_2": {
       "INITIAL_DIRECTIVE": "Pentru activele inventariate la pasul 1 va trebui să:",
       "DIRECTIVE_1": "realizați analiza vulnerabilităților și a amenințărilor.",
       "DIRECTIVE_2": "identificați cerințele legale și regulatorii care vizează activele respective, precum și abordările practice.",
-      "TEMPLATE_NAME": "model analiză amenințări"
+      "TEMPLATE_NAME": "model analiză amenințări",
+      "UPLOAD_NAME": "analiză amenințări"
     },
     "STEP_3": {
       "PRECONDITION_1": "analizați nucleul framework-ului NIST, acesta poate fi gasit aici: ",
@@ -102,6 +104,7 @@
       "TEMPLATE_NAME_1": "nucleu framework NIST",
       "TEMPLATE_NAME_2": "nivele de implementare",
       "TEMPLATE_NAME_3": "model profil",
+      "UPLOAD_NAME": "profil țintă",
       "ACTIVITY_PREFACE": "În urma analizei va trebui să:",
       "ACTIVITY_1": "stabiliți pentru fiecare element al nucleului framework-ului NIST un grad de implementare la care organizația își propune să ajungă.",
       "ACTIVITY_1_POSTFACE": "Gradele de implementare sunt descrise în imaginea de mai jos:",
@@ -110,13 +113,15 @@
     "STEP_4": {
       "INITIAL_DIRECTIVE": "În acest pas se contabilizează rezultatul procesului de evaluare a riscurilor identificate în pasul al doilea pentru fiecare bun al companiei. În cazul în care acest proces era deja prevăzut în guvernanța organizației se va prelua direct rezultatul.",
       "ACTIVITY": "Pentru fiecare activ din inventar trebuie definit nivelul riscului în funcție de probabilitatea de apariție și de impactul estimat (calculat ca sumă a acestora), după cum se poate observa în imaginea următoare:",
-      "TEMPLATE_NAME": "model evaluarea riscului"
+      "TEMPLATE_NAME": "model evaluarea riscului",
+      "UPLOAD_NAME": "evaluarea riscului"
     },
     "STEP_5": {
       "INITIAL_DIRECTIVE_1": "În urma realizării pasului 4, o mai bună cunoaștere a organizației este obținută, astfel este un moment prielnic pentru conturarea profilului curent.",
       "INITIAL_DIRECTIVE_2": "Structura este aceeași ca în cazul profilului țintă, scopul fiind de a identifica diferențele pozitive și, mai ales, negative pentru a fi analizate în pasul următor.",
       "TEMPLATE_DESC_1": "Puteți descărca documentele descriptive de aici:",
-      "TEMPLATE_DESC_2": "iar modelul de aici:"
+      "TEMPLATE_DESC_2": "iar modelul de aici:",
+      "UPLOAD_NAME": "profil curent"
     },
     "STEP_6": {
       "INITIAL_DIRECTIVE": "Scopul acestui pas este de a identifica diferențele negative dintre profilul țintă și profilul curent și de a stabili o serie de acțiuni ce vor fi integrate în activitatea organizației (pasul 7) pentru a obține obiectivele selectate în cadrul pasului 4. Nu este neapărat ca toate diferențele să fie tratate, în acest pas se stabilește și pentru care diferențe riscul aferent este tolerat.",
@@ -131,12 +136,14 @@
       "TEMPLATE_NAME_1": "model prioritate acțiuni",
       "TEMPLATE_NAME_2": "tabel rate impact",
       "TEMPLATE_NAME_3": "profil curent",
-      "TEMPLATE_NAME_4": "tabel coduri prioritate"
+      "TEMPLATE_NAME_4": "tabel coduri prioritate",
+      "UPLOAD_NAME": "prioritate acțiuni"
     },
     "STEP_7": {
       "INITIAL_DIRECTIVE": "Felicitări! Ați parcurs întregul program se securitate cibernetică din cadrul aplicației noastre.",
       "FINAL_DIRECTIVE": "Acest ultim pas este, cel mai probabil, cel mai lung ca durată și nu se desfășoară în cadrul aplicației. El prevede implementarea acțiunilor stabilite la pasul anterior în cadrul și în concordanță cu celelalte activități desfășurate de organizație. Pentru urmărirea progresului se va modela profilul curent, marcând subcategoriile unde s-au înregistrat schimbări și ținând evidența celor care nu s-au modificat, dar care sunt vizate de obținerea unor îmbunătățiri. De asemenea, stadiul curent al nivelul de implementare poate fi actualizat în cadrul profilului. Este indicată stabilirea și urmărirea unor indici de performanță, diferiți de cei din cadrul profilului, care să ofere informații mai detaliate despre evoluția înregistrată. Pentru fiecare subcategorie unde este nevoie de îmbunătățiri, descrierea nucleul menționează o listă de standarde de referință care definesc soluții adecvate.",
-      "ASSIGNMENT_DESC": "Cu toate acestea puteți încărca mai multe documente în acest pas care să vă ajute în implementarea lui. Tipul și scopul acestoara este la latitudinea dumneavoastră:"
+      "ASSIGNMENT_DESC": "Cu toate acestea puteți încărca mai multe documente în acest pas care să vă ajute în implementarea lui. Tipul și scopul acestoara este la latitudinea dumneavoastră:",
+      "UPLOAD_NAME": "documente implementare"
     }
   },
   "PAGE": {
@@ -161,7 +168,7 @@
       "DRAG_N_DROP": "Trage fișierul aici",
       "SUCCESS": "Fișier încărcat cu succes.",
       "FAIL": "Încărcarea fișierului a eșuat.",
-      "LIMIT": "Dimensiunea maximă a fișieruluiDimensiunea maximă a fișierului"
+      "LIMIT": "Dimensiunea maximă a fișierului"
     }
   }
 }

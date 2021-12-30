@@ -1,12 +1,12 @@
-<app-page-wrapper>  <!--todo text: use text constants-->
+<app-page-wrapper>
   <div class="d-float align-self-center" style="width: 75%; margin: auto">
     <widget-progress-buttons (currentStep)="updateStep($event)" [next]="nextStepEvent"></widget-progress-buttons>
   </div>
   <p class="display-6 text-center">{{text.TITLES["TITLE_" + currentStep]}}</p>
 
-  <div [ngSwitch]="currentStep">
+  <div [ngSwitch]="currentStep" class="px-6">
 
-    <div *ngSwitchCase="1" class="text-alignment">
+    <div *ngSwitchCase="1">
       <p><strong>{{text.PRECONDITIONS}}:</strong></p>
       <ul>
         <li>{{text.STEP_1.PRECONDITION_1}}</li>
@@ -20,16 +20,17 @@
       </ul>
       <p class="fw-bold">
         <u>{{text.TEMPLATE_DESC}}</u>
-        <a (click)="downloadDoc1()" class="link-primary" type="button">{{text.STEP_1.TEMPLATE_NAME}}.</a>
+        <a (click)="downloadAssetInventoryTemplate()" class="link-primary" type="button">{{text.STEP_1.TEMPLATE_NAME}}
+          .</a>
       </p>
       <img alt="table1" class="img-fluid rounded mx-auto d-block w-75 mb-3" src="assets/images/table_1.png">
       <p class="fw-bold"><u>{{text.ASSIGNMENT_DESC}}</u></p>
-      <button class="btn btn-info" data-bs-target="#uploadModal" data-bs-toggle="modal" type="button">
+      <button (click)="uploadAssetInventory()" class="btn btn-info" type="button">
         {{text.UPLOAD_DOC}}
       </button>
     </div>
 
-    <div *ngSwitchCase="2" class="text-alignment">
+    <div *ngSwitchCase="2">
       <p><strong>{{text.STEP_2.INITIAL_DIRECTIVE}}</strong></p>
       <ul>
         <li>{{text.STEP_2.DIRECTIVE_1}}</li>
@@ -37,11 +38,12 @@
       </ul>
       <p class="fw-bold">
         <u>{{text.TEMPLATE_DESC}}</u>
-        <a (click)="downloadDoc2()" class="link-primary" type="button">{{text.STEP_2.TEMPLATE_NAME}}.</a>
+        <a (click)="downloadThreatAnalysisTemplate()" class="link-primary" type="button">{{text.STEP_2.TEMPLATE_NAME}}
+          .</a>
       </p>
       <img alt="table2" class="img-fluid rounded mx-auto d-block w-75 mb-3" src="assets/images/table_2.png">
       <p class="fw-bold"><u>{{text.ASSIGNMENT_DESC}}</u></p>
-      <button class="btn btn-info" data-bs-target="#uploadModal" data-bs-toggle="modal" type="button">
+      <button (click)="uploadThreatAnalysis()" class="btn btn-info" type="button">
         {{text.UPLOAD_DOC}}
       </button>
     </div>
@@ -51,11 +53,13 @@
       <ul>
         <li>
           {{text.STEP_3.PRECONDITION_1}}
-          <a (click)="downloadDoc3_1()" class="link-primary" type="button">{{text.STEP_3.TEMPLATE_NAME_1}}.</a>
+          <a (click)="downloadFrameworkCoreTemplate()" class="link-primary"
+             type="button">{{text.STEP_3.TEMPLATE_NAME_1}}.</a>
         </li>
         <li>
           {{text.STEP_3.PRECONDITION_2}}
-          <a (click)="downloadDoc3_2()" class="link-primary" type="button">{{text.STEP_3.TEMPLATE_NAME_2}}.</a>
+          <a (click)="downloadImplementationTiersTemplate()" class="link-primary"
+             type="button">{{text.STEP_3.TEMPLATE_NAME_2}}.</a>
         </li>
       </ul>
       <p><strong>{{text.STEP_3.ACTIVITY_PREFACE}}</strong></p>
@@ -69,11 +73,11 @@
       </ol>
       <p>
         {{text.TEMPLATE_DOWNLOAD}}
-        <a (click)="downloadDoc3_3()" class="link-primary" type="button">{{text.STEP_3.TEMPLATE_NAME_3}}.</a>
+        <a (click)="downloadProfileTemplate()" class="link-primary" type="button">{{text.STEP_3.TEMPLATE_NAME_3}}.</a>
       </p>
       <div class="d-flex align-items-center">   <!--todo refactor: decide if keep button on same line-->
         <span class="fw-bold me-4"><u>{{text.ASSIGNMENT_DESC}}</u></span>
-        <button class="btn btn-info" data-bs-target="#uploadModal" data-bs-toggle="modal" type="button">
+        <button (click)="uploadTargetProfile()" class="btn btn-info" type="button">
           {{text.UPLOAD_DOC}}
         </button>
       </div>
@@ -85,10 +89,11 @@
       <img alt="table4" class="img-fluid rounded mx-auto d-block w-50 mb-3" src="assets/images/table_4.png">
       <p class="fw-bold">
         <u>{{text.TEMPLATE_DESC}}</u>
-        <a (click)="downloadDoc4()" class="link-primary" type="button">{{text.STEP_4.TEMPLATE_NAME}}.</a>
+        <a (click)="downloadRiskAssessmentTemplate()" class="link-primary" type="button">{{text.STEP_4.TEMPLATE_NAME}}
+          .</a>
       </p>
       <p class="fw-bold"><u>{{text.ASSIGNMENT_DESC}}</u></p>
-      <button class="btn btn-info" data-bs-target="#uploadModal" data-bs-toggle="modal" type="button">
+      <button (click)="uploadRiskAssessment()" class="btn btn-info" type="button">
         {{text.UPLOAD_DOC}}
       </button>
     </div>
@@ -99,15 +104,18 @@
       <p class="fw-bold">
         <u>
           {{text.STEP_5.TEMPLATE_DESC_1}}
-          <a (click)="downloadDoc3_1()" class="link-primary" type="button"> {{text.STEP_3.TEMPLATE_NAME_1}},</a>
-          <a (click)="downloadDoc3_2()" class="link-primary" type="button"> {{text.STEP_3.TEMPLATE_NAME_2}}, </a>
+          <a (click)="downloadFrameworkCoreTemplate()" class="link-primary"
+             type="button"> {{text.STEP_3.TEMPLATE_NAME_1}}, </a>
+          <a (click)="downloadImplementationTiersTemplate()" class="link-primary"
+             type="button">{{text.STEP_3.TEMPLATE_NAME_2}},</a>
           {{text.STEP_5.TEMPLATE_DESC_2}}
-          <a (click)="downloadDoc3_3()" class="link-primary" type="button"> {{text.STEP_3.TEMPLATE_NAME_3}}.</a>
+          <a (click)="downloadProfileTemplate()" class="link-primary" type="button"> {{text.STEP_3.TEMPLATE_NAME_3}}
+            .</a>
         </u>
       </p>
       <img alt="table3" class="img-fluid rounded mx-auto d-block w-25 mb-3" src="assets/images/table_3.png">
       <p class="fw-bold"><u>{{text.ASSIGNMENT_DESC}}</u></p>
-      <button class="btn btn-info" data-bs-target="#uploadModal" data-bs-toggle="modal" type="button">
+      <button (click)="uploadCurrentProfile()" class="btn btn-info" type="button">
         {{text.UPLOAD_DOC}}
       </button>
     </div>
@@ -116,7 +124,8 @@
       <p>{{text.STEP_6.INITIAL_DIRECTIVE}}</p>
       <p class="fw-bold">
         <u>{{text.TEMPLATE_DESC}}</u>
-        <a (click)="downloadDoc6_1()" class="link-primary" type="button">{{text.STEP_6.TEMPLATE_NAME_1}}.</a>
+        <a (click)="downloadActionsPriorityTemplate()" class="link-primary"
+           type="button">{{text.STEP_6.TEMPLATE_NAME_1}}.</a>
       </p>
       <img alt="table5" class="img-fluid rounded mx-auto d-block w-75 mb-3" src="assets/images/table_5.png">
       <ul>
@@ -124,22 +133,24 @@
         <li>{{text.STEP_6.TEMPLATE_EXPLANATION_2}}</li>
         <li>
           {{text.STEP_6.TEMPLATE_EXPLANATION_3}}
-          <a (click)="downloadDoc6_2()" class="link-primary" type="button">{{text.STEP_6.TEMPLATE_NAME_2}}.</a>
+          <a (click)="downloadImpactRatesTemplate()" class="link-primary" type="button">{{text.STEP_6.TEMPLATE_NAME_2}}
+            .</a>
         </li>
         <li>
           {{text.STEP_6.TEMPLATE_EXPLANATION_4}}
-          <a (click)="downloadDoc6_3()" class="link-primary" type="button">{{text.STEP_6.TEMPLATE_NAME_3}}.</a>
+          <a (click)="downloadCurrentProfile()" class="link-primary" type="button">{{text.STEP_6.TEMPLATE_NAME_3}}.</a>
         </li>
         <li>{{text.STEP_6.TEMPLATE_EXPLANATION_5}}</li>
         <li>{{text.STEP_6.TEMPLATE_EXPLANATION_6}}</li>
         <li>
           {{text.STEP_6.TEMPLATE_EXPLANATION_7}}
-          <a (click)="downloadDoc6_2()" class="link-primary" type="button">{{text.STEP_6.TEMPLATE_NAME_4}}.</a>
+          <a (click)="downloadImpactRatesTemplate()" class="link-primary" type="button">{{text.STEP_6.TEMPLATE_NAME_4}}
+            .</a>
         </li>
         <li>{{text.STEP_6.TEMPLATE_EXPLANATION_8}}</li>
       </ul>
       <p class="fw-bold"><u>{{text.ASSIGNMENT_DESC}}</u></p>
-      <button class="btn btn-info" data-bs-target="#uploadModal" data-bs-toggle="modal" type="button">
+      <button (click)="uploadActionsPriority()" class="btn btn-info" type="button">
         {{text.UPLOAD_DOC}}
       </button>
     </div>
@@ -148,7 +159,7 @@
       <p><strong>{{text.STEP_7.INITIAL_DIRECTIVE}}</strong></p>
       <p>{{text.STEP_7.FINAL_DIRECTIVE}}</p>
       <p class="fw-bold"><u>{{text.STEP_7.ASSIGNMENT_DESC}}</u></p>
-      <button class="btn btn-info" data-bs-target="#uploadModal" data-bs-toggle="modal" type="button">
+      <button (click)="uploadImplementationDocs()" class="btn btn-info" type="button">
         {{text.UPLOAD_DOC}}
       </button>
     </div>
@@ -158,8 +169,10 @@
 
   <button (click)="nextStep()" [hidden]="currentStep == 7"
           [ngClass]="{ 'disabled': !isStepComplete() }"
-          class="btn btn-primary float-end my-3" type="button"
+          class="btn btn-primary bottom-right-corner my-3" type="button"
   >
     {{text.NEXT_STEP}}
   </button>
+
+  <widget-files-list [files]="files"></widget-files-list>
 </app-page-wrapper>

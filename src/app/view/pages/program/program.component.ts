@@ -1,6 +1,15 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import ro from 'src/assets/text/ro.json';
+import {FileService} from '../../../services/file.service';
+import {TemplateFileEnum} from '../../../models/enums/template-file.enum';
+import {UploadedFileEnum} from '../../../models/enums/uploaded-file.enum';
+import {BsModalService, ModalOptions} from 'ngx-bootstrap/modal';
+import {UploadModalComponent} from '../../modals/upload-modal/upload-modal.component';
+import {DownloadService} from '../../../services/download.service';
+import {Observable} from 'rxjs';
+import {File} from '../../../models/server-api/file';
+import ProgramHelper from '../../../helpers/program.helper';
 
 @Component({
   selector: 'app-program',
@@ -11,14 +20,19 @@ export class ProgramComponent implements OnInit {
   text = ro.PROGRAM;
 
   id: string;
-  currentStep: number = 1;
+  currentStep: number;
   nextStepEvent = new EventEmitter();
+  files: Observable<File[]>;
 
-  constructor(private router: ActivatedRoute) {
+  constructor(private router: ActivatedRoute,
+              private fileService: FileService,
+              private modalService: BsModalService,
+              private downloadService: DownloadService) {
   }
 
   ngOnInit(): void {
     this.id = this.router.snapshot.paramMap.get('id');
+    this.updateStep(0);
   }
 
   isStepComplete(): boolean {
@@ -32,41 +46,83 @@ export class ProgramComponent implements OnInit {
 
   updateStep(stepIndex: number) {
     this.currentStep = stepIndex + 1;
+    // update step files
+    this.files = this.fileService.downloadFilesByType(ProgramHelper.getFileTypeFromStep(this.currentStep));
   }
 
-  downloadDoc1() {
-    // todo: download document in step 1
+  downloadAssetInventoryTemplate() {
+    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.ASSETS_INVENTORY));
   }
 
-  downloadDoc2() {
-    // todo: download document in step 2
+  downloadThreatAnalysisTemplate() {
+    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.THREAT_ANALYSIS));
   }
 
-  downloadDoc3_1() {
-    // todo: download NIST fw core doc in step 3
+  downloadFrameworkCoreTemplate() {
+    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.NIST_FRAMEWORK_CORE));
   }
 
-  downloadDoc3_2() {
-    // todo: download NIST implementation levels in step 3
+  downloadImplementationTiersTemplate() {
+    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.IMPLEMENTATION_TIERS));
   }
 
-  downloadDoc3_3() {
-    // todo: download profile template doc in step 3
+  downloadProfileTemplate() {
+    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.PROFILE));
   }
 
-  downloadDoc4() {
-    // todo download risk assessment doc in step 4
+  downloadRiskAssessmentTemplate() {
+    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.RISK_ASSESSMENT));
   }
 
-  downloadDoc6_1() {
-    // todo download document in step 6
+  downloadActionsPriorityTemplate() {
+    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.ACTIONS_PRIORITY));
   }
 
-  downloadDoc6_2() {
-    // todo download impact rate and priority code table in step 6
+  downloadImpactRatesTemplate() {
+    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.IMPACT_RATES_PRIORITY_CODES));
   }
 
-  downloadDoc6_3() {
-    // todo download result doc from step 5 in step 6
+  downloadCurrentProfile() {
+    this.downloadService.openDownload(this.fileService.getFileUrl(UploadedFileEnum.CURRENT_PROFILE));
+  }
+
+  uploadAssetInventory() {
+    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.ASSETS_INVENTORY), this.text.STEP_1.UPLOAD_NAME);
+  }
+
+  uploadThreatAnalysis() {
+    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.THREAT_ANALYSIS), this.text.STEP_2.UPLOAD_NAME);
+  }
+
+  uploadTargetProfile() {
+    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.TARGET_PROFILE), this.text.STEP_3.UPLOAD_NAME);
+  }
+
+  uploadRiskAssessment() {
+    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.RISK_ASSESSMENT), this.text.STEP_4.UPLOAD_NAME);
+  }
+
+  uploadCurrentProfile() {
+    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.CURRENT_PROFILE), this.text.STEP_5.UPLOAD_NAME);
+  }
+
+  uploadActionsPriority() {
+    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.ACTIONS_PRIORITY), this.text.STEP_6.UPLOAD_NAME);
+  }
+
+  uploadImplementationDocs() {
+    this.openUploadModal(this.fileService.getUploadFilesUrl(), this.text.STEP_7.UPLOAD_NAME);
+  }
+
+  private openUploadModal(url: string, name = '', multiple = false) {   // todo refactor: make abstract from it (service or smth)
+    const initialState: ModalOptions = {
+      initialState: {
+        objectNameInput: name,
+        urlInput: url,
+        multipleFiles: multiple
+      } as Object,
+      class: 'modal-dialog-centered'
+    };
+    this.modalService.show(UploadModalComponent, initialState);
   }
 }

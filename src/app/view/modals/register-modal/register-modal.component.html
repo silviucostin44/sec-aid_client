@@ -1,4 +1,4 @@
-<app-modal-wrapper (closeModal)="closeModal()" modalId="registerModal" title="{{text.HOME.REGISTER}}">
+<app-modal-wrapper (closeModalEvent)="closeModal()" title="{{text.HOME.REGISTER}}">
   <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" novalidate>
     <div *ngIf="false" class="alert alert-danger">  <!--todo: submit errors-->
       <div *ngIf="false">

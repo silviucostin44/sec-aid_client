@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {matchingPassValidator} from '../../../shared/customValidators';
 import ro from 'src/assets/text/ro.json';
+import {BsModalRef} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-register-modal',
@@ -17,7 +18,8 @@ export class RegisterModalComponent {
     confirmPass: ['', Validators.required]
   }, {validators: [matchingPassValidator]});
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private bsModalRef: BsModalRef) {
   }
 
   get passField() {
@@ -30,6 +32,7 @@ export class RegisterModalComponent {
 
   closeModal() {
     this.registerForm.reset();
+    this.bsModalRef.hide();
   }
 
 }

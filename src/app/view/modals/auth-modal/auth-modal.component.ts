@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import ro from 'src/assets/text/ro.json';
+import {BsModalRef} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-auth-modal',
@@ -15,7 +16,7 @@ export class AuthModalComponent {
   email: string;
   password: string;
 
-  constructor() {
+  constructor(private bsModalRef: BsModalRef) {
   }
 
   onSubmit() {
@@ -24,5 +25,6 @@ export class AuthModalComponent {
 
   closeModal() {
     this.authForm.form.reset();
+    this.bsModalRef.hide();
   }
 }

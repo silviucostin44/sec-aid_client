@@ -31,14 +31,12 @@
           </button>
         </div>
         <div class="col d-flex justify-content-center">
-          <button class="btn btn-link btn-lg w-75" data-bs-target="#authModal"
-                  data-bs-toggle="modal" disabled type="button">
+          <button (click)="openAuthModal()" class="btn btn-link btn-lg w-75" disabled type="button">
             {{text.AUTH}}
           </button>
         </div>
         <div class="col d-flex justify-content-center">
-          <button class="btn btn-link btn-lg w-75" data-bs-target="#registerModal"
-                  data-bs-toggle="modal" disabled type="button">
+          <button (click)="openRegisterModal()" class="btn btn-link btn-lg w-75" disabled type="button">
             {{text.REGISTER}}
           </button>
         </div>
@@ -46,4 +44,3 @@
     </div>
   </div>
 </div>
-

@@ -20,6 +20,8 @@ import {CDropdownComponent} from './view/widgets/c-dropdown/c-dropdown.component
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ScoreComponent} from './view/widgets/score/score.component';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {FilesListComponent} from './view/widgets/files-list/files-list.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import {ScoreComponent} from './view/widgets/score/score.component';
     ProgressButtons,
     CDropdownComponent,
     ScoreComponent,
+    FilesListComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,7 @@ import {ScoreComponent} from './view/widgets/score/score.component';
     BsDropdownModule.forRoot(),
     FontAwesomeModule,
   ],
-  providers: [],
+  providers: [BsModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

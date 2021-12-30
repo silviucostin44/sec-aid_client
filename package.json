@@ -26,6 +26,7 @@
     "@popperjs/core": "^2.10.2",
     "angular-file-uploader": "^7.1.1",
     "bootstrap": "^5.0.0-beta3",
+    "file-saver": "^2.0.5",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "ngx-bootstrap": "^6.2.0",

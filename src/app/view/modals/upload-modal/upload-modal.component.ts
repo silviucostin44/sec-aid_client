@@ -1,21 +1,25 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AngularFileUploaderComponent} from 'angular-file-uploader';
 import ro from 'src/assets/text/ro.json';
+import {BsModalRef} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-upload-modal',
   templateUrl: './upload-modal.component.html',
   styleUrls: ['./upload-modal.component.scss']
 })
-export class UploadModalComponent {
+export class UploadModalComponent implements OnInit {
   text = ro;
 
-  @Input() objectName: string;
+  objectNameInput: string;
+  urlInput: string;
+  multipleFiles: boolean = false;
+
   configs = {
     uploadAPI: {
       url: 'https://example-file-upload-api'
     },
-    formatsAllowed: '.txt',
+    multiple: false,
     theme: 'dragNDrop',
     hideSelectBtn: false,
     hideResetBtn: false,
@@ -31,19 +35,26 @@ export class UploadModalComponent {
   };
   @ViewChild('uploader') private uploader: AngularFileUploaderComponent;
 
-  constructor() {
+  constructor(private bsModalRef: BsModalRef) {
   }
 
-  closeModal() {
+  ngOnInit(): void {
+    this.configs.uploadAPI.url = this.urlInput;
+    this.configs.multiple = this.multipleFiles;
+  }
+
+  closeModalHandler() {
     this.uploader.resetFileUpload();
+    this.bsModalRef.hide();
   }
 
   fileSelected($event: any) {
-    // todo: handle upload
+    // handle file selection
+    // maximum 6 file allowed at a time
   }
 
-  docUpload($event: any) {
-    // todo: handle upload
-    // todo: close modal
+  docUpload($response: any) { // todo features: add toast
+    // to do: handle upload response
+    // this.closeModalEvent.emit();
   }
 }

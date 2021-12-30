@@ -1,18 +1,11 @@
-<div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="{{modalId}}" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">{{title}}</h5>
-        <button (click)="closeModal.emit()" aria-label="Close" class="btn-close" data-bs-dismiss="modal"
-                type="button">
-        </button>
-      </div>
-      <div class="modal-body">
-        <ng-content></ng-content>
-      </div>
-      <div class="modal-footer">
-        <ng-content select="[footer]"></ng-content>
-      </div>
-    </div>
-  </div>
+<div class="modal-header">
+  <h5 class="modal-title" id="modalLabel">{{title}}</h5>
+  <button (click)="close()" aria-label="Close" class="btn-close" type="button"> <!--data-bs-dismiss="modal"-->
+  </button>
+</div>
+<div class="modal-body">
+  <ng-content></ng-content>
+</div>
+<div class="modal-footer">
+  <ng-content select="[footer]"></ng-content>
 </div>

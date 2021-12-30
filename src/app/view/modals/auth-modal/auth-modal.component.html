@@ -1,4 +1,4 @@
-<app-modal-wrapper (closeModal)="closeModal()" modalId="authModal" title="{{text.HOME.AUTH}}">
+<app-modal-wrapper (closeModalEvent)="closeModal()" title="{{text.HOME.AUTH}}">
   <form #authForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
     <div *ngIf="false" class="alert alert-danger">  <!--todo: submit errors-->
       <div *ngIf="false">
