@@ -9,6 +9,7 @@
     "START_NEW_PROGRAM": "Începe program nou",
     "IMPORT_Q": "Importă evaluare",
     "IMPORT_PROGRAM": "Importă program",
+    "UPLOAD_IMPORT_PROGRAM_NAME": "program",
     "AUTH": "Autentificare",
     "REGISTER": "Înregistrare"
   },
@@ -148,7 +149,8 @@
   },
   "PAGE": {
     "BACK": "Înapoi",
-    "SAVE": "Salvează"
+    "SAVE": "Salvează",
+    "EXPORT": "Exportă"
   },
   "MODAL": {
     "INEXISTENT_ACCOUNT": "Nu există un cont asociat acestei adrese.",

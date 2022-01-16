@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {FileService} from '../../../services/file.service';
 import {File} from '../../../models/server-api/file';
 import {faFileAlt, faFileExcel, faFilePdf, faFileWord, IconDefinition} from '@fortawesome/free-regular-svg-icons';
-import {DownloadService} from '../../../services/download.service';
+import {UploadDownloadService} from '../../../services/upload-download.service';
 
 @Component({
   selector: 'widget-files-list',
@@ -22,7 +22,7 @@ export class FilesListComponent {
   @Input() files: Observable<File[]>;
 
   constructor(private fileService: FileService,
-              private downloadService: DownloadService) {
+              private downloadService: UploadDownloadService) {
   }
 
   getIcon(name: string): IconDefinition {

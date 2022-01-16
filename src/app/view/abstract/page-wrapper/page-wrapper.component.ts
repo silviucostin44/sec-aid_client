@@ -10,7 +10,7 @@ import ro from 'src/assets/text/ro.json';
 export class PageWrapperComponent implements OnInit {
   text = ro.PAGE;
 
-  @Output() save = new EventEmitter();
+  @Output() action = new EventEmitter();
 
   constructor(private location: Location) {
   }
@@ -22,8 +22,8 @@ export class PageWrapperComponent implements OnInit {
     this.location.back();
   }
 
-  saveAction(): void {
-    this.save.emit();
+  triggerAction(): void {
+    this.action.emit();
   }
 
 }

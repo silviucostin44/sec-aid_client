@@ -4,12 +4,11 @@ import ro from 'src/assets/text/ro.json';
 import {FileService} from '../../../services/file.service';
 import {TemplateFileEnum} from '../../../models/enums/template-file.enum';
 import {UploadedFileEnum} from '../../../models/enums/uploaded-file.enum';
-import {BsModalService, ModalOptions} from 'ngx-bootstrap/modal';
-import {UploadModalComponent} from '../../modals/upload-modal/upload-modal.component';
-import {DownloadService} from '../../../services/download.service';
+import {UploadDownloadService} from '../../../services/upload-download.service';
 import {Observable} from 'rxjs';
 import {File} from '../../../models/server-api/file';
 import ProgramHelper from '../../../helpers/program.helper';
+import {IeService} from '../../../services/ie.service';
 
 @Component({
   selector: 'app-program',
@@ -26,8 +25,8 @@ export class ProgramComponent implements OnInit {
 
   constructor(private router: ActivatedRoute,
               private fileService: FileService,
-              private modalService: BsModalService,
-              private downloadService: DownloadService) {
+              private uploadDownloadService: UploadDownloadService,
+              private ieService: IeService) {
   }
 
   ngOnInit(): void {
@@ -51,78 +50,71 @@ export class ProgramComponent implements OnInit {
   }
 
   downloadAssetInventoryTemplate() {
-    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.ASSETS_INVENTORY));
+    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.ASSETS_INVENTORY));
   }
 
   downloadThreatAnalysisTemplate() {
-    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.THREAT_ANALYSIS));
+    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.THREAT_ANALYSIS));
   }
 
   downloadFrameworkCoreTemplate() {
-    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.NIST_FRAMEWORK_CORE));
+    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.NIST_FRAMEWORK_CORE));
   }
 
   downloadImplementationTiersTemplate() {
-    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.IMPLEMENTATION_TIERS));
+    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.IMPLEMENTATION_TIERS));
   }
 
   downloadProfileTemplate() {
-    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.PROFILE));
+    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.PROFILE));
   }
 
   downloadRiskAssessmentTemplate() {
-    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.RISK_ASSESSMENT));
+    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.RISK_ASSESSMENT));
   }
 
   downloadActionsPriorityTemplate() {
-    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.ACTIONS_PRIORITY));
+    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.ACTIONS_PRIORITY));
   }
 
   downloadImpactRatesTemplate() {
-    this.downloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.IMPACT_RATES_PRIORITY_CODES));
+    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.IMPACT_RATES_PRIORITY_CODES));
   }
 
   downloadCurrentProfile() {
-    this.downloadService.openDownload(this.fileService.getFileUrl(UploadedFileEnum.CURRENT_PROFILE));
+    this.uploadDownloadService.openDownload(this.fileService.getFileUrl(UploadedFileEnum.CURRENT_PROFILE));
   }
 
   uploadAssetInventory() {
-    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.ASSETS_INVENTORY), this.text.STEP_1.UPLOAD_NAME);
+    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.ASSETS_INVENTORY), this.text.STEP_1.UPLOAD_NAME);
   }
 
   uploadThreatAnalysis() {
-    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.THREAT_ANALYSIS), this.text.STEP_2.UPLOAD_NAME);
+    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.THREAT_ANALYSIS), this.text.STEP_2.UPLOAD_NAME);
   }
 
   uploadTargetProfile() {
-    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.TARGET_PROFILE), this.text.STEP_3.UPLOAD_NAME);
+    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.TARGET_PROFILE), this.text.STEP_3.UPLOAD_NAME);
   }
 
   uploadRiskAssessment() {
-    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.RISK_ASSESSMENT), this.text.STEP_4.UPLOAD_NAME);
+    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.RISK_ASSESSMENT), this.text.STEP_4.UPLOAD_NAME);
   }
 
   uploadCurrentProfile() {
-    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.CURRENT_PROFILE), this.text.STEP_5.UPLOAD_NAME);
+    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.CURRENT_PROFILE), this.text.STEP_5.UPLOAD_NAME);
   }
 
   uploadActionsPriority() {
-    this.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.ACTIONS_PRIORITY), this.text.STEP_6.UPLOAD_NAME);
+    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.ACTIONS_PRIORITY), this.text.STEP_6.UPLOAD_NAME);
   }
 
   uploadImplementationDocs() {
-    this.openUploadModal(this.fileService.getUploadFilesUrl(), this.text.STEP_7.UPLOAD_NAME);
+    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFilesUrl(), this.text.STEP_7.UPLOAD_NAME);
   }
 
-  private openUploadModal(url: string, name = '', multiple = false) {   // todo refactor: make abstract from it (service or smth)
-    const initialState: ModalOptions = {
-      initialState: {
-        objectNameInput: name,
-        urlInput: url,
-        multipleFiles: multiple
-      } as Object,
-      class: 'modal-dialog-centered'
-    };
-    this.modalService.show(UploadModalComponent, initialState);
+  export() {
+    this.uploadDownloadService.openDownload(this.ieService.getProgramJsonUrl());
   }
+
 }

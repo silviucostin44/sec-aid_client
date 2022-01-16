@@ -1,4 +1,4 @@
-<app-page-wrapper>
+<app-page-wrapper (action)="export()">
   <div class="d-float align-self-center" style="width: 75%; margin: auto">
     <widget-progress-buttons (currentStep)="updateStep($event)" [next]="nextStepEvent"></widget-progress-buttons>
   </div>
