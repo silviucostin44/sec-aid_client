@@ -1,6 +1,6 @@
 <div class="btn-group d-inline-block" dropdown>
   <p *ngIf="label" class="form-label">{{label}}</p>
-  <button (click)="onTouched($event)" [ngClass]="buttonClassAttr" aria-controls="dropdown-animated"
+  <button (click)="onTouched($event)" [ngClass]="getButtonClass()" aria-controls="dropdown-animated"
           class="btn dropdown-toggle rounded-left"
           dropdownToggle
           id="button-animated" type="button">

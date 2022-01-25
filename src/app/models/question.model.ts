@@ -13,4 +13,23 @@ export class Question extends Rated {
     this.text = text;
     this.responseControlIndex = responseControlIndex;
   }
+
+  public static fromServerObject(questionObject: Question): Question {
+    const newQuestion = new Question(
+      questionObject.number,
+      questionObject.text,
+      questionObject.responseControlIndex
+    );
+    newQuestion.response = Response.fromServerObject(questionObject.response);
+    newQuestion.setRating(questionObject.rating);
+    return newQuestion;
+  }
+
+  public static fromServerListOfObjects(questionObjectList: Question[]): Question[] {
+    return questionObjectList.map(Question.fromServerObject);
+  }
+
+  public getDisplay(): string {
+    return this.number + '. ' + this.text;
+  }
 }

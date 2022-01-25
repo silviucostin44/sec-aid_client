@@ -9,7 +9,7 @@ export default class QuestionnaireHelper {
       case MaturityLevelEnum.EARLY:
         return 'red';
       case MaturityLevelEnum.DEVELOPING:
-        return 'yellow';
+        return '#ebeb13';
       case MaturityLevelEnum.MATURE:
         return 'orange';
       case MaturityLevelEnum.LEADING:

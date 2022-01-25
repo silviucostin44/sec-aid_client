@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {Component, forwardRef, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
@@ -11,11 +11,11 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
     multi: true,
   }]
 })
-export class CDropdownComponent implements OnInit, ControlValueAccessor {
+export class CDropdownComponent implements ControlValueAccessor {
 
   @Input() label: string = '';
   @Input() options: string[] = [];
-  @Input() buttonClassAttr: string = 'btn-primary';
+  @Input() buttonType: string = 'primary';
   @Input() optionDisplayForm: (option: string) => string = (option) => option;
   selectedOption: string;
   onChange: (_: any) => {};
@@ -23,10 +23,6 @@ export class CDropdownComponent implements OnInit, ControlValueAccessor {
   onTouched: (_: any) => {};
 
   constructor() {
-  }
-
-  ngOnInit(): void {
-    // todo delete: if not used
   }
 
   registerOnChange(fn: (_: any) => {}): void {
@@ -41,8 +37,12 @@ export class CDropdownComponent implements OnInit, ControlValueAccessor {
     this.selectedOption = value;
   }
 
-  changeSelectedOption(option: string) {
+  changeSelectedOption(option: string): void {
     this.selectedOption = option;
     this.onChange(option);
+  }
+
+  getButtonClass(): string {
+    return (this.selectedOption ? 'btn-' : 'btn-outline-') + this.buttonType;
   }
 }

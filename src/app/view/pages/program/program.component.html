@@ -1,4 +1,4 @@
-<app-page-wrapper (action)="export()">
+<app-page-wrapper (primaryAction)="export()" (secondaryAction)="archive()" needSecondaryAction="true">
   <div class="d-float align-self-center" style="width: 75%; margin: auto">
     <widget-progress-buttons (currentStep)="updateStep($event)" [next]="nextStepEvent"></widget-progress-buttons>
   </div>
@@ -75,7 +75,7 @@
         {{text.TEMPLATE_DOWNLOAD}}
         <a (click)="downloadProfileTemplate()" class="link-primary" type="button">{{text.STEP_3.TEMPLATE_NAME_3}}.</a>
       </p>
-      <div class="d-flex align-items-center">   <!--todo refactor: decide if keep button on same line-->
+      <div class="d-flex align-items-center">
         <span class="fw-bold me-4"><u>{{text.ASSIGNMENT_DESC}}</u></span>
         <button (click)="uploadTargetProfile()" class="btn btn-info" type="button">
           {{text.UPLOAD_DOC}}
@@ -168,11 +168,11 @@
   </div>
 
   <button (click)="nextStep()" [hidden]="currentStep == 7"
-          [ngClass]="{ 'disabled': !isStepComplete() }"
+          [ngClass]="{ 'disabled': !(files | async)?.length }"
           class="btn btn-primary bottom-right-corner my-3" type="button"
   >
     {{text.NEXT_STEP}}
   </button>
 
-  <widget-files-list [files]="files"></widget-files-list>
+  <widget-files-list (deleteEvent)="deleteFile($event)" [files]="files"></widget-files-list>
 </app-page-wrapper>

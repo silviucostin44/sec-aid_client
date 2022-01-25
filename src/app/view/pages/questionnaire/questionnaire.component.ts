@@ -1,14 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import ro from 'src/assets/text/ro.json';
-import {QUEST_CONTENT} from '../../../constants/questionnaire-content';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Questionnaire, QuestSection} from '../../../models/questionnaire.model';
-import {QuestContent} from '../../../models/questionnaire-content.interface';
-import {Question} from '../../../models/question.model';
+import {Questionnaire} from '../../../models/questionnaire.model';
 import {ViewportScroller} from '@angular/common';
 import QuestionnaireHelper from '../../../helpers/questionnaire.helper';
 import {Response} from '../../../models/response.model';
+import {CONSTANTS} from '../../../constants/global-constants';
+import {QuestionnaireService} from '../../../services/questionnaire.service';
+import {QuestSection} from '../../../models/quest-section.model';
+import {IeService} from '../../../services/ie.service';
+import {UploadDownloadService} from '../../../services/upload-download.service';
 
 @Component({
   selector: 'app-questionnaire',
@@ -19,7 +21,6 @@ export class QuestionnaireComponent implements OnInit {
   text = ro.QUEST;
 
   id: string;
-  content: QuestContent[] = QUEST_CONTENT;
   responses: FormArray = new FormArray([]);
   responsesGroup: FormGroup = new FormGroup({
     responses: this.responses
@@ -29,27 +30,48 @@ export class QuestionnaireComponent implements OnInit {
   questionnaire: Questionnaire;
 
   displayScores: boolean = false;
+  hideCheck: boolean = true;
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private scroller: ViewportScroller) {
+  constructor(private route: ActivatedRoute,
+              private fb: FormBuilder,
+              private scroller: ViewportScroller,
+              private questService: QuestionnaireService,
+              private ieService: IeService,
+              private downloadService: UploadDownloadService) {
   }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
 
-    const questionsNo = this.initQuestionnaire();
-    this.addQuestResponseControls(questionsNo);
+    if (history.state.questionnaire) {
+      // questionnaire was imported and page was opened by navigation
+      this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(history.state.questionnaire));
+      this.updateFormControlResponse();
+    } else {
+      // page was opened as new questionnaire
+      this.questService.getQuestionnaire().subscribe((sections) => {
+        this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(sections));
+      });
+      this.addQuestResponseControls(CONSTANTS.totalQuestionsNo);
+    }
   }
 
   isQuestionnaireComplete(): boolean {
     return this.responses.valid;
   }
 
-  save(): void {
+  updateQuestionsResponse(): void {
     for (let section of this.questionnaire.sections) {
-      this.updateQuestionsResponse(section);
+      this.updateQuestionsResponseRecursive(section);
     }
-    // todo controller: save questionnaire
+    // todo later: save questionnaire
     console.log(this.questionnaire);
+  }
+
+  updateFormControlResponse(): void {
+    for (let section of this.questionnaire.sections) {
+      this.updateFormControlResponseRecursive(section);
+    }
   }
 
   scrollTo(anchor: string) {
@@ -63,85 +85,83 @@ export class QuestionnaireComponent implements OnInit {
   }
 
   generateScores(): void {
-    // todo refactor: better way to iterate over questionnaire
-    this.save();  /* todo refactor: don't use save here */
-    for (let section of this.questionnaire.sections) {
-      this.computeScores(section);
-      section.setRating(section.subsections
-        .map((question) => question.getRating())
-        .reduce((sum, current) => sum + current)
-      );
-    }
+    this.updateQuestionsResponse();
+    this.questService.computeScores(this.questionnaire).subscribe((sections) => {
+      this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(sections));
+    });
     this.displayScores = true;
   }
 
-  resetScores(): void {
+  reset(): void {
     this.displayScores = false;
+    this.hideCheck = true;
   }
 
   getScoreColor(score: number): string {
     return QuestionnaireHelper.getColorFromMaturityLevel(Math.ceil(score));
   }
 
-  translateMaturityLevel(maturityLevel: string) {
+  translateMaturityLevel(maturityLevel: string): string {
     return ro.QUEST.EVAL['MAT_LVL_' + maturityLevel];
   }
 
-  private updateQuestionsResponse(section: QuestSection): void {
+  checkResponses(): void {
+    this.hideCheck = false;
+  }
+
+  export(): void {
+    this.updateQuestionsResponse();
+    this.ieService.getQuestionnaireExport(this.questionnaire).subscribe((fileData) => {
+      const blob = new Blob([fileData], {type: 'text/json; charset=utf-8'});
+      this.downloadService.saveAs(blob, 'questionnaire.json');
+    });
+  }
+
+  isQuestionResponseValid(responseControlIndex: number): boolean {
+    return this.responses.at(responseControlIndex).valid;
+  }
+
+  isSectionValid(section: QuestSection): boolean {
+    let recursiveValidation = true;
     for (let subsection of section.subsections) {
-      this.updateQuestionsResponse(subsection);
+      recursiveValidation = this.isSectionValid(subsection);
+    }
+    return recursiveValidation &&
+      section.questions.every((question) => this.isQuestionResponseValid(question.responseControlIndex));
+  }
+
+  private updateQuestionsResponseRecursive(section: QuestSection): void {
+    for (let subsection of section.subsections) {
+      this.updateQuestionsResponseRecursive(subsection);
     }
     for (let question of section.questions) {
-      // todo response: fix
+      // todo response: fix; later: I see no issue
       question.response = Response.formGroupToResponse(this.responses.at(question.responseControlIndex));
     }
   }
 
-  private initQuestionnaire(): number {
-    let index = 0;
-    const questionnaire = new Questionnaire();
-    for (let i = 0; i < this.content.length; i++) {
-      const section = new QuestSection(i, this.content[i].title);
-      for (let j = 0; j < this.content[i].subtitles.length; j++) {
-        const question = new Question(j, 'Q ' + index, index++);
-        const subsection = new QuestSection(j, this.content[i].subtitles[j]);
-        subsection.questions = [question];
-        section.subsections.push(subsection);
-      }
-      questionnaire.sections.push(section);
+  private updateFormControlResponseRecursive(section: QuestSection): void {
+    for (let subsection of section.subsections) {
+      this.updateFormControlResponseRecursive(subsection);
     }
-    this.questionnaire = questionnaire;
-    return index;
+    for (let question of section.questions) {
+      this.responses.push(
+        question.response ? question.response.toFormGroup() : this.buildDefaultResponseControl());
+    }
   }
 
   private addQuestResponseControls(controlsNo: number): void {
     for (let i = 0; i < controlsNo; i++) {
-      const responseFormGroup = this.fb.group({
-        crt_1: this.fb.control('', Validators.required),
-        crt_2: this.fb.control('', Validators.required),
-        crt_3: this.fb.control('', Validators.required),
-        crt_4: this.fb.control('', Validators.required)
-      });
-      this.responses.push(responseFormGroup);
+      this.responses.push(this.buildDefaultResponseControl());
     }
   }
 
-  private computeScores(section: QuestSection): void {
-    for (let subsection of section.subsections) {
-      this.computeScores(subsection);
-      subsection.setRating(subsection.questions
-        .map((question) => question.getRating())
-        .reduce((sum, current) => sum + current)
-      );
-    }
-    for (let question of section.questions) {
-      question.setRating(question.response.computeRating());
-    }
-  }
-
-  private countQuestions(): number {
-    // can be transformed into a constant for better performance
-    return this.content.map((section) => section.subtitles.length)
-      .reduce((a, b) => a + b);
+  private buildDefaultResponseControl(): FormGroup {
+    return this.fb.group({
+      crt_1: this.fb.control('', Validators.required),
+      crt_2: this.fb.control('', Validators.required),
+      crt_3: this.fb.control('', Validators.required),
+      crt_4: this.fb.control('', Validators.required)
+    });
   }
 }

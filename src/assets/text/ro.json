@@ -10,6 +10,7 @@
     "IMPORT_Q": "Importă evaluare",
     "IMPORT_PROGRAM": "Importă program",
     "UPLOAD_IMPORT_PROGRAM_NAME": "program",
+    "UPLOAD_IMPORT_QUEST_NAME": "questionnaire",
     "AUTH": "Autentificare",
     "REGISTER": "Înregistrare"
   },
@@ -17,6 +18,7 @@
     "TITLE": "Chestionar",
     "CONTENTS": "Cuprins",
     "GENERATE_SCORE": "Generează scoruri",
+    "CHECK": "Verifică",
     "RESET": "Resetează",
     "EXPORT": "Exportă",
     "CONTENT": {
@@ -150,7 +152,8 @@
   "PAGE": {
     "BACK": "Înapoi",
     "SAVE": "Salvează",
-    "EXPORT": "Exportă"
+    "EXPORT": "Exportă",
+    "ARCHIVE": "Arhivează"
   },
   "MODAL": {
     "INEXISTENT_ACCOUNT": "Nu există un cont asociat acestei adrese.",

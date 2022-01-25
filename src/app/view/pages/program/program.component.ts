@@ -34,19 +34,13 @@ export class ProgramComponent implements OnInit {
     this.updateStep(0);
   }
 
-  isStepComplete(): boolean {
-    // todo program steps: next step
-    return true;
-  }
-
   nextStep(): void {
     this.nextStepEvent.emit();
   }
 
   updateStep(stepIndex: number) {
     this.currentStep = stepIndex + 1;
-    // update step files
-    this.files = this.fileService.downloadFilesByType(ProgramHelper.getFileTypeFromStep(this.currentStep));
+    this.updateFiles();
   }
 
   downloadAssetInventoryTemplate() {
@@ -86,35 +80,54 @@ export class ProgramComponent implements OnInit {
   }
 
   uploadAssetInventory() {
-    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.ASSETS_INVENTORY), this.text.STEP_1.UPLOAD_NAME);
+    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.ASSETS_INVENTORY), this.text.STEP_1.UPLOAD_NAME);
   }
 
   uploadThreatAnalysis() {
-    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.THREAT_ANALYSIS), this.text.STEP_2.UPLOAD_NAME);
+    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.THREAT_ANALYSIS), this.text.STEP_2.UPLOAD_NAME);
   }
 
   uploadTargetProfile() {
-    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.TARGET_PROFILE), this.text.STEP_3.UPLOAD_NAME);
+    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.TARGET_PROFILE), this.text.STEP_3.UPLOAD_NAME);
   }
 
   uploadRiskAssessment() {
-    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.RISK_ASSESSMENT), this.text.STEP_4.UPLOAD_NAME);
+    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.RISK_ASSESSMENT), this.text.STEP_4.UPLOAD_NAME);
   }
 
   uploadCurrentProfile() {
-    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.CURRENT_PROFILE), this.text.STEP_5.UPLOAD_NAME);
+    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.CURRENT_PROFILE), this.text.STEP_5.UPLOAD_NAME);
   }
 
   uploadActionsPriority() {
-    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFileUrl(UploadedFileEnum.ACTIONS_PRIORITY), this.text.STEP_6.UPLOAD_NAME);
+    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.ACTIONS_PRIORITY), this.text.STEP_6.UPLOAD_NAME);
   }
 
   uploadImplementationDocs() {
-    this.uploadDownloadService.openUploadModal(this.fileService.getUploadFilesUrl(), this.text.STEP_7.UPLOAD_NAME);
+    this.manageFilesUpload(this.fileService.getUploadFilesUrl(), this.text.STEP_7.UPLOAD_NAME, true);
   }
 
-  export() {
+  export(): void {
     this.uploadDownloadService.openDownload(this.ieService.getProgramJsonUrl());
   }
 
+  archive() {
+    this.uploadDownloadService.openDownload(this.ieService.getProgramZipUrl());
+  }
+
+  deleteFile(id: any): void {
+    this.fileService.deleteFile(id).subscribe(() => this.updateFiles());
+  }
+
+  /**
+   * Upload step files.
+   * @private
+   */
+  private updateFiles(): void {
+    this.files = this.fileService.downloadFilesByType(ProgramHelper.getFileTypeFromStep(this.currentStep));
+  }
+
+  private manageFilesUpload(url: string, modalTitle?: string, multiple?: boolean): void {
+    this.uploadDownloadService.openUploadModal(url, modalTitle, multiple).subscribe(() => this.updateFiles());
+  }
 }

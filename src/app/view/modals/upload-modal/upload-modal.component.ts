@@ -2,6 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {AngularFileUploaderComponent} from 'angular-file-uploader';
 import ro from 'src/assets/text/ro.json';
 import {BsModalRef} from 'ngx-bootstrap/modal';
+import {Subject} from 'rxjs';
+import {HttpResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-upload-modal',
@@ -11,9 +13,13 @@ import {BsModalRef} from 'ngx-bootstrap/modal';
 export class UploadModalComponent implements OnInit {
   text = ro;
 
+  responseEmitter: Subject<any> = new Subject();
+  response: any;
+
   objectNameInput: string;
   urlInput: string;
   multipleFiles: boolean = false;
+  closeOnSuccess: boolean = false;
 
   configs = {
     uploadAPI: {
@@ -45,6 +51,7 @@ export class UploadModalComponent implements OnInit {
 
   closeModalHandler() {
     this.uploader.resetFileUpload();
+    this.responseEmitter.next(this.response);
     this.bsModalRef.hide();
   }
 
@@ -53,8 +60,15 @@ export class UploadModalComponent implements OnInit {
     // maximum 6 file allowed at a time
   }
 
-  docUpload($response: any) { // todo features: add toast
+  /**
+   * Upload HTTP request response handler.
+   * @param $response the response.
+   */
+  docUpload($response: HttpResponse<any>) { // todo features: add toast
     // to do: handle upload response
-    // this.closeModalEvent.emit();
+    this.response = $response.body;
+    if (this.closeOnSuccess && $response.ok) {
+      this.closeModalHandler();
+    }
   }
 }

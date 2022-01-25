@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Location} from '@angular/common';
 import ro from 'src/assets/text/ro.json';
 
@@ -10,7 +10,9 @@ import ro from 'src/assets/text/ro.json';
 export class PageWrapperComponent implements OnInit {
   text = ro.PAGE;
 
-  @Output() action = new EventEmitter();
+  @Input() needSecondaryAction: boolean = false;
+  @Output() primaryAction = new EventEmitter();
+  @Output() secondaryAction = new EventEmitter();
 
   constructor(private location: Location) {
   }
@@ -22,8 +24,11 @@ export class PageWrapperComponent implements OnInit {
     this.location.back();
   }
 
-  triggerAction(): void {
-    this.action.emit();
+  triggerPrimaryAction(): void {
+    this.primaryAction.emit();
   }
 
+  triggerSecondaryAction() {
+    this.secondaryAction.emit();
+  }
 }

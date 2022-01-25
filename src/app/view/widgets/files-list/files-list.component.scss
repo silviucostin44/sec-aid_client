@@ -1,3 +1,4 @@
+
 .files-list-container {
   position: absolute;
   left: 50%;
@@ -16,6 +17,16 @@
 
 .selectable:hover {
   background: rgba(0, 255, 255, 0.1);
+}
+
+.resizable {
+  font-size: 0.75rem;
+  z-index: 10;
+}
+
+.resizable:hover {
+  transform: scale(1.6);
+  color: #DC3545FF !important;
 }
 
 .fs-7 {

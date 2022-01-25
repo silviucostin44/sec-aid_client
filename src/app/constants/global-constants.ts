@@ -1,1 +1,3 @@
-export const CONSTANTS = {};
+export const CONSTANTS = {
+  totalQuestionsNo: 101
+};

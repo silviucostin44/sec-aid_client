@@ -1,7 +1,7 @@
 import {MaturityLevelEnum} from './enums/maturity-level.enum';
-import {AbstractControl} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 
-export class Response {   /*todo refactor: replace class with list of criteria*/
+export class Response {
   approach: MaturityLevelEnum;
   deployment: MaturityLevelEnum;
   learning: MaturityLevelEnum;
@@ -14,17 +14,33 @@ export class Response {   /*todo refactor: replace class with list of criteria*/
     this.integration = integration;
   }
 
-  static formGroupToResponse(responseFormGroup: AbstractControl): Response {
+  public static formGroupToResponse(responseFormGroup: AbstractControl): Response {
     return new this(
-      responseFormGroup.get('crt_1').value ? Number.parseInt(responseFormGroup.get('crt_1').value) : 0,
-      responseFormGroup.get('crt_2').value ? Number.parseInt(responseFormGroup.get('crt_2').value) : 0,
-      responseFormGroup.get('crt_3').value ? Number.parseInt(responseFormGroup.get('crt_3').value) : 0,
-      responseFormGroup.get('crt_4').value ? Number.parseInt(responseFormGroup.get('crt_4').value) : 0
+      responseFormGroup.get('crt_1').value ? Number.parseInt(responseFormGroup.get('crt_1').value) : null,
+      responseFormGroup.get('crt_2').value ? Number.parseInt(responseFormGroup.get('crt_2').value) : null,
+      responseFormGroup.get('crt_3').value ? Number.parseInt(responseFormGroup.get('crt_3').value) : null,
+      responseFormGroup.get('crt_4').value ? Number.parseInt(responseFormGroup.get('crt_4').value) : null
     );
   }
 
-  computeRating(): number {
-    // rating is rounded on first decimal
-    return Math.round((this.approach + this.deployment + this.learning + this.integration) / 4 * 10) / 10;
+  public static fromServerObject(responseObject: Response): Response {
+    if (!responseObject) {
+      return null;
+    }
+    return new Response(
+      MaturityLevelEnum[responseObject.approach] as unknown as MaturityLevelEnum,
+      MaturityLevelEnum[responseObject.deployment] as unknown as MaturityLevelEnum,
+      MaturityLevelEnum[responseObject.learning] as unknown as MaturityLevelEnum,
+      MaturityLevelEnum[responseObject.integration] as unknown as MaturityLevelEnum
+    );
+  }
+
+  public toFormGroup(): FormGroup {
+    return new FormGroup({
+      crt_1: new FormControl(this.approach ? this.approach.toString() : '', Validators.required),
+      crt_2: new FormControl(this.deployment ? this.deployment.toString() : '', Validators.required),
+      crt_3: new FormControl(this.learning ? this.learning.toString() : '', Validators.required),
+      crt_4: new FormControl(this.integration ? this.integration.toString() : '', Validators.required)
+    });
   }
 }

@@ -1,19 +1,9 @@
-import {Question} from './question.model';
-import {Rated} from './rated.model';
+import {QuestSection} from './quest-section.model';
 
 export class Questionnaire {
   sections: QuestSection[] = [];
-}
 
-export class QuestSection extends Rated {
-  number: number;
-  title: string;
-  subsections: QuestSection[] = [];
-  questions?: Question[] = [];
-
-  constructor(number: number, title: string) {
-    super();
-    this.number = number;
-    this.title = title;
+  constructor(sections: QuestSection[]) {
+    this.sections = sections;
   }
 }

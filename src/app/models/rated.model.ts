@@ -1,5 +1,5 @@
-// todo refactor: normal set and get
 export class Rated {
+  ra;
   protected rating?: number;
 
   public getRating(): number {

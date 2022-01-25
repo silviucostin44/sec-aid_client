@@ -1,9 +1,14 @@
 <div class="container">
   <div class="d-flex justify-content-between mt-5">
     <button (click)="goBack()" class="btn btn-secondary" type="button">{{text.BACK}}</button>
-    <button (click)="triggerAction()" class="btn btn-success" type="button">
-      {{text.EXPORT}}
-    </button>
+    <div>
+      <button (click)="triggerSecondaryAction()" *ngIf="needSecondaryAction" class="btn btn-info me-2" type="button">
+        {{text.ARCHIVE}}
+      </button>
+      <button (click)="triggerPrimaryAction()" class="btn btn-success" type="button">
+        {{text.EXPORT}}
+      </button>
+    </div>
   </div>
   <ng-content></ng-content>
 </div>

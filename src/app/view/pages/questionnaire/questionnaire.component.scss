@@ -19,25 +19,44 @@
   // z-index: -1; /*todo quest page aspect: find better solution for zoom in problem*/
 }
 
-.header-score {
+.sign {
   position: absolute;
-  top: 50%; /*todo: 4 duplicates lines for score*/
+  top: 50%;
   transform: translate(0, -50%);
   z-index: 100;
+}
+
+.header-score-end {
   right: 4rem;
 }
 
-.score-holder {
+.header-alert-mark-end {
+  right: 8rem;
+}
+
+.sign-holder {
   position: relative;
   display: inline-flex;
 
-  .score {
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-    z-index: 100;
-    right: -3rem;
+  p {
+    width: 97%;
   }
+}
+
+.subsection-score-end {
+  right: -3rem;
+}
+
+.question-score-end {
+  right: 0;
+}
+
+.subsection-alert-mark-end {
+  right: -5rem;
+}
+
+.question-alert-mark-end {
+  right: -1rem;
 }
 
 /* Overwritten */

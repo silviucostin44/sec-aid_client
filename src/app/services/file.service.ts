@@ -8,7 +8,7 @@ import {File} from '../models/server-api/file';
 
 @Injectable({
   providedIn: 'root'
-})
+})  // todo finally: remove unused endpoints
 export class FileService {
 
   private readonly urlPrefix = environment.baseUrl + '/files';
@@ -20,7 +20,8 @@ export class FileService {
     filesByType: (type) => this.urlPrefix + `/many/${type}`,
     uploadFile: (type) => this.urlPrefix + `/upload/${type}`,
     uploadFiles: this.urlPrefix + '/upload-many',
-    resetSessionDb: this.urlPrefix + '/reset'
+    resetSessionDb: this.urlPrefix + '/reset',
+    deleteFile: (id) => this.urlPrefix + `/${id}`
   };
 
   private readonly options = {
@@ -92,10 +93,19 @@ export class FileService {
   }
 
   /**
+   * Makes an HTTP request for deleting a file by its id.
+   */
+  deleteFile(id: string): Observable<any> {
+    return this.http.delete(this.routesApi.deleteFile(id));
+  }
+
+  /**
    * Makes an HTTP request for resetting the session db by deleting all files from previous session.
    */
   resetSessionDb(): void {  // todo finish: use it
-    this.http.delete(this.routesApi.resetSessionDb);
+    this.http.delete(this.routesApi.resetSessionDb).subscribe(
+      () => console.log('Session reset successfully'),
+      () => console.error('Session reset failed'));
   }
 
 }

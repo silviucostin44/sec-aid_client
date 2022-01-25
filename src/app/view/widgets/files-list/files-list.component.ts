@@ -1,8 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {FileService} from '../../../services/file.service';
 import {File} from '../../../models/server-api/file';
-import {faFileAlt, faFileExcel, faFilePdf, faFileWord, IconDefinition} from '@fortawesome/free-regular-svg-icons';
+import {faFileAlt, faFileExcel, faFilePdf, faFileWord, faTimesCircle, IconDefinition} from '@fortawesome/free-regular-svg-icons';
 import {UploadDownloadService} from '../../../services/upload-download.service';
 
 @Component({
@@ -17,9 +17,11 @@ export class FilesListComponent {
     docx: faFileWord,
     txt: faFileAlt
   };
+  readonly xIcon = faTimesCircle;
 
   // make it @Input if reused
   @Input() files: Observable<File[]>;
+  @Output() deleteEvent = new EventEmitter();
 
   constructor(private fileService: FileService,
               private downloadService: UploadDownloadService) {
@@ -32,5 +34,9 @@ export class FilesListComponent {
 
   downloadFile(url: string): void {
     this.downloadService.openDownload(url);
+  }
+
+  delete(id: string) {
+    this.deleteEvent.emit(id);
   }
 }
