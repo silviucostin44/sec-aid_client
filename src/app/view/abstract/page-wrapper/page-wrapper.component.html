@@ -1,6 +1,8 @@
 <div class="container">
   <div class="d-flex justify-content-between mt-5">
-    <button (click)="goBack()" class="btn btn-secondary" type="button">{{text.BACK}}</button>
+    <button class="btn btn-secondary" routerLink="/home" type="button">
+      {{text.BACK}}
+    </button>
     <div>
       <button (click)="triggerSecondaryAction()" *ngIf="needSecondaryAction" class="btn btn-info me-2" type="button">
         {{text.ARCHIVE}}

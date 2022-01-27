@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import ro from 'src/assets/text/ro.json';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Questionnaire} from '../../../models/questionnaire.model';
 import {ViewportScroller} from '@angular/common';
 import QuestionnaireHelper from '../../../helpers/questionnaire.helper';
@@ -11,6 +11,7 @@ import {QuestionnaireService} from '../../../services/questionnaire.service';
 import {QuestSection} from '../../../models/quest-section.model';
 import {IeService} from '../../../services/ie.service';
 import {UploadDownloadService} from '../../../services/upload-download.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-questionnaire',
@@ -25,7 +26,7 @@ export class QuestionnaireComponent implements OnInit {
   responsesGroup: FormGroup = new FormGroup({
     responses: this.responses
   });
-  responseCriteriaKeys: string[] = QuestionnaireHelper.getResponseCriteriaKeys();
+  responseCriteriaKeys: string[] = Response.getResponseCriteriaKeys();
   responseOptions: string[] = QuestionnaireHelper.getMaturityLevelsAsList();
   questionnaire: Questionnaire;
 
@@ -38,6 +39,11 @@ export class QuestionnaireComponent implements OnInit {
               private questService: QuestionnaireService,
               private ieService: IeService,
               private downloadService: UploadDownloadService) {
+  }
+
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    return !this.isAtLeastOneResponseCompleted();
   }
 
   ngOnInit(): void {
@@ -72,6 +78,10 @@ export class QuestionnaireComponent implements OnInit {
     for (let section of this.questionnaire.sections) {
       this.updateFormControlResponseRecursive(section);
     }
+  }
+
+  isAtLeastOneResponseCompleted(): boolean {
+    return this.responses.controls.some((control) => this.responseCriteriaKeys.some(key => control.get(key).valid));
   }
 
   scrollTo(anchor: string) {
@@ -122,12 +132,8 @@ export class QuestionnaireComponent implements OnInit {
   }
 
   isSectionValid(section: QuestSection): boolean {
-    let recursiveValidation = true;
-    for (let subsection of section.subsections) {
-      recursiveValidation = this.isSectionValid(subsection);
-    }
-    return recursiveValidation &&
-      section.questions.every((question) => this.isQuestionResponseValid(question.responseControlIndex));
+    return section.subsections.every((subsection) => this.isSectionValid(subsection))
+      && section.questions.every((question) => this.isQuestionResponseValid(question.responseControlIndex));
   }
 
   private updateQuestionsResponseRecursive(section: QuestSection): void {
@@ -146,22 +152,13 @@ export class QuestionnaireComponent implements OnInit {
     }
     for (let question of section.questions) {
       this.responses.push(
-        question.response ? question.response.toFormGroup() : this.buildDefaultResponseControl());
+        question.response ? question.response.toFormGroup() : Response.buildDefaultResponseControl());
     }
   }
 
   private addQuestResponseControls(controlsNo: number): void {
     for (let i = 0; i < controlsNo; i++) {
-      this.responses.push(this.buildDefaultResponseControl());
+      this.responses.push(Response.buildDefaultResponseControl());
     }
-  }
-
-  private buildDefaultResponseControl(): FormGroup {
-    return this.fb.group({
-      crt_1: this.fb.control('', Validators.required),
-      crt_2: this.fb.control('', Validators.required),
-      crt_3: this.fb.control('', Validators.required),
-      crt_4: this.fb.control('', Validators.required)
-    });
   }
 }

@@ -14,6 +14,10 @@ export class Response {
     this.integration = integration;
   }
 
+  public static getResponseCriteriaKeys(): string[] {
+    return ['crt_1', 'crt_2', 'crt_3', 'crt_4',];
+  }
+
   public static formGroupToResponse(responseFormGroup: AbstractControl): Response {
     return new this(
       responseFormGroup.get('crt_1').value ? Number.parseInt(responseFormGroup.get('crt_1').value) : null,
@@ -33,6 +37,15 @@ export class Response {
       MaturityLevelEnum[responseObject.learning] as unknown as MaturityLevelEnum,
       MaturityLevelEnum[responseObject.integration] as unknown as MaturityLevelEnum
     );
+  }
+
+  public static buildDefaultResponseControl(): FormGroup {
+    return new FormGroup({
+      crt_1: new FormControl('', Validators.required),
+      crt_2: new FormControl('', Validators.required),
+      crt_3: new FormControl('', Validators.required),
+      crt_4: new FormControl('', Validators.required)
+    });
   }
 
   public toFormGroup(): FormGroup {

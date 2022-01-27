@@ -7,6 +7,7 @@ import {IeService} from '../../../services/ie.service';
 import {UploadDownloadService} from '../../../services/upload-download.service';
 import {FileService} from '../../../services/file.service';
 import {Router} from '@angular/router';
+import {noop} from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -40,12 +41,14 @@ export class HomeComponent implements OnInit {
 
   uploadProgramImportFile() {
     this.uploadService.openUploadModal(this.ieService.getProgramImportUrl(), this.text.UPLOAD_IMPORT_PROGRAM_NAME, false, true)
-      .subscribe(() => this.router.navigate([`/program/0`]));
+      .subscribe((response) => response ? this.router.navigate([`/program/0`]) : noop(),
+        () => console.log('Program import failed.'));
   }
 
   uploadQuestionnaireImportFile() {
     this.uploadService.openUploadModal(this.ieService.getQuestionnaireImportUrl(), this.text.UPLOAD_IMPORT_QUEST_NAME, false, true)
-      .subscribe((questionnaire) => this.router.navigate([`/questionnaire/0`], {state: {questionnaire: questionnaire}}));
+      .subscribe((questionnaire) => questionnaire ? this.router.navigate([`/questionnaire/0`], {state: {questionnaire: questionnaire}}) : noop(),
+        () => console.log('Questionnaire import failed.'));
   }
 }
 

@@ -32,8 +32,4 @@ export default class QuestionnaireHelper {
       MaturityLevelEnum.EXEMPLARY.toString()
     ];
   }
-
-  static getResponseCriteriaKeys(): string[] {
-    return ['crt_1', 'crt_2', 'crt_3', 'crt_4',];
-  }
 }

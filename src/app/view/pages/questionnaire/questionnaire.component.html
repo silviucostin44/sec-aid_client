@@ -1,11 +1,12 @@
 <app-page-wrapper (primaryAction)="export()">
   <p class="display-4 text-center overlap-top-40">{{text.TITLE}}</p>
 
-  <div class="row">
+  <widget-loading-card *ngIf="!questionnaire"></widget-loading-card>
+  <div *ngIf="questionnaire" class="row">
     <div class="col-3">
       <nav class="navbar navbar-light bg-warning content-panel fixed-panel" id="contents-navbar">
         <span class="navbar-brand">{{text.CONTENTS}}</span>
-        <nav *ngIf="questionnaire" class="nav nav-pills flex-column">
+        <nav class="nav nav-pills flex-column">
           <li *ngFor="let item of questionnaire.sections; let i1=index">
             <a (click)="scrollTo('item' + i1)" class="nav-link">{{item.getDisplay()}}</a>
             <nav class="nav nav-pills flex-column">
@@ -20,7 +21,7 @@
     </div>
 
     <div class="col-9">
-      <div *ngIf="questionnaire" class="accordion accordion-flush" id="accordionFlush">
+      <div class="accordion accordion-flush" id="accordionFlush">
         <div *ngFor="let section of questionnaire.sections; let i1=index" [id]="'item' + i1" class="accordion-item">
           <h2 [id]="'flush-heading' + i1" class="accordion-header">
             <button [attr.aria-controls]="'flush-collapse' + i1" [attr.data-bs-target]="'#flush-collapse' + i1"
@@ -120,7 +121,7 @@
     </div>
   </div>
 
-  <div [ngClass]="{ 'position-sticky bottom-20': isQuestionnaireComplete() }"
+  <div *ngIf="questionnaire" [ngClass]="{ 'position-sticky bottom-20': isQuestionnaireComplete() }"
        class="float-end my-3">  <!--todo: add z index to bring front-->
     <button (click)="export()" class="btn btn-info me-2" disabled role="button">{{text.EXPORT}}</button>
     <button (click)="reset()" *ngIf="!hideCheck || displayScores" class="btn btn-danger me-2" role="button">

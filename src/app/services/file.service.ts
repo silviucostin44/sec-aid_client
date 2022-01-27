@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {UploadedFileEnum} from '../models/enums/uploaded-file.enum';
 import {File} from '../models/server-api/file';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class FileService {
   private readonly routesApi = {
     template: (type) => this.urlPrefix + `/template/${type}`,
     file: (type) => this.urlPrefix + `/${type}`,
-    files: this.urlPrefix + '/many',
+    files: this.urlPrefix,
     filesByType: (type) => this.urlPrefix + `/many/${type}`,
     uploadFile: (type) => this.urlPrefix + `/upload/${type}`,
     uploadFiles: this.urlPrefix + '/upload-many',
@@ -79,10 +80,10 @@ export class FileService {
   }
 
   /**
-   * Makes HTTP get request for uploaded files on 7 step of the program on server.
+   * Makes HTTP get request for all files on server and returns if there is any of them.
    */
-  downloadFiles(): Observable<File[]> {
-    return this.http.get<File[]>(this.routesApi.files);
+  isEmptyProgram(): Observable<boolean> {
+    return this.http.get<File[]>(this.routesApi.files).pipe(map((files) => files.length == 0));
   }
 
   /**

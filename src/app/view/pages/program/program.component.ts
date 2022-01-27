@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component, EventEmitter, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import ro from 'src/assets/text/ro.json';
 import {FileService} from '../../../services/file.service';
@@ -27,6 +27,11 @@ export class ProgramComponent implements OnInit {
               private fileService: FileService,
               private uploadDownloadService: UploadDownloadService,
               private ieService: IeService) {
+  }
+
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    return this.fileService.isEmptyProgram();
   }
 
   ngOnInit(): void {

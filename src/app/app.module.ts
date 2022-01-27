@@ -21,6 +21,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ScoreComponent} from './view/widgets/score/score.component';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {FilesListComponent} from './view/widgets/files-list/files-list.component';
+import {PendingChangesGuard} from './helpers/pending-changes.guard';
+import {LoadingCardComponent} from './view/widgets/loading-card/loading-card.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import {FilesListComponent} from './view/widgets/files-list/files-list.component
     CDropdownComponent,
     ScoreComponent,
     FilesListComponent,
+    LoadingCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,7 @@ import {FilesListComponent} from './view/widgets/files-list/files-list.component
     BsDropdownModule.forRoot(),
     FontAwesomeModule,
   ],
-  providers: [BsModalService],
+  providers: [BsModalService, PendingChangesGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
