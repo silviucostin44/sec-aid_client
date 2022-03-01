@@ -20,7 +20,7 @@ export class PageWrapperComponent {
     this.primaryAction.emit();
   }
 
-  triggerSecondaryAction() {
+  triggerSecondaryAction(): void {
     this.secondaryAction.emit();
   }
 }

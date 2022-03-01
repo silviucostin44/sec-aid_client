@@ -21,6 +21,7 @@
     "CHECK": "Verifică",
     "RESET": "Resetează",
     "EXPORT": "Exportă",
+    "DOC": "Generează PDF",
     "CONTENT": {
       "TITLE_C": "C. Contextul organizației",
       "TITLE_C_1": "C.1 Descrierea organizației",

@@ -22,6 +22,7 @@ export class ProgramComponent implements OnInit {
   currentStep: number;
   nextStepEvent = new EventEmitter();
   files: Observable<File[]>;
+  initialStep: number;
 
   constructor(private router: ActivatedRoute,
               private fileService: FileService,
@@ -36,7 +37,9 @@ export class ProgramComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.router.snapshot.paramMap.get('id');
-    this.updateStep(0);
+    this.fileService.lastProgramStep().subscribe((step) => {
+      this.nextStepEvent.emit(step);
+    });
   }
 
   nextStep(): void {

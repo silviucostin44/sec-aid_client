@@ -14,7 +14,8 @@ export interface ProgressButton {
 })
 export class ProgressButtons implements OnInit {
 
-  @Input() next: EventEmitter<any>;
+  @Input() next: EventEmitter<number | any>;
+  @Input() initialLastComputedStep: number;
   @Output('currentStep') currentStepEmitter = new EventEmitter();
   currentStep: number = 0;
   lastComputedStep: number = 0;
@@ -24,9 +25,14 @@ export class ProgressButtons implements OnInit {
   }
 
   ngOnInit(): void {
-    this.next.subscribe(() => {
-      if (this.currentStep < this.buttons.length - 1) {
-        this.nextStep();
+    this.next.subscribe((step) => {
+      if (step != undefined) {
+        this.lastComputedStep = step - 1;
+        this.updateStep(step - 1);
+      } else {
+        if (this.currentStep < this.buttons.length - 1) {
+          this.nextStep();
+        }
       }
     });
   }

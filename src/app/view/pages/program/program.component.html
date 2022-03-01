@@ -1,6 +1,7 @@
 <app-page-wrapper (primaryAction)="export()" (secondaryAction)="archive()" needSecondaryAction="true">
   <div class="d-float align-self-center" style="width: 75%; margin: auto">
-    <widget-progress-buttons (currentStep)="updateStep($event)" [next]="nextStepEvent"></widget-progress-buttons>
+    <widget-progress-buttons (currentStep)="updateStep($event)" [initialLastComputedStep]="initialStep"
+                             [next]="nextStepEvent"></widget-progress-buttons>
   </div>
   <p class="display-6 text-center">{{text.TITLES["TITLE_" + currentStep]}}</p>
 

@@ -136,6 +136,10 @@ export class QuestionnaireComponent implements OnInit {
       && section.questions.every((question) => this.isQuestionResponseValid(question.responseControlIndex));
   }
 
+  generateDoc(): void {
+    // todo:
+  }
+
   private updateQuestionsResponseRecursive(section: QuestSection): void {
     for (let subsection of section.subsections) {
       this.updateQuestionsResponseRecursive(subsection);

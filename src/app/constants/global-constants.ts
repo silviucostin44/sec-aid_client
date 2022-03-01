@@ -1,3 +1,3 @@
 export const CONSTANTS = {
-  totalQuestionsNo: 101
+  totalQuestionsNo: 106
 };

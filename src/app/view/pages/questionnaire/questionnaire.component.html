@@ -123,7 +123,7 @@
 
   <div *ngIf="questionnaire" [ngClass]="{ 'position-sticky bottom-20': isQuestionnaireComplete() }"
        class="float-end my-3">  <!--todo: add z index to bring front-->
-    <button (click)="export()" class="btn btn-info me-2" disabled role="button">{{text.EXPORT}}</button>
+    <button (click)="generateDoc()" class="btn btn-info me-2" hidden role="button">{{text.DOC}}</button>
     <button (click)="reset()" *ngIf="!hideCheck || displayScores" class="btn btn-danger me-2" role="button">
       {{text.RESET}}
     </button>

@@ -22,7 +22,8 @@ export class FileService {
     uploadFile: (type) => this.urlPrefix + `/upload/${type}`,
     uploadFiles: this.urlPrefix + '/upload-many',
     resetSessionDb: this.urlPrefix + '/reset',
-    deleteFile: (id) => this.urlPrefix + `/${id}`
+    deleteFile: (id) => this.urlPrefix + `/${id}`,
+    lastProgramStep: this.urlPrefix + '/last-step'
   };
 
   private readonly options = {
@@ -84,6 +85,13 @@ export class FileService {
    */
   isEmptyProgram(): Observable<boolean> {
     return this.http.get<File[]>(this.routesApi.files).pipe(map((files) => files.length == 0));
+  }
+
+  /**
+   * Makes HTTP get request for all files on server and returns the latest step there is a file associated to.
+   */
+  lastProgramStep(): Observable<number> {
+    return this.http.get<number>(this.routesApi.lastProgramStep);
   }
 
   /**
