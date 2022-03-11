@@ -25,6 +25,10 @@ $theme-colors: (
   z-index: -1;
 }
 
+.selectable {
+  cursor: pointer;
+}
+
 /* Angular File Uploader custom */
 .afu-upload-btn, .afu-reset-btn {
   float: right;

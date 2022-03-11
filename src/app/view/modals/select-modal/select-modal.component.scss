@@ -1,0 +1,49 @@
+.list-group-header {
+  padding: 0 16px 8px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  height: 40px;
+
+  .select-all-input {
+    border: 1px solid;
+  }
+
+  .btn-icon {
+    font-size: 1.25rem;
+    border-radius: 100%;
+    padding: 0 0.4rem;
+  }
+
+  .btn-icon:hover {
+    color: white;
+  }
+}
+
+.hover-disabled {
+  cursor: default !important;
+}
+
+.hover-disabled:hover {
+  background-color: #cfe2ff;
+}
+
+input {
+  border: transparent;
+}
+
+input.ng-dirty.ng-invalid {
+  border: 0.1rem solid rgba(255, 0, 0, 0.5);
+}
+
+input.ng-dirty.ng-invalid:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25);
+}
+
+input:disabled {
+  background-color: transparent !important;
+  cursor: pointer !important;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+

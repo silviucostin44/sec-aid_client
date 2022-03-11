@@ -7,10 +7,12 @@
     },
     "START_NEW_Q": "Începe evaluare nouă",
     "START_NEW_PROGRAM": "Începe program nou",
+    "LOAD_Q": "Selectare evaluare",
+    "LOAD_PROGRAM": "Selectare program",
     "IMPORT_Q": "Importă evaluare",
     "IMPORT_PROGRAM": "Importă program",
-    "UPLOAD_IMPORT_PROGRAM_NAME": "program",
-    "UPLOAD_IMPORT_QUEST_NAME": "questionnaire",
+    "PROGRAM": "program",
+    "QUESTIONNAIRE": "chestionar",
     "AUTH": "Autentificare",
     "REGISTER": "Înregistrare"
   },
@@ -167,6 +169,7 @@
     "EXISTING_ACCOUNT": "Există deja un cont asociat acestei adrese.",
     "CONFIRM_PASS": "Confirmă parola",
     "REGISTER": "Înregistreză",
+    "SELECT": "Selecteză",
     "UPLOAD": "Încarcă",
     "UPLOAD_CONFIG": {
       "CHOOSE_FILE": "Alege fișier",
@@ -175,6 +178,10 @@
       "SUCCESS": "Fișier încărcat cu succes.",
       "FAIL": "Încărcarea fișierului a eșuat.",
       "LIMIT": "Dimensiunea maximă a fișierului"
-    }
+    },
+    "EDIT": "Editare",
+    "SAVE": "Salvează",
+    "CANCEL": "Anulează",
+    "ADD": "Adaugă"
   }
 }
