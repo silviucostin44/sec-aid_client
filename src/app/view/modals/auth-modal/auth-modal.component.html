@@ -1,5 +1,5 @@
 <app-modal-wrapper (closeModalEvent)="closeModal()" title="{{text.HOME.AUTH}}">
-  <form #authForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+  <form #authForm="ngForm" novalidate>
     <div *ngIf="false" class="alert alert-danger">  <!--todo: submit errors-->
       <div *ngIf="false">
         {{text.MODAL.INEXISTENT_ACCOUNT}}
@@ -18,7 +18,7 @@
       <label class="form-label" for="inputPassword">{{text.MODAL.PASSWORD}}</label>
       <input #pass="ngModel" [(ngModel)]="password" class="form-control"
              id="inputPassword" name="password"
-             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{6,24}$" required type="password">
+             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{6,200}$" required type="password">
       <div *ngIf="pass.invalid && !pass.pristine" class="alert alert-danger">
         <div *ngIf="pass.errors?.pattern">
           {{text.MODAL.PASS_ERROR_1}} <br>
@@ -29,7 +29,8 @@
   </form>
   <div footer>
     <span class="d-inline-block" data-bs-toggle="tooltip" tabindex="0" title="Toate campurile sunt obligatorii.">
-      <button [disabled]="!authForm.form.valid" class="btn btn-success" type="submit">{{text.MODAL.AUTH}}</button>
+      <button (click)="onSubmit()" [disabled]="!authForm.form.valid" class="btn btn-success"
+              type="submit">{{text.MODAL.AUTH}}</button>
     </span>
   </div>
 </app-modal-wrapper>

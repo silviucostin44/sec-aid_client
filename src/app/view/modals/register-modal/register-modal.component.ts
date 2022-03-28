@@ -3,6 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {matchingPassValidator} from '../../../shared/customValidators';
 import ro from 'src/assets/text/ro.json';
 import {BsModalRef} from 'ngx-bootstrap/modal';
+import {SecurityService} from '../../../services/security.service';
 
 @Component({
   selector: 'app-register-modal',
@@ -19,18 +20,20 @@ export class RegisterModalComponent {
   }, {validators: [matchingPassValidator]});
 
   constructor(private fb: FormBuilder,
-              private bsModalRef: BsModalRef) {
+              private bsModalRef: BsModalRef,
+              private securityService: SecurityService) {
   }
 
   get passField() {
     return this.registerForm.get('password');
   }
 
-  onSubmit() {
-    // todo: auth form submission
+  onSubmit(): void {
+    this.securityService.register(this.registerForm.get('email').value, this.registerForm.get('password').value)
+      .subscribe(() => this.closeModal());
   }
 
-  closeModal() {
+  closeModal(): void {
     this.registerForm.reset();
     this.bsModalRef.hide();
   }

@@ -18,12 +18,12 @@
             {{text.START_NEW_PROGRAM}}
           </a>
         </div>
-        <div class="col d-flex justify-content-center">
+        <div *ngIf="isSignedIn" class="col d-flex justify-content-center">
           <button (click)="selectQuestionnaire()" class="btn btn-primary btn-lg w-75" type="button">
             {{text.LOAD_Q}}
           </button>
         </div>
-        <div class="col d-flex justify-content-center">
+        <div *ngIf="isSignedIn" class="col d-flex justify-content-center">
           <button (click)="selectProgram()" class="btn btn-primary btn-lg w-75" type="button">
             {{text.LOAD_PROGRAM}}
           </button>
@@ -38,12 +38,12 @@
             {{text.IMPORT_PROGRAM}}
           </button>
         </div>
-        <div class="col d-flex justify-content-center">
+        <div *ngIf="!isSignedIn" class="col d-flex justify-content-center">
           <button (click)="openAuthModal()" class="btn btn-link btn-lg w-75" type="button">
             {{text.AUTH}}
           </button>
         </div>
-        <div class="col d-flex justify-content-center">
+        <div *ngIf="!isSignedIn" class="col d-flex justify-content-center">
           <button (click)="openRegisterModal()" class="btn btn-link btn-lg w-75" type="button">
             {{text.REGISTER}}
           </button>

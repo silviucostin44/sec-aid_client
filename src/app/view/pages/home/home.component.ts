@@ -9,6 +9,7 @@ import {FileService} from '../../../services/file.service';
 import {Router} from '@angular/router';
 import {noop} from 'rxjs';
 import {SelectableElement, SelectModalComponent, SelectType} from '../../modals/select-modal/select-modal.component';
+import {SecurityService} from '../../../services/security.service';
 
 @Component({
   selector: 'app-home-page',
@@ -21,15 +22,19 @@ export class HomeComponent implements OnInit {
   questionnaireId = '0';
   programId = '0';
 
+  isSignedIn: boolean;
+
   constructor(private modalService: BsModalService,
               private router: Router,
               private ieService: IeService,
               private uploadService: UploadDownloadService,
-              private fileService: FileService) {
+              private fileService: FileService,
+              private securityService: SecurityService) {
   }
 
   ngOnInit(): void {
     this.fileService.resetSessionDb();
+    this.checkAuthStatus();
   }
 
   openAuthModal(): void {
@@ -79,6 +84,14 @@ export class HomeComponent implements OnInit {
       class: 'modal-dialog-centered'
     };
     this.modalService.show(SelectModalComponent, initialState);
+  }
+
+  private checkAuthStatus(): void {
+    this.isSignedIn = this.securityService.isSignedIn();
+
+    this.securityService.authEvents.subscribe(() => {
+      this.isSignedIn = this.securityService.isSignedIn();
+    });
   }
 }
 

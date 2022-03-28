@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import ro from 'src/assets/text/ro.json';
 import {BsModalRef} from 'ngx-bootstrap/modal';
+import {SecurityService} from '../../../services/security.service';
 
 @Component({
   selector: 'app-auth-modal',
@@ -16,11 +17,12 @@ export class AuthModalComponent {
   email: string;
   password: string;
 
-  constructor(private bsModalRef: BsModalRef) {
+  constructor(private bsModalRef: BsModalRef, private securityService: SecurityService) {
   }
 
   onSubmit() {
-    // todo: auth form submission
+    this.securityService.login(this.email, this.password)
+      .subscribe(() => this.closeModal());
   }
 
   closeModal() {

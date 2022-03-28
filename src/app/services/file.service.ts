@@ -111,7 +111,7 @@ export class FileService {
   /**
    * Makes an HTTP request for resetting the session db by deleting all files from previous session.
    */
-  resetSessionDb(): void {  // todo finish: use it
+  resetSessionDb(): void {
     this.http.delete(this.routesApi.resetSessionDb).subscribe(
       () => console.log('Session reset successfully'),
       () => console.error('Session reset failed'));

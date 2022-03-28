@@ -1,5 +1,5 @@
 <app-modal-wrapper (closeModalEvent)="closeModal()" title="{{text.HOME.REGISTER}}">
-  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" novalidate>
+  <form [formGroup]="registerForm" novalidate>
     <div *ngIf="false" class="alert alert-danger">  <!--todo: submit errors-->
       <div *ngIf="false">
         {{text.MODAL.EXISTING_ACCOUNT}}
@@ -28,7 +28,8 @@
   </form>
   <div footer>
     <span class="d-inline-block" data-bs-toggle="tooltip" tabindex="0" title="Toate campurile sunt obligatorii.">
-      <button [disabled]="!registerForm.valid" class="btn btn-success" type="submit">{{text.MODAL.REGISTER}}</button>
+      <button (click)="onSubmit()" [disabled]="!registerForm.valid" class="btn btn-success"
+              type="submit">{{text.MODAL.REGISTER}}</button>
     </span>
   </div>
 </app-modal-wrapper>

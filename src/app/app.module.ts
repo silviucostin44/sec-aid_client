@@ -23,6 +23,10 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {FilesListComponent} from './view/widgets/files-list/files-list.component';
 import {PendingChangesGuard} from './helpers/pending-changes.guard';
 import {LoadingCardComponent} from './view/widgets/loading-card/loading-card.component';
+import {SelectModalComponent} from './view/modals/select-modal/select-modal.component';
+import {TooltipModule} from 'ngx-bootstrap/tooltip';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {AuthInterceptor} from './http-interceptors/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -40,6 +44,7 @@ import {LoadingCardComponent} from './view/widgets/loading-card/loading-card.com
     ScoreComponent,
     FilesListComponent,
     LoadingCardComponent,
+    SelectModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,8 +55,13 @@ import {LoadingCardComponent} from './view/widgets/loading-card/loading-card.com
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
     FontAwesomeModule,
+    TooltipModule,
   ],
-  providers: [BsModalService, PendingChangesGuard],
+  providers: [
+    BsModalService,
+    PendingChangesGuard,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
