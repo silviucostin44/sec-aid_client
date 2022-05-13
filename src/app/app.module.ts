@@ -27,6 +27,9 @@ import {SelectModalComponent} from './view/modals/select-modal/select-modal.comp
 import {TooltipModule} from 'ngx-bootstrap/tooltip';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from './http-interceptors/auth-interceptor';
+import {AccountToolComponent} from './view/widgets/account-tool/account-tool.component';
+import {PopoverModule} from 'ngx-bootstrap/popover';
+import {DatePipe} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import {AuthInterceptor} from './http-interceptors/auth-interceptor';
     FilesListComponent,
     LoadingCardComponent,
     SelectModalComponent,
+    AccountToolComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,12 +60,15 @@ import {AuthInterceptor} from './http-interceptors/auth-interceptor';
     BsDropdownModule.forRoot(),
     FontAwesomeModule,
     TooltipModule,
+    PopoverModule,
   ],
   providers: [
     BsModalService,
     PendingChangesGuard,
+    DatePipe,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

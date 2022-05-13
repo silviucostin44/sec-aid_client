@@ -3,8 +3,11 @@ import ro from '../../../../assets/text/ro.json';
 import {BsModalRef} from 'ngx-bootstrap/modal';
 import {faPlusSquare, faTrashAlt} from '@fortawesome/free-regular-svg-icons';
 import {Router} from '@angular/router';
-import {noop} from 'rxjs';
+import {noop, Observable, Subject} from 'rxjs';
 import {FormBuilder, Validators} from '@angular/forms';
+import {QuestionnaireService} from '../../../services/questionnaire.service';
+import QuestionnaireHelper from '../../../helpers/questionnaire.helper';
+import {QuestionnaireServer} from '../../../models/server-api/questionnaire-server';
 
 export interface SelectableElement {
   id: string;
@@ -12,15 +15,10 @@ export interface SelectableElement {
   index?: number;
 }
 
-export enum SelectingAction {
-  EDIT,
-  DELETE,
-  ADD
-}
-
-export interface SelectingOutput {  // todo: delete if now used
-  elements: SelectableElement[];
-  action: SelectingAction;
+export interface SelectingOutput {
+  itemsToAdd: QuestionnaireServer[];
+  itemsToEdit: QuestionnaireServer[];
+  itemsToDelete: QuestionnaireServer[];
 }
 
 export enum SelectType {
@@ -39,8 +37,10 @@ export class SelectModalComponent implements OnInit {
   readonly plusIcon = faPlusSquare;
 
   objectNameInput: string;
-  type: SelectType;
+  typeInput: SelectType;
   elementsToSelectInput: SelectableElement[];
+
+  responseEmitter: Subject<SelectingOutput> = new Subject();
 
   displayedElementsToSelect: SelectableElement[];
   editingState: boolean = false;
@@ -53,7 +53,8 @@ export class SelectModalComponent implements OnInit {
 
   constructor(private bsModalRef: BsModalRef,
               private router: Router,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private questService: QuestionnaireService) {
   }
 
   ngOnInit(): void {
@@ -63,7 +64,7 @@ export class SelectModalComponent implements OnInit {
 
     this.checked.valueChanges.subscribe((values) => {
       const checkedNo = values.filter((value) => value).length;
-      if (checkedNo === values.length) {
+      if (values.length > 0 && checkedNo === values.length) {
         this.allSelected = true;
         this.someSelected = true;
       } else if (checkedNo > 0) {
@@ -88,22 +89,31 @@ export class SelectModalComponent implements OnInit {
     if (this.editingState) {
       // save action
       const itemsToEdit = [];
+      // check for name changes
       for (let displayedItem of this.displayedElementsToSelect) {
         if (this.names.at(displayedItem.index).dirty) {
+          // update item name with the one form form control
           displayedItem.name = this.names.at(displayedItem.index).value;
-          itemsToEdit.push(displayedItem);
+          // null id means item has just been added
+          if (displayedItem.id !== null) {
+            itemsToEdit.push(displayedItem);
+          }
         }
       }
       // todo: save
       // todo: update on db and back here
-      console.log('Items to delete: ', this.itemsToDelete);
-      console.log('Items to edit: ', itemsToEdit);
-      console.log('Items to add: ', this.itemsToAdd);
-
-      this.resetForm();
-      this.names.clear();
-      this.names.clear();
-      this.initFormArrays();
+      const output: SelectingOutput = {
+        itemsToAdd: QuestionnaireHelper.buildQuestionnaireServerListFromSelectableElems(this.itemsToAdd),
+        itemsToEdit: QuestionnaireHelper.buildQuestionnaireServerListFromSelectableElems(itemsToEdit),
+        itemsToDelete: QuestionnaireHelper.buildQuestionnaireServerListFromSelectableElems(this.itemsToDelete)
+      };
+      this.save(output).subscribe((selectableElemsInput) => {
+        this.elementsToSelectInput = selectableElemsInput;
+        this.resetForm();
+        this.names.clear();
+        this.checked.clear();
+        this.initFormArrays();
+      }, (error => noop())); // todo: deal with it
     } else {
       // edit action
       this.names.enable();
@@ -146,42 +156,44 @@ export class SelectModalComponent implements OnInit {
 
   startById(id: string): void {
     if (!this.editingState) {
-      this.router.navigate([`/${this.type}/${id}`])
+      this.closeModalHandler();
+      this.router.navigate([`/${this.typeInput}/${id}`])
         .then(_ => noop());
     }
   }
 
-  deleteOne(index: number): void {
-    if (this.displayedElementsToSelect[index].id === null) {
+  deleteOne(globalIndex: number, currentDisplayIndex: number): void {
+    if (this.displayedElementsToSelect[currentDisplayIndex].id === null) {
       // remove an added item
-      this.names.removeAt(index);
-      this.checked.removeAt(index);
+      this.names.removeAt(globalIndex);
+      this.checked.removeAt(globalIndex);
       let itemsToAddIndex = 0;
       for (let itemToAdd of this.itemsToAdd) {
-        if (itemToAdd.index === index) {
+        if (itemToAdd.index === globalIndex) {
           break;
         }
         itemsToAddIndex++;
       }
       this.itemsToAdd.splice(itemsToAddIndex, 1);
     } else {
-      this.itemsToDelete.push(this.displayedElementsToSelect[index]);
-      this.checked.at(index).setValue(false);
+      this.itemsToDelete.push(this.displayedElementsToSelect[currentDisplayIndex]);
+      this.checked.at(globalIndex).setValue(false);
     }
-    for (let i = 0; i < this.displayedElementsToSelect.length; i++) {
-      if (this.displayedElementsToSelect[i].index === index) {
-        this.displayedElementsToSelect.splice(i, 1);
-      }
-    }
+
+    this.displayedElementsToSelect.splice(currentDisplayIndex, 1);
   }
 
   deleteSelected(): void {
-    let i = 0;
+    let globalIndex = 0;
     for (let checkedControl of this.checked.controls) {
       if (checkedControl.value) {
-        this.deleteOne(i);
+        for (let displayIndex = 0; displayIndex < this.displayedElementsToSelect.length; displayIndex++) {
+          if (this.displayedElementsToSelect[displayIndex].index === globalIndex) {
+            this.deleteOne(globalIndex, displayIndex);
+          }
+        }
       }
-      i++;
+      globalIndex++;
     }
   }
 
@@ -212,6 +224,14 @@ export class SelectModalComponent implements OnInit {
       const nameControl = this.fb.control({value: this.elementsToSelectInput[i].name, disabled: !this.editingState}, Validators.required);
       this.checked.push(checkedControl);
       this.names.push(nameControl);
+    }
+  }
+
+  private save(output: SelectingOutput): Observable<SelectableElement[]> {
+    if (this.typeInput === SelectType.QUESTIONNAIRE) {
+      return this.questService.manageQuestionnaires(output);
+    } else { // PROGRAM
+      // todo:
     }
   }
 }

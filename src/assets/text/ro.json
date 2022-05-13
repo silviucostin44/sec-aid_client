@@ -14,7 +14,9 @@
     "PROGRAM": "program",
     "QUESTIONNAIRE": "chestionar",
     "AUTH": "Autentificare",
-    "REGISTER": "Înregistrare"
+    "REGISTER": "Înregistrare",
+    "USER": "Utilizator",
+    "LOG_OUT": "Log out"
   },
   "QUEST": {
     "TITLE": "Chestionar",
@@ -174,7 +176,7 @@
     "UPLOAD_CONFIG": {
       "CHOOSE_FILE": "Alege fișier",
       "RESET": "Resetează",
-      "DRAG_N_DROP": "Trage fișierul aici",
+      "D![](C:/Users/User/AppData/Local/Temp/tour-of-turkey-2022-stage-6-profile.jpg)RAG_N_DROP": "Trage fișierul aici",
       "SUCCESS": "Fișier încărcat cu succes.",
       "FAIL": "Încărcarea fișierului a eșuat.",
       "LIMIT": "Dimensiunea maximă a fișierului"

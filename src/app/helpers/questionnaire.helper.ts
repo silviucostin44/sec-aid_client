@@ -1,4 +1,11 @@
 import {MaturityLevelEnum} from '../models/enums/maturity-level.enum';
+import {QuestionnaireServer} from '../models/server-api/questionnaire-server';
+import {SelectableElement} from '../view/modals/select-modal/select-modal.component';
+
+export enum QuestionnaireStart {
+  NEW = 'new',
+  IMPORTED = 'imported',
+}
 
 export default class QuestionnaireHelper {
 
@@ -32,4 +39,20 @@ export default class QuestionnaireHelper {
       MaturityLevelEnum.EXEMPLARY.toString()
     ];
   }
+
+  static buildQuestionnaireServerListFromSelectableElems(selectables: SelectableElement[]): QuestionnaireServer[] {
+    return selectables.map((selectable) => ({
+      id: selectable.id,
+      name: selectable.name,
+      sections: []
+    } as QuestionnaireServer));
+  }
+
+  static buildSelectableElemsFromQuestionnaireServerList(serverQuests: QuestionnaireServer[]): SelectableElement[] {
+    return serverQuests.map((serverQuest) => ({
+      id: serverQuest.id,
+      name: serverQuest.name,
+    } as SelectableElement));
+  }
+
 }

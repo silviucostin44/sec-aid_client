@@ -3,8 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 import ro from 'src/assets/text/ro.json';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Questionnaire} from '../../../models/questionnaire.model';
-import {ViewportScroller} from '@angular/common';
-import QuestionnaireHelper from '../../../helpers/questionnaire.helper';
+import {DatePipe, ViewportScroller} from '@angular/common';
+import QuestionnaireHelper, {QuestionnaireStart} from '../../../helpers/questionnaire.helper';
 import {Response} from '../../../models/response.model';
 import {CONSTANTS} from '../../../constants/global-constants';
 import {QuestionnaireService} from '../../../services/questionnaire.service';
@@ -12,6 +12,8 @@ import {QuestSection} from '../../../models/quest-section.model';
 import {IeService} from '../../../services/ie.service';
 import {UploadDownloadService} from '../../../services/upload-download.service';
 import {Observable} from 'rxjs';
+import {SecurityService} from '../../../services/security.service';
+import {QuestionnaireServer} from '../../../models/server-api/questionnaire-server';
 
 @Component({
   selector: 'app-questionnaire',
@@ -19,7 +21,12 @@ import {Observable} from 'rxjs';
   styleUrls: ['./questionnaire.component.scss']
 })
 export class QuestionnaireComponent implements OnInit {
-  text = ro.QUEST;
+  readonly text = ro.QUEST;
+  readonly pageActionsNames: String[] = [
+    ro.PAGE.SAVE,
+    ro.PAGE.EXPORT
+  ];
+
 
   id: string;
   responses: FormArray = new FormArray([]);
@@ -29,16 +36,20 @@ export class QuestionnaireComponent implements OnInit {
   responseCriteriaKeys: string[] = Response.getResponseCriteriaKeys();
   responseOptions: string[] = QuestionnaireHelper.getMaturityLevelsAsList();
   questionnaire: Questionnaire;
+  questName: String;
 
   displayScores: boolean = false;
   hideCheck: boolean = true;
+  isSignedIn: boolean;
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
               private scroller: ViewportScroller,
               private questService: QuestionnaireService,
               private ieService: IeService,
-              private downloadService: UploadDownloadService) {
+              private downloadService: UploadDownloadService,
+              private securityService: SecurityService,
+              private datePipe: DatePipe) {
   }
 
   @HostListener('window:beforeunload')
@@ -49,17 +60,8 @@ export class QuestionnaireComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
 
-    if (history.state.questionnaire) {
-      // questionnaire was imported and page was opened by navigation
-      this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(history.state.questionnaire));
-      this.updateFormControlResponse();
-    } else {
-      // page was opened as new questionnaire
-      this.questService.getQuestionnaire().subscribe((sections) => {
-        this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(sections));
-      });
-      this.addQuestResponseControls(CONSTANTS.totalQuestionsNo);
-    }
+    this.initQuestionnaire();
+    this.checkSignedUser();
   }
 
   isQuestionnaireComplete(): boolean {
@@ -70,8 +72,6 @@ export class QuestionnaireComponent implements OnInit {
     for (let section of this.questionnaire.sections) {
       this.updateQuestionsResponseRecursive(section);
     }
-    // todo later: save questionnaire
-    console.log(this.questionnaire);
   }
 
   updateFormControlResponse(): void {
@@ -123,7 +123,7 @@ export class QuestionnaireComponent implements OnInit {
     this.updateQuestionsResponse();
     this.ieService.getQuestionnaireExport(this.questionnaire).subscribe((fileData) => {
       const blob = new Blob([fileData], {type: 'text/json; charset=utf-8'});
-      this.downloadService.saveAs(blob, 'questionnaire.json');
+      this.downloadService.saveAs(blob, 'questionnaire-' + this.getDateNow() + '.json');
     });
   }
 
@@ -140,13 +140,47 @@ export class QuestionnaireComponent implements OnInit {
     // todo:
   }
 
+  save(): void {
+    if (!this.questName || this.questName.length === 0) {
+      this.questName = 'Quest-' + this.getDateNow();
+    }
+    const questRealId = this.id.length > 8 ? this.id : null;  // todo: make it better than this
+    this.updateQuestionsResponse();
+    this.questService.saveQuestionnaire(questRealId, this.questionnaire, this.questName).subscribe(this.updateSavedQuestionnaire);
+  }
+
+  private initQuestionnaire() {
+    switch (this.id) {
+      case QuestionnaireStart.NEW: {
+        this.questService.getDefaultQuestionnaire().subscribe((sections) => {
+          this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(sections));
+        });
+        this.initQuestResponseControls(CONSTANTS.totalQuestionsNo);
+        break;
+      }
+      case QuestionnaireStart.IMPORTED: {
+        this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(history.state.questionnaire));
+        this.updateFormControlResponse();
+        break;
+      }
+      default: {
+        // the loading case, id is considered the db stored questionnaire's id
+        this.questService.getQuestionnaire(this.id).subscribe((questionnaire) => {
+          this.updateSavedQuestionnaire(questionnaire);
+          this.updateFormControlResponse();
+        });
+      }
+    }
+  }
+
   private updateQuestionsResponseRecursive(section: QuestSection): void {
     for (let subsection of section.subsections) {
       this.updateQuestionsResponseRecursive(subsection);
     }
     for (let question of section.questions) {
-      // todo response: fix; later: I see no issue
-      question.response = Response.formGroupToResponse(this.responses.at(question.responseControlIndex));
+      const response = this.responses.at(question.responseControlIndex);
+      // set to null if there is no value
+      question.response = response.dirty ? Response.formGroupToResponse(response) : null;
     }
   }
 
@@ -160,9 +194,26 @@ export class QuestionnaireComponent implements OnInit {
     }
   }
 
-  private addQuestResponseControls(controlsNo: number): void {
+  private initQuestResponseControls(controlsNo: number): void {
     for (let i = 0; i < controlsNo; i++) {
       this.responses.push(Response.buildDefaultResponseControl());
     }
+  }
+
+  private checkSignedUser(): void {
+    this.isSignedIn = this.securityService.isSignedIn();
+
+    this.securityService.authEvents.subscribe(() => {
+      this.isSignedIn = this.securityService.isSignedIn();
+    });
+  }
+
+  private updateSavedQuestionnaire(questionnaire: QuestionnaireServer) {
+    this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(questionnaire.sections));
+    this.questName = questionnaire.name;
+  }
+
+  private getDateNow(): string {
+    return this.datePipe.transform(new Date(), CONSTANTS.dateFormat);
   }
 }

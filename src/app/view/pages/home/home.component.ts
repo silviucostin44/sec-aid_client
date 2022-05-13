@@ -10,6 +10,8 @@ import {Router} from '@angular/router';
 import {noop} from 'rxjs';
 import {SelectableElement, SelectModalComponent, SelectType} from '../../modals/select-modal/select-modal.component';
 import {SecurityService} from '../../../services/security.service';
+import QuestionnaireHelper, {QuestionnaireStart} from '../../../helpers/questionnaire.helper';
+import {QuestionnaireService} from '../../../services/questionnaire.service';
 
 @Component({
   selector: 'app-home-page',
@@ -17,10 +19,9 @@ import {SecurityService} from '../../../services/security.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  text = ro.HOME;
+  readonly text = ro.HOME;
 
-  questionnaireId = '0';
-  programId = '0';
+  readonly new = QuestionnaireStart.NEW;
 
   isSignedIn: boolean;
 
@@ -29,7 +30,8 @@ export class HomeComponent implements OnInit {
               private ieService: IeService,
               private uploadService: UploadDownloadService,
               private fileService: FileService,
-              private securityService: SecurityService) {
+              private securityService: SecurityService,
+              private questService: QuestionnaireService) {
   }
 
   ngOnInit(): void {
@@ -47,42 +49,50 @@ export class HomeComponent implements OnInit {
 
   uploadProgramImportFile(): void {
     this.uploadService.openUploadModal(this.ieService.getProgramImportUrl(), this.text.PROGRAM, false, true)
-      .subscribe((response) => response ? this.router.navigate([`/program/0`]) : noop(),
+      .subscribe((response) => response ? this.router.navigate([`/program/${QuestionnaireStart.IMPORTED}`]) : noop(),
         () => console.log('Program import failed.'));
   }
 
   uploadQuestionnaireImportFile(): void {
     this.uploadService.openUploadModal(this.ieService.getQuestionnaireImportUrl(), this.text.QUESTIONNAIRE, false, true)
-      .subscribe((questionnaire) => questionnaire ? this.router.navigate([`/questionnaire/0`], {state: {questionnaire: questionnaire}}) : noop(),
+      .subscribe((questionnaire) => questionnaire
+          ? this.router.navigate([`/questionnaire/${QuestionnaireStart.IMPORTED}`], {state: {defaultQuestionnaire: questionnaire}})
+          : noop(),
         () => console.log('Questionnaire import failed.'));
   }
 
   selectProgram(): void {
-    this.openSelectModal(SelectType.PROGRAM);
+    const programs = [
+      {
+        id: '1',
+        name: 'First item'
+      },
+      {
+        id: '2',
+        name: 'Second item'
+      }
+    ] as SelectableElement[];
+    this.openSelectModal(SelectType.PROGRAM, programs);
   }
 
   selectQuestionnaire(): void {
-    this.openSelectModal(SelectType.QUESTIONNAIRE);
+    this.questService.getAllQuestionnaires().subscribe((questionnaires => {
+      const selectableQuests = QuestionnaireHelper.buildSelectableElemsFromQuestionnaireServerList(questionnaires);
+
+      this.openSelectModal(SelectType.QUESTIONNAIRE, selectableQuests);
+    }));
   }
 
-  private openSelectModal(type: SelectType): void {
+  private openSelectModal(type: SelectType, inputElements: SelectableElement[]): void {
     const initialState: ModalOptions = {
       initialState: {
         objectNameInput: this.text[type.toUpperCase()],
-        type: type,
-        elementsToSelectInput: [
-          {
-            id: '1',
-            name: 'First item'
-          },
-          {
-            id: '2',
-            name: 'Second item'
-          }
-        ] as SelectableElement[]
+        typeInput: type,
+        elementsToSelectInput: inputElements
       } as Object,
       class: 'modal-dialog-centered'
     };
+
     this.modalService.show(SelectModalComponent, initialState);
   }
 

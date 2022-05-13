@@ -16,7 +16,11 @@ import {IeService} from '../../../services/ie.service';
   styleUrls: ['./program.component.scss']
 })
 export class ProgramComponent implements OnInit {
-  text = ro.PROGRAM;
+  readonly text = ro.PROGRAM;
+  readonly pageActionsNames: String[] = [
+    ro.PAGE.EXPORT,
+    ro.PAGE.ARCHIVE
+  ];
 
   id: string;
   currentStep: number;

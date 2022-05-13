@@ -1,14 +1,17 @@
 <div class="container">
   <div class="d-flex justify-content-between mt-5">
-    <button class="btn btn-secondary" routerLink="/home" type="button">
-      {{text.BACK}}
-    </button>
+    <div>
+      <button class="btn btn-secondary me-2" routerLink="/home" type="button">
+        {{text.BACK}}
+      </button>
+      <widget-account-tool style="width: 4rem"></widget-account-tool>
+    </div>
     <div>
       <button (click)="triggerSecondaryAction()" *ngIf="needSecondaryAction" class="btn btn-info me-2" type="button">
-        {{text.ARCHIVE}}
+        {{actionsNames[1]}}
       </button>
       <button (click)="triggerPrimaryAction()" class="btn btn-success" type="button">
-        {{text.EXPORT}}
+        {{actionsNames[0]}}
       </button>
     </div>
   </div>

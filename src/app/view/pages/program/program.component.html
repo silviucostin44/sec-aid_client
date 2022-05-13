@@ -1,4 +1,5 @@
-<app-page-wrapper (primaryAction)="export()" (secondaryAction)="archive()" needSecondaryAction="true">
+<app-page-wrapper (primaryAction)="export()" (secondaryAction)="archive()" [actionsNames]="pageActionsNames"
+                  needSecondaryAction="true">
   <div class="d-float align-self-center" style="width: 75%; margin: auto">
     <widget-progress-buttons (currentStep)="updateStep($event)" [initialLastComputedStep]="initialStep"
                              [next]="nextStepEvent"></widget-progress-buttons>
@@ -169,9 +170,8 @@
   </div>
 
   <button (click)="nextStep()" [hidden]="currentStep == 7"
-          [ngClass]="{ 'disabled': !(files | async)?.length }"
           class="btn btn-primary bottom-right-corner my-3" type="button"
-  >
+  >       <!--[ngClass]="{ 'disabled': !(files | async)?.length }"-->
     {{text.NEXT_STEP}}
   </button>
 

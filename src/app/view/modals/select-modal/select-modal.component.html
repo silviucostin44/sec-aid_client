@@ -13,7 +13,7 @@
   </div>
   <div class="list-group list-group-flush">
     <a (click)="startById(elem.id)"
-       *ngFor="let elem of displayedElementsToSelect;"
+       *ngFor="let elem of displayedElementsToSelect; let i=index"
        [ngClass]="{'hover-disabled': editingState}"
        class="list-group-item list-group-item-primary list-group-item-action d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center">
@@ -21,7 +21,8 @@
                type="checkbox">
         <input [formControl]="names.at(elem.index)" class="form-control" type="text">
       </div>
-      <button (click)="deleteOne(elem.index)" *ngIf="editingState" class="btn btn-outline-danger btn-sm rounded-pill">
+      <button (click)="deleteOne(elem.index, i)" *ngIf="editingState"
+              class="btn btn-outline-danger btn-sm rounded-pill">
         <fa-icon [icon]="deleteIcon"></fa-icon>
       </button>
     </a>

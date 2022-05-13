@@ -6,6 +6,7 @@ import {CONSTANTS} from '../constants/global-constants';
 import {JwtResponse} from '../models/server-api/jwt-response';
 import {JwtRequest} from '../models/server-api/jwt-request';
 import {tap} from 'rxjs/operators';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,6 @@ export class SecurityService {
     login: 'login',
     logout: 'logout'
   };
-  private readonly bcrypt = require('bcryptjs');
   private readonly saltRounds = 10;
 
   constructor(private http: HttpClient) {
@@ -34,12 +34,14 @@ export class SecurityService {
     };
     return this.http.post<JwtResponse>(this.routesApi.authenticate, body).pipe(tap((response: JwtResponse) => {
       localStorage.setItem(CONSTANTS.jwtToken, response.jwtToken);
+      localStorage.setItem(CONSTANTS.username, email);
       this.authEvents.next(this.events.login);
     }));
   }
 
   logout(): void {
     localStorage.removeItem(CONSTANTS.jwtToken);
+    localStorage.removeItem(CONSTANTS.username);
     this.authEvents.next(this.events.logout);
   }
 
@@ -47,10 +49,14 @@ export class SecurityService {
     return localStorage.getItem(CONSTANTS.jwtToken) !== null;
   }
 
+  getUsername(): string {
+    return localStorage.getItem(CONSTANTS.username);
+  }
+
   register(email: string, password: string): Observable<any> {
     const body: JwtRequest = {
       username: email,
-      password: this.bcrypt.hashSync(password, this.bcrypt.genSaltSync(this.saltRounds))
+      password: bcrypt.hashSync(password, bcrypt.genSaltSync(this.saltRounds))
     };
     return this.http.post(this.routesApi.register, body);
   }

@@ -1,4 +1,5 @@
-<app-page-wrapper (primaryAction)="export()">
+<app-page-wrapper (primaryAction)="save()" (secondaryAction)="export()" [actionsNames]="pageActionsNames"
+                  [needSecondaryAction]="true">
   <p class="display-4 text-center overlap-top-40">{{text.TITLE}}</p>
 
   <widget-loading-card *ngIf="!questionnaire"></widget-loading-card>

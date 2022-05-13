@@ -10,6 +10,7 @@ export class PageWrapperComponent {
   text = ro.PAGE;
 
   @Input() needSecondaryAction: boolean = false;
+  @Input() actionsNames: String[];
   @Output() primaryAction = new EventEmitter();
   @Output() secondaryAction = new EventEmitter();
 
