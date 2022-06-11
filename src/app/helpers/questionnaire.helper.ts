@@ -2,11 +2,6 @@ import {MaturityLevelEnum} from '../models/enums/maturity-level.enum';
 import {QuestionnaireServer} from '../models/server-api/questionnaire-server';
 import {SelectableElement} from '../view/modals/select-modal/select-modal.component';
 
-export enum QuestionnaireStart {
-  NEW = 'new',
-  IMPORTED = 'imported',
-}
-
 export default class QuestionnaireHelper {
 
   static getColorFromMaturityLevel(maturityLevel: MaturityLevelEnum): string {

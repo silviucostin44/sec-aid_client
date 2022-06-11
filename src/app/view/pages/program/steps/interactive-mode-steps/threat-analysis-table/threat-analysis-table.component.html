@@ -1,0 +1,59 @@
+<kendo-grid (cellClick)="editHandler($event)" [data]="view">
+  <ng-template kendoGridToolbarTemplate>
+    <div *ngIf="isInEditingMode">
+      <button (click)="saveCurrent()" [disabled]="!formGroup.valid" class="btn-primary" kendoButton>Save</button>
+      <button (click)="cancelHandler()" class="btn-secondary" kendoButton>Cancel</button>
+    </div>
+  </ng-template>
+  <kendo-grid-column
+    *ngFor="let column of columns.slice(0, 2)"
+    [editable]="column.editable"
+    editor="{{ column.editor }}"
+    field="{{ column.field }}"
+    title="{{ column.title }}"
+  ></kendo-grid-column>
+  <kendo-grid-column *ngFor="let column of columns.slice(2)"
+                     [width]="200" field="{{column.field}}" title="{{column.title}}">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <ul>
+        <li *ngFor="let item of dataItem[column.field]">
+          {{item.description}}
+        </li>
+      </ul>
+    </ng-template>
+    <ng-template
+      kendoGridEditTemplate
+      let-column="column"
+      let-formGroup="formGroup"
+      let-isNew="isNew"
+    >
+      <div *ngFor="let item of formGroup.get(column.field).controls; let i = index"
+           class="d-inline-flex">
+        <input
+          [formControl]="item"
+          class="k-textbox k-input k-rounded-md"
+        />
+        <button (click)="deleteItem(i, column.field)"
+                class="btn btn-danger btn-sm" role="button" type="button">
+          <fa-icon [icon]="deleteIcon"></fa-icon>
+        </button>
+      </div>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [width]="186">
+    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+      <button (click)="addAttribute(rowIndex, 2, 'regulations')"
+              class="btn btn-primary btn-sm" role="button" type="button">
+        {{text.STEP_2.TABLE.ADD_REGULATIONS}}
+      </button>
+      <button (click)="addAttribute(rowIndex, 3, 'vulnerabilities')"
+              class="btn btn-primary btn-sm" role="button" type="button">
+        {{text.STEP_2.TABLE.ADD_VULNERABILITIES}}
+      </button>
+      <button (click)="addAttribute(rowIndex, 4, 'threats')"
+              class="btn btn-primary btn-sm" role="button" type="button">
+        {{text.STEP_2.TABLE.ADD_THREATS}}
+      </button>
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>

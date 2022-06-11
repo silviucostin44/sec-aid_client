@@ -9,7 +9,7 @@ import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
-})  // todo finally: remove unused endpoints
+})
 export class FileService {
 
   private readonly urlPrefix = environment.baseUrl + '/files';

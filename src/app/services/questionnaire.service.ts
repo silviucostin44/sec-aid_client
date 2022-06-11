@@ -70,7 +70,7 @@ export class QuestionnaireService {
   }
 
   /**
-   * Makes HTTP POST request for performing a general management on questionnaires (addition, deletion, editing),
+   * Makes HTTP POST request for performing a general management on questionnaires (addition, deletion, editing).
    * @param output the elements to perform actions on.
    */
   manageQuestionnaires(output: SelectingOutput): Observable<SelectableElement[]> {

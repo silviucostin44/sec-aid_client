@@ -1,0 +1,6 @@
+export enum ImplementationTierEnum {
+  PARTIAL = 'PARTIAL',
+  RISK_INFORMED = 'RISK_INFORMED',
+  REPEATABLE = 'REPEATABLE',
+  ADAPTIVE = 'ADAPTIVE'
+}

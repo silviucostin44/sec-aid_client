@@ -4,7 +4,7 @@ import ro from 'src/assets/text/ro.json';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Questionnaire} from '../../../models/questionnaire.model';
 import {DatePipe, ViewportScroller} from '@angular/common';
-import QuestionnaireHelper, {QuestionnaireStart} from '../../../helpers/questionnaire.helper';
+import QuestionnaireHelper from '../../../helpers/questionnaire.helper';
 import {Response} from '../../../models/response.model';
 import {CONSTANTS} from '../../../constants/global-constants';
 import {QuestionnaireService} from '../../../services/questionnaire.service';
@@ -14,6 +14,7 @@ import {UploadDownloadService} from '../../../services/upload-download.service';
 import {Observable} from 'rxjs';
 import {SecurityService} from '../../../services/security.service';
 import {QuestionnaireServer} from '../../../models/server-api/questionnaire-server';
+import {ElementStartEnum} from '../../../models/enums/element-start.enum';
 
 @Component({
   selector: 'app-questionnaire',
@@ -26,7 +27,6 @@ export class QuestionnaireComponent implements OnInit {
     ro.PAGE.SAVE,
     ro.PAGE.EXPORT
   ];
-
 
   id: string;
   responses: FormArray = new FormArray([]);
@@ -137,28 +137,28 @@ export class QuestionnaireComponent implements OnInit {
   }
 
   generateDoc(): void {
-    // todo:
+    // todo v3:
   }
 
   save(): void {
     if (!this.questName || this.questName.length === 0) {
       this.questName = 'Quest-' + this.getDateNow();
     }
-    const questRealId = this.id.length > 8 ? this.id : null;  // todo: make it better than this
+    const questRealId = this.id.length > 8 ? this.id : null;  // todo v3: make it better than this
     this.updateQuestionsResponse();
     this.questService.saveQuestionnaire(questRealId, this.questionnaire, this.questName).subscribe(this.updateSavedQuestionnaire);
   }
 
   private initQuestionnaire() {
     switch (this.id) {
-      case QuestionnaireStart.NEW: {
+      case ElementStartEnum.NEW: {
         this.questService.getDefaultQuestionnaire().subscribe((sections) => {
           this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(sections));
         });
         this.initQuestResponseControls(CONSTANTS.totalQuestionsNo);
         break;
       }
-      case QuestionnaireStart.IMPORTED: {
+      case ElementStartEnum.IMPORTED: {
         this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(history.state.questionnaire));
         this.updateFormControlResponse();
         break;

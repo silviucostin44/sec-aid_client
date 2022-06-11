@@ -86,6 +86,7 @@
     "NEXT_STEP": "Următorul pas",
     "PRECONDITIONS": "Precondiții",
     "TEMPLATE_DESC": "Va trebui să completați un tabel conform imaginii de mai jos. Template-ul poate fi descărcat de aici: ",
+    "TASK_DESC": "Va trebui să completați tabelul de mai jos:",
     "ASSIGNMENT_DESC": "După completare puteți încărca documentul obținut aici:",
     "UPLOAD_DOC": "Încarcă document",
     "TEMPLATE_DOWNLOAD": "Puteți drescărca un template de aici:",
@@ -97,14 +98,35 @@
       "ASSET_CATEGORY_2": "importanța pentru desfășurarea activităților.",
       "ASSET_CATEGORY_3": "cât de sensibile și critice sunt informațiile manipulate.",
       "TEMPLATE_NAME": "model inventar active",
-      "UPLOAD_NAME": "inventar active"
+      "UPLOAD_NAME": "inventar active",
+      "TABLE": {
+        "COLUMNS": {
+          "TYPE": "Tipul Activelor",
+          "NAME": "Numele Activelor",
+          "DESCRIPTION": "Descrierea activului",
+          "INFO_TYPE": "Tipul activului informational",
+          "CLIENT_DATA": "Date ale clientului",
+          "CLASSIFICATION": "Clasificare",
+          "ASSET_OWNER": "Custodele activului"
+        }
+      }
     },
     "STEP_2": {
       "INITIAL_DIRECTIVE": "Pentru activele inventariate la pasul 1 va trebui să:",
       "DIRECTIVE_1": "realizați analiza vulnerabilităților și a amenințărilor.",
       "DIRECTIVE_2": "identificați cerințele legale și regulatorii care vizează activele respective, precum și abordările practice.",
       "TEMPLATE_NAME": "model analiză amenințări",
-      "UPLOAD_NAME": "analiză amenințări"
+      "UPLOAD_NAME": "analiză amenințări",
+      "TABLE": {
+        "COLUMNS": {
+          "REGULATIONS": "Proceduri și prevederi legale",
+          "VULNERABILITIES": "Vulnerabilități",
+          "THREATS": "Amenințări"
+        },
+        "ADD_REGULATIONS": "Adaugă procedură",
+        "ADD_VULNERABILITIES": "Adaugă vulnerabilitate",
+        "ADD_THREATS": "Adaugă amenințare"
+      }
     },
     "STEP_3": {
       "PRECONDITION_1": "analizați nucleul framework-ului NIST, acesta poate fi gasit aici: ",
@@ -116,13 +138,40 @@
       "ACTIVITY_PREFACE": "În urma analizei va trebui să:",
       "ACTIVITY_1": "stabiliți pentru fiecare element al nucleului framework-ului NIST un grad de implementare la care organizația își propune să ajungă.",
       "ACTIVITY_1_POSTFACE": "Gradele de implementare sunt descrise în imaginea de mai jos:",
-      "ACTIVITY_2": "stabiliți un nivel de implementare la care organizația dorește să ajungă."
+      "ACTIVITY_2": "stabiliți un nivel de implementare la care organizația dorește să ajungă.",
+      "IMPLEMENTATION_TIER": "Nivel de implementare",
+      "IMPLEMENTATION_TIERS": {
+        "PARTIAL": "Parțial",
+        "RISK_INFORMED": "Conștient de riscuri",
+        "REPEATABLE": "Repetabil",
+        "ADAPTIVE": "Adaptiv"
+      },
+      "TABLE": {
+        "COLUMNS": {
+          "FUNCTION": "Funcție",
+          "CATEGORY": "Categorie",
+          "SUBCATEGORY": "Subcategorie",
+          "IMPLEMENTATION_LEVEL": "Grad de implementare",
+          "IMPACT_RATE": "Rată impact",
+          "PRIORITY_CODE": "Cod prioritate"
+        }
+      }
     },
     "STEP_4": {
       "INITIAL_DIRECTIVE": "În acest pas se contabilizează rezultatul procesului de evaluare a riscurilor identificate în pasul al doilea pentru fiecare bun al companiei. În cazul în care acest proces era deja prevăzut în guvernanța organizației se va prelua direct rezultatul.",
-      "ACTIVITY": "Pentru fiecare activ din inventar trebuie definit nivelul riscului în funcție de probabilitatea de apariție și de impactul estimat (calculat ca sumă a acestora), după cum se poate observa în imaginea următoare:",
+      "ACTIVITY": "Pentru fiecare activ din inventar trebuie definit nivelul riscului în funcție de probabilitatea de apariție și de impactul estimat (calculat ca sumă a acestora), după cum se poate observa în ",
+      "ACTIVITY_SUFFIX_1": "imaginea următoare:",
+      "ACTIVITY_SUFFIX_2": "tabelul următor:",
       "TEMPLATE_NAME": "model evaluarea riscului",
-      "UPLOAD_NAME": "evaluarea riscului"
+      "UPLOAD_NAME": "evaluarea riscului",
+      "TABLE": {
+        "COLUMNS": {
+          "RESOURCE": "Resursă informatică",
+          "PA": "Probabilitate de apariție",
+          "IMPACT": "Impactul",
+          "RISK_LEVEL": "Nivelul riscului"
+        }
+      }
     },
     "STEP_5": {
       "INITIAL_DIRECTIVE_1": "În urma realizării pasului 4, o mai bună cunoaștere a organizației este obținută, astfel este un moment prielnic pentru conturarea profilului curent.",
@@ -145,7 +194,19 @@
       "TEMPLATE_NAME_2": "tabel rate impact",
       "TEMPLATE_NAME_3": "profil curent",
       "TEMPLATE_NAME_4": "tabel coduri prioritate",
-      "UPLOAD_NAME": "prioritate acțiuni"
+      "UPLOAD_NAME": "prioritate acțiuni",
+      "TABLE": {
+        "COLUMNS": {
+          "ACTION": "Acțiune",
+          "SUBCATEGORY": "Subcategorie",
+          "IMPACT_RATE": "Rată impact",
+          "IMPLEMENTATION_LEVEL": "Grad de implementare",
+          "RISK_SCORE": "Scorul de risc",
+          "CORE_BENEFIT_INDEX": "Indice cost/beneficiu",
+          "PRIORITY_CODE": "Cod prioritate",
+          "PRIORITY": "Prioritate"
+        }
+      }
     },
     "STEP_7": {
       "INITIAL_DIRECTIVE": "Felicitări! Ați parcurs întregul program se securitate cibernetică din cadrul aplicației noastre.",

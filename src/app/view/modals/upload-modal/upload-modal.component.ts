@@ -64,7 +64,7 @@ export class UploadModalComponent implements OnInit {
    * Upload HTTP request response handler.
    * @param $response the response.
    */
-  docUpload($response: HttpResponse<any>) { // todo features: add toast
+  docUpload($response: HttpResponse<any>) { // todo v3: add toast
     // to do: handle upload response
     this.response = $response.body;
     if (this.closeOnSuccess && $response.ok) {

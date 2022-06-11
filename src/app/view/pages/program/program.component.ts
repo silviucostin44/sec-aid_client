@@ -1,14 +1,15 @@
-import {Component, EventEmitter, HostListener, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import ro from 'src/assets/text/ro.json';
 import {FileService} from '../../../services/file.service';
-import {TemplateFileEnum} from '../../../models/enums/template-file.enum';
-import {UploadedFileEnum} from '../../../models/enums/uploaded-file.enum';
 import {UploadDownloadService} from '../../../services/upload-download.service';
 import {Observable} from 'rxjs';
 import {File} from '../../../models/server-api/file';
-import ProgramHelper from '../../../helpers/program.helper';
 import {IeService} from '../../../services/ie.service';
+import ProgramHelper from '../../../helpers/program.helper';
+import {SecurityService} from '../../../services/security.service';
+import {ProgramService} from '../../../services/program.service';
+import {ElementStartEnum} from '../../../models/enums/element-start.enum';
 
 @Component({
   selector: 'app-program',
@@ -17,21 +18,25 @@ import {IeService} from '../../../services/ie.service';
 })
 export class ProgramComponent implements OnInit {
   readonly text = ro.PROGRAM;
-  readonly pageActionsNames: String[] = [
-    ro.PAGE.EXPORT,
-    ro.PAGE.ARCHIVE
-  ];
 
   id: string;
   currentStep: number;
   nextStepEvent = new EventEmitter();
   files: Observable<File[]>;
   initialStep: number;
+  saveActionEvent = new EventEmitter();
+  pageActionsNames: String[];
+
+  isSignedIn: boolean;
+  isStepCompletedInteractiveMode: boolean = true;
 
   constructor(private router: ActivatedRoute,
               private fileService: FileService,
               private uploadDownloadService: UploadDownloadService,
-              private ieService: IeService) {
+              private securityService: SecurityService,
+              private ieService: IeService,
+              private programService: ProgramService,
+              private cdr: ChangeDetectorRef) {
   }
 
   @HostListener('window:beforeunload')
@@ -40,10 +45,14 @@ export class ProgramComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.checkSignedUser();
     this.id = this.router.snapshot.paramMap.get('id');
-    this.fileService.lastProgramStep().subscribe((step) => {
-      this.nextStepEvent.emit(step);
-    });
+    this.pageActionsNames = [
+      this.primaryActionName(),
+      ro.PAGE.ARCHIVE
+    ];
+    setTimeout(() => this.nextStepEvent.emit(1), 1);
+    this.getLatestStep();
   }
 
   nextStep(): void {
@@ -52,73 +61,24 @@ export class ProgramComponent implements OnInit {
 
   updateStep(stepIndex: number) {
     this.currentStep = stepIndex + 1;
-    this.updateFiles();
+    if (!this.isSignedIn) {
+      this.updateFiles();
+    }
   }
 
-  downloadAssetInventoryTemplate() {
-    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.ASSETS_INVENTORY));
+  primaryAction(): void {
+    return this.isSignedIn
+      ? this.save()
+      : this.export();
   }
 
-  downloadThreatAnalysisTemplate() {
-    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.THREAT_ANALYSIS));
+  primaryActionName(): string {
+    return this.isSignedIn
+      ? ro.PAGE.SAVE
+      : ro.PAGE.EXPORT;
   }
 
-  downloadFrameworkCoreTemplate() {
-    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.NIST_FRAMEWORK_CORE));
-  }
-
-  downloadImplementationTiersTemplate() {
-    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.IMPLEMENTATION_TIERS));
-  }
-
-  downloadProfileTemplate() {
-    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.PROFILE));
-  }
-
-  downloadRiskAssessmentTemplate() {
-    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.RISK_ASSESSMENT));
-  }
-
-  downloadActionsPriorityTemplate() {
-    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.ACTIONS_PRIORITY));
-  }
-
-  downloadImpactRatesTemplate() {
-    this.uploadDownloadService.openDownload(this.fileService.getTemplateUrl(TemplateFileEnum.IMPACT_RATES_PRIORITY_CODES));
-  }
-
-  downloadCurrentProfile() {
-    this.uploadDownloadService.openDownload(this.fileService.getFileUrl(UploadedFileEnum.CURRENT_PROFILE));
-  }
-
-  uploadAssetInventory() {
-    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.ASSETS_INVENTORY), this.text.STEP_1.UPLOAD_NAME);
-  }
-
-  uploadThreatAnalysis() {
-    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.THREAT_ANALYSIS), this.text.STEP_2.UPLOAD_NAME);
-  }
-
-  uploadTargetProfile() {
-    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.TARGET_PROFILE), this.text.STEP_3.UPLOAD_NAME);
-  }
-
-  uploadRiskAssessment() {
-    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.RISK_ASSESSMENT), this.text.STEP_4.UPLOAD_NAME);
-  }
-
-  uploadCurrentProfile() {
-    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.CURRENT_PROFILE), this.text.STEP_5.UPLOAD_NAME);
-  }
-
-  uploadActionsPriority() {
-    this.manageFilesUpload(this.fileService.getUploadFileUrl(UploadedFileEnum.ACTIONS_PRIORITY), this.text.STEP_6.UPLOAD_NAME);
-  }
-
-  uploadImplementationDocs() {
-    this.manageFilesUpload(this.fileService.getUploadFilesUrl(), this.text.STEP_7.UPLOAD_NAME, true);
-  }
-
+  // FILES mode specific methods
   export(): void {
     this.uploadDownloadService.openDownload(this.ieService.getProgramJsonUrl());
   }
@@ -135,11 +95,38 @@ export class ProgramComponent implements OnInit {
    * Upload step files.
    * @private
    */
-  private updateFiles(): void {
+  updateFiles(): void {
     this.files = this.fileService.downloadFilesByType(ProgramHelper.getFileTypeFromStep(this.currentStep));
   }
 
-  private manageFilesUpload(url: string, modalTitle?: string, multiple?: boolean): void {
-    this.uploadDownloadService.openUploadModal(url, modalTitle, multiple).subscribe(() => this.updateFiles());
+  // INTERACTIVE mode specific methods
+  save() {
+    this.saveActionEvent.emit();
+  }
+
+  updateStepValidityInteractiveMode(value: boolean) {
+    this.isStepCompletedInteractiveMode = value;
+    this.cdr.detectChanges();
+  }
+
+  // private methods
+  private checkSignedUser(): void {
+    this.isSignedIn = this.securityService.isSignedIn();
+
+    this.securityService.authEvents.subscribe(() => {
+      this.isSignedIn = this.securityService.isSignedIn();
+    });
+  }
+
+  private getLatestStep(): void {
+    if (this.isSignedIn) {
+      if (this.id === ElementStartEnum.NEW) {
+        this.nextStepEvent.emit(1);
+      } else {
+        this.programService.lastProgramStep(Number(this.id)).subscribe(this.nextStepEvent.emit);
+      }
+    } else {
+      this.fileService.lastProgramStep().subscribe(this.nextStepEvent.emit);
+    }
   }
 }

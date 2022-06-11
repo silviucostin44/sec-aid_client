@@ -46,6 +46,7 @@ export class SecurityService {
   }
 
   isSignedIn(): boolean {
+    // todo: check if token's valid
     return localStorage.getItem(CONSTANTS.jwtToken) !== null;
   }
 

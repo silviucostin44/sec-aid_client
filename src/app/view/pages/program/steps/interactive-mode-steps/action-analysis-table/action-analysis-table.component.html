@@ -1,0 +1,44 @@
+<kendo-grid (add)="addHandler($event)" (cellClick)="editHandler($event)" (sortChange)="sortChange($event)"
+            [data]="view" [sort]="sortDescriptors" [sortable]="tableSortable">
+  <ng-template kendoGridToolbarTemplate>
+    <button *ngIf="!isInEditingMode && subcategoryOptions.length > 0" class="btn-primary" kendoGridAddCommand>
+      Add new
+    </button>
+    <div *ngIf="isInEditingMode">
+      <button (click)="saveCurrent()" [disabled]="!formGroup.valid" class="btn-primary" kendoButton>Save</button>
+      <button (click)="cancelHandler()" class="btn-secondary" kendoButton>Cancel</button>
+    </div>
+  </ng-template>
+  <kendo-grid-column [title]="text.STEP_6.TABLE.COLUMNS.SUBCATEGORY" field="subcategory">
+    <ng-template
+      kendoGridEditTemplate
+      let-column="column"
+      let-dataItem="dataItem"
+      let-formGroup="formGroup"
+      let-isNew="isNew"
+    >
+      <kendo-dropdownlist
+        [data]="subcategoryOptions"
+        [formControl]="formGroup.get('subcategory')"
+        [valuePrimitive]="true"
+      >
+      </kendo-dropdownlist>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    *ngFor="let column of columns"
+    [editable]="column.editable"
+    [sortable]="tableSortable"
+    editor="{{ column.editor }}"
+    field="{{ column.field }}"
+    title="{{ column.title }}"
+  ></kendo-grid-column>
+  <kendo-grid-column [width]="56">
+    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+      <button (click)="deleteRow(rowIndex)" [disabled]="isCurrentRowNew(rowIndex)"
+              class="btn btn-danger btn-sm" role="button" type="button">
+        <fa-icon [icon]="deleteIcon"></fa-icon>
+      </button>
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>

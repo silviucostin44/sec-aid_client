@@ -1,6 +1,6 @@
 import {ProgressButton} from '../view/widgets/progress-buttons/progress-buttons.component';
 
-export const BUTTONS_DISTANCE_STEP = 16.6;    // todo refactor: may be calculated instead
+export const BUTTONS_DISTANCE_STEP = 16.6;    // todo v3: may be calculated instead
 
 export const PROGRESS_BUTTONS: ProgressButton[] = [
   {

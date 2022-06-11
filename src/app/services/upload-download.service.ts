@@ -21,7 +21,12 @@ export class UploadDownloadService {
                   multiple = false,
                   closeOnSuccess = false): Subject<any> {
     const initialState: ModalOptions = {
-      initialState: {} as Object,
+      initialState: {
+        objectNameInput: name,
+        urlInput: url,
+        multipleFiles: multiple,
+        closeOnSuccess: closeOnSuccess
+      } as Object,
       class: 'modal-dialog-centered'
     };
     const modalRef = this.modalService.show(UploadModalComponent, initialState);

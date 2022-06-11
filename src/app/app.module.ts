@@ -30,6 +30,16 @@ import {AuthInterceptor} from './http-interceptors/auth-interceptor';
 import {AccountToolComponent} from './view/widgets/account-tool/account-tool.component';
 import {PopoverModule} from 'ngx-bootstrap/popover';
 import {DatePipe} from '@angular/common';
+import {GuestModeStepsComponent} from './view/pages/program/steps/guest-mode-steps/guest-mode-steps.component';
+import {GridModule} from '@progress/kendo-angular-grid';
+import {ButtonsModule} from '@progress/kendo-angular-buttons';
+import {CheckBoxModule} from '@progress/kendo-angular-inputs';
+import {TableComponent} from './view/widgets/table/table.component';
+import {DropDownListModule} from '@progress/kendo-angular-dropdowns';
+import {ActionAnalysisTableComponent} from './view/pages/program/steps/interactive-mode-steps/action-analysis-table/action-analysis-table.component';
+import {InteractiveModeStepsComponent} from './view/pages/program/steps/interactive-mode-steps/interactive-mode-steps.component';
+import {ThreatAnalysisTableComponent} from './view/pages/program/steps/interactive-mode-steps/threat-analysis-table/threat-analysis-table.component';
+
 
 @NgModule({
   declarations: [
@@ -49,6 +59,11 @@ import {DatePipe} from '@angular/common';
     LoadingCardComponent,
     SelectModalComponent,
     AccountToolComponent,
+    GuestModeStepsComponent,
+    TableComponent,
+    ActionAnalysisTableComponent,
+    InteractiveModeStepsComponent,
+    ThreatAnalysisTableComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +76,10 @@ import {DatePipe} from '@angular/common';
     FontAwesomeModule,
     TooltipModule,
     PopoverModule,
+    GridModule,
+    ButtonsModule,
+    CheckBoxModule,
+    DropDownListModule
   ],
   providers: [
     BsModalService,

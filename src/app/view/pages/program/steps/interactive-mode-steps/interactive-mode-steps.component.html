@@ -1,0 +1,143 @@
+<div [ngSwitch]="currentStep" class="px-6 pb-5">
+
+  <!--step 1-->
+  <div *ngSwitchCase="1">
+    <p><strong>{{text.PRECONDITIONS}}:</strong></p>
+    <ul>
+      <li>{{text.STEP_1.PRECONDITION_1}}</li>
+      <li>{{text.STEP_1.PRECONDITION_2}}</li>
+    </ul>
+    <p class="fw-bold"><u>{{text.STEP_1.ACTIVITY}}: </u></p>
+    <ul>
+      <li>{{text.STEP_1.ASSET_CATEGORY_1}}</li>
+      <li>{{text.STEP_1.ASSET_CATEGORY_2}}</li>
+      <li>{{text.STEP_1.ASSET_CATEGORY_3}}</li>
+    </ul>
+    <p class="fw-bold">
+      <u>{{text.TASK_DESC}}</u>
+    </p>
+
+    <widget-grid (viewChange)="stepOneAndSixDataChange()" [(view)]="data"
+                 [columnFieldsValidators]="columnFieldsValidators" [columns]="columns"></widget-grid>
+  </div>
+
+  <!--step 2-->
+  <div *ngSwitchCase="2">
+    <p><strong>{{text.STEP_2.INITIAL_DIRECTIVE}}</strong></p>
+    <ul>
+      <li>{{text.STEP_2.DIRECTIVE_1}}</li>
+      <li>{{text.STEP_2.DIRECTIVE_2}}</li>
+    </ul>
+    <p class="fw-bold">
+      <u>{{text.TASK_DESC}}</u>
+    </p>
+    <threat-analysis-table [view]="data"></threat-analysis-table>
+  </div>
+
+  <!--step 3-->
+  <div *ngSwitchCase="3">
+    <p><strong>{{text.PRECONDITIONS}}:</strong></p>
+    <ul>
+      <li>
+        {{text.STEP_3.PRECONDITION_1}}
+        <a (click)="downloadFrameworkCoreTemplate()" class="link-primary"
+           type="button">{{text.STEP_3.TEMPLATE_NAME_1}}.</a>
+      </li>
+      <li>
+        {{text.STEP_3.PRECONDITION_2}}
+        <a (click)="downloadImplementationTiersTemplate()" class="link-primary"
+           type="button">{{text.STEP_3.TEMPLATE_NAME_2}}.</a>
+      </li>
+    </ul>
+    <p><strong>{{text.STEP_3.ACTIVITY_PREFACE}}</strong></p>
+    <ol class="fw-bold">
+      <li>
+        <u>{{text.STEP_3.ACTIVITY_1}}</u>
+        <span class="fw-normal"> {{text.STEP_3.ACTIVITY_1_POSTFACE}}</span>
+      </li>
+      <img alt="table3" class="img-fluid rounded mx-auto d-block w-25 mb-3" src="assets/images/table_3.png">
+      <li><u>{{text.STEP_3.ACTIVITY_2}}</u></li>
+    </ol>
+    <div class="mb-2">
+      <widget-c-dropdown [formControl]="profileImplementationTierControl"
+                         [label]="text.STEP_3.IMPLEMENTATION_TIER"
+                         [optionDisplayForm]="translateImplementationTiers"
+                         [options]="implementationTiersOptions">
+      </widget-c-dropdown>
+    </div>
+    <widget-grid [(view)]="data" [canAddRows]="false" [canDeleteRows]="false"
+                 [columnFieldsValidators]="columnFieldsValidators" [columns]="columns">
+    </widget-grid>
+  </div>
+
+  <!--step 4-->
+  <div *ngSwitchCase="4">
+    <p>{{text.STEP_4.INITIAL_DIRECTIVE}}</p>
+    <p class="fw-bold"><u>{{text.STEP_4.ACTIVITY + text.STEP_4.ACTIVITY_SUFFIX_2}}</u></p>
+    <widget-grid [(view)]="data" [canAddRows]="false" [canDeleteRows]="false"
+                 [columnFieldsValidators]="columnFieldsValidators"
+                 [columns]="columns" [equations]="riskAssessmentColumnEquation">
+    </widget-grid>
+  </div>
+
+  <!--step 5-->
+  <div *ngSwitchCase="5">
+    <p>{{text.STEP_5.INITIAL_DIRECTIVE_1}}</p>
+    <p><strong>{{text.STEP_5.INITIAL_DIRECTIVE_2}}</strong></p>
+    <p class="fw-bold">
+      <u>
+        {{text.STEP_5.TEMPLATE_DESC_1}}
+        <a (click)="downloadFrameworkCoreTemplate()" class="link-primary"
+           type="button"> {{text.STEP_3.TEMPLATE_NAME_1}}, </a>
+        <a (click)="downloadImplementationTiersTemplate()" class="link-primary"
+           type="button">{{text.STEP_3.TEMPLATE_NAME_2}}.</a>
+      </u>
+    </p>
+    <img alt="table3" class="img-fluid rounded mx-auto d-block w-25 mb-3" src="assets/images/table_3.png">
+    <div class="mb-2">
+      <widget-c-dropdown [formControl]="profileImplementationTierControl"
+                         [label]="text.STEP_3.IMPLEMENTATION_TIER"
+                         [optionDisplayForm]="translateImplementationTiers"
+                         [options]="implementationTiersOptions">
+      </widget-c-dropdown>
+    </div>
+    <widget-grid [(view)]="data" [canAddRows]="false" [canDeleteRows]="false"
+                 [columnFieldsValidators]="columnFieldsValidators" [columns]="columns">
+    </widget-grid>
+  </div>
+
+  <!--step 6-->
+  <div *ngSwitchCase="6">
+    <p>{{text.STEP_6.INITIAL_DIRECTIVE}}</p>
+    <p class="fw-bold">
+      <u>{{text.TASK_DESC}}</u>
+    </p>
+    <ul>
+      <li>{{text.STEP_6.TEMPLATE_EXPLANATION_1}}</li>
+      <li>{{text.STEP_6.TEMPLATE_EXPLANATION_2}}</li>
+      <li>
+        {{text.STEP_6.TEMPLATE_EXPLANATION_3}}
+      </li>
+      <li>
+        {{text.STEP_6.TEMPLATE_EXPLANATION_4}}
+      </li>
+      <li>{{text.STEP_6.TEMPLATE_EXPLANATION_5}}</li>
+      <li>{{text.STEP_6.TEMPLATE_EXPLANATION_6}}</li>
+      <li>
+        {{text.STEP_6.TEMPLATE_EXPLANATION_7}}
+      </li>
+      <li>{{text.STEP_6.TEMPLATE_EXPLANATION_8}}</li>
+    </ul>
+
+    <action-analysis-grid (viewChange)="stepOneAndSixDataChange()" [(view)]="data"
+                          [profileData]="profileExportData"></action-analysis-grid>
+  </div>
+
+  <!--step 7-->
+  <div *ngSwitchCase="7">
+    <p><strong>{{text.STEP_7.INITIAL_DIRECTIVE}}</strong></p>
+    <p>{{text.STEP_7.FINAL_DIRECTIVE}}</p>
+  </div>
+
+  <div *ngSwitchDefault></div>
+</div>

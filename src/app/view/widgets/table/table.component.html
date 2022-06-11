@@ -1,0 +1,24 @@
+<kendo-grid (add)="addHandler($event)" (cellClick)="editHandler($event)" [data]="view">
+  <ng-template kendoGridToolbarTemplate>
+    <button *ngIf="!isInEditingMode && canAddRows" class="btn-primary" kendoGridAddCommand>Add new</button>
+    <div *ngIf="isInEditingMode">
+      <button (click)="saveCurrent()" [disabled]="!formGroup.valid" class="btn-primary" kendoButton>Save</button>
+      <button (click)="cancelHandler()" class="btn-secondary" kendoButton>Cancel</button>
+    </div>
+  </ng-template>
+  <kendo-grid-column
+    *ngFor="let column of columns"
+    [editable]="column.editable"
+    editor="{{ column.editor }}"
+    field="{{ column.field }}"
+    title="{{ column.title }}"
+  ></kendo-grid-column>
+  <kendo-grid-column *ngIf="canDeleteRows" [width]="56">
+    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+      <button (click)="deleteRow(rowIndex)" [disabled]="isCurrentRowNew(rowIndex)"
+              class="btn btn-danger btn-sm" role="button" type="button">
+        <fa-icon [icon]="deleteIcon"></fa-icon>
+      </button>
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>

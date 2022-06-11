@@ -8,6 +8,9 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {QuestionnaireService} from '../../../services/questionnaire.service';
 import QuestionnaireHelper from '../../../helpers/questionnaire.helper';
 import {QuestionnaireServer} from '../../../models/server-api/questionnaire-server';
+import {ProgramService} from '../../../services/program.service';
+import ProgramHelper from '../../../helpers/program.helper';
+import {Program} from '../../../models/program.model';
 
 export interface SelectableElement {
   id: string;
@@ -16,9 +19,9 @@ export interface SelectableElement {
 }
 
 export interface SelectingOutput {
-  itemsToAdd: QuestionnaireServer[];
-  itemsToEdit: QuestionnaireServer[];
-  itemsToDelete: QuestionnaireServer[];
+  itemsToAdd: QuestionnaireServer[] | Program[];
+  itemsToEdit: QuestionnaireServer[] | Program[];
+  itemsToDelete: QuestionnaireServer[] | Program[];
 }
 
 export enum SelectType {
@@ -36,6 +39,7 @@ export class SelectModalComponent implements OnInit {
   readonly deleteIcon = faTrashAlt;
   readonly plusIcon = faPlusSquare;
 
+  // input fields
   objectNameInput: string;
   typeInput: SelectType;
   elementsToSelectInput: SelectableElement[];
@@ -54,7 +58,8 @@ export class SelectModalComponent implements OnInit {
   constructor(private bsModalRef: BsModalRef,
               private router: Router,
               private fb: FormBuilder,
-              private questService: QuestionnaireService) {
+              private questService: QuestionnaireService,
+              private programService: ProgramService) {
   }
 
   ngOnInit(): void {
@@ -100,14 +105,7 @@ export class SelectModalComponent implements OnInit {
           }
         }
       }
-      // todo: save
-      // todo: update on db and back here
-      const output: SelectingOutput = {
-        itemsToAdd: QuestionnaireHelper.buildQuestionnaireServerListFromSelectableElems(this.itemsToAdd),
-        itemsToEdit: QuestionnaireHelper.buildQuestionnaireServerListFromSelectableElems(itemsToEdit),
-        itemsToDelete: QuestionnaireHelper.buildQuestionnaireServerListFromSelectableElems(this.itemsToDelete)
-      };
-      this.save(output).subscribe((selectableElemsInput) => {
+      this.save(itemsToEdit).subscribe((selectableElemsInput) => {
         this.elementsToSelectInput = selectableElemsInput;
         this.resetForm();
         this.names.clear();
@@ -227,11 +225,22 @@ export class SelectModalComponent implements OnInit {
     }
   }
 
-  private save(output: SelectingOutput): Observable<SelectableElement[]> {
+  private save(itemsToEdit: SelectableElement[]): Observable<SelectableElement[]> {
     if (this.typeInput === SelectType.QUESTIONNAIRE) {
+      const output: SelectingOutput = {
+        itemsToAdd: QuestionnaireHelper.buildQuestionnaireServerListFromSelectableElems(this.itemsToAdd),
+        itemsToEdit: QuestionnaireHelper.buildQuestionnaireServerListFromSelectableElems(itemsToEdit),
+        itemsToDelete: QuestionnaireHelper.buildQuestionnaireServerListFromSelectableElems(this.itemsToDelete)
+      };
       return this.questService.manageQuestionnaires(output);
-    } else { // PROGRAM
-      // todo:
+    } else if (this.typeInput === SelectType.PROGRAM) {
+      const output: SelectingOutput = {
+        itemsToAdd: ProgramHelper.buildProgramListFromSelectableElems(this.itemsToAdd),
+        itemsToEdit: ProgramHelper.buildProgramListFromSelectableElems(itemsToEdit),
+        itemsToDelete: ProgramHelper.buildProgramListFromSelectableElems(this.itemsToDelete)
+      };
+      return this.programService.manageProgram(output);
     }
+    throw new Error('Invalid argument input type: ' + this.typeInput);
   }
 }
