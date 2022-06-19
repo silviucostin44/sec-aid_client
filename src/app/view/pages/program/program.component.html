@@ -6,12 +6,12 @@
   </div>
   <p class="display-6 text-center">{{text.TITLES["TITLE_" + currentStep]}}</p>
 
-  <app-guest-mode-steps *ngIf="!isSignedIn" [currentStep]="currentStep"
-                        [updateFiles]="updateFiles">
+  <app-guest-mode-steps (isSaved)="isSaved=false" *ngIf="!isSignedIn"
+                        [currentStep]="currentStep" [updateFiles]="updateFiles">
   </app-guest-mode-steps>
-  <app-interactive-mode-steps (isStepValid)="updateStepValidityInteractiveMode($event)" *ngIf="isSignedIn"
-                              [programId]="id" [saveDataEmitter]="saveActionEvent"
-                              [step]="currentStep">
+  <app-interactive-mode-steps (isSaved)="isSaved=false" (isStepValid)="updateStepValidityInteractiveMode($event)"
+                              *ngIf="isSignedIn" [programId]="id"
+                              [saveDataEmitter]="saveActionEvent" [step]="currentStep">
   </app-interactive-mode-steps>
 
   <button (click)="nextStep()" [hidden]="currentStep == 7"

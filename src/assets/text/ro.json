@@ -71,6 +71,10 @@
       "R_CRT_2": "Trend",
       "R_CRT_3": "Comparativ",
       "R_CRT_4": "Integrare"
+    },
+    "TOAST": {
+      "SUCCESS": "Chestionar salvat cu success: ",
+      "ERROR": "A apărut o eroare, chestionarul nu a fost salvat."
     }
   },
   "PROGRAM": {
@@ -213,6 +217,10 @@
       "FINAL_DIRECTIVE": "Acest ultim pas este, cel mai probabil, cel mai lung ca durată și nu se desfășoară în cadrul aplicației. El prevede implementarea acțiunilor stabilite la pasul anterior în cadrul și în concordanță cu celelalte activități desfășurate de organizație. Pentru urmărirea progresului se va modela profilul curent, marcând subcategoriile unde s-au înregistrat schimbări și ținând evidența celor care nu s-au modificat, dar care sunt vizate de obținerea unor îmbunătățiri. De asemenea, stadiul curent al nivelul de implementare poate fi actualizat în cadrul profilului. Este indicată stabilirea și urmărirea unor indici de performanță, diferiți de cei din cadrul profilului, care să ofere informații mai detaliate despre evoluția înregistrată. Pentru fiecare subcategorie unde este nevoie de îmbunătățiri, descrierea nucleul menționează o listă de standarde de referință care definesc soluții adecvate.",
       "ASSIGNMENT_DESC": "Cu toate acestea puteți încărca mai multe documente în acest pas care să vă ajute în implementarea lui. Tipul și scopul acestoara este la latitudinea dumneavoastră:",
       "UPLOAD_NAME": "documente implementare"
+    },
+    "TOAST": {
+      "SUCCESS": "Program salvat cu success: ",
+      "ERROR": "A apărut o eroare, programul nu a fost salvat."
     }
   },
   "PAGE": {
@@ -223,7 +231,8 @@
   },
   "MODAL": {
     "INEXISTENT_ACCOUNT": "Nu există un cont asociat acestei adrese.",
-    "WRONG_PASS": "Parola este greșită.",
+    "WRONG_CREDENTIALS": "Contul și/sau parola sunt greșite.",
+    "DUPLICATE_NAME": "Nume deja existent.",
     "EMAIL": "Adresa de email",
     "PASSWORD": "Parolă",
     "PASS_ERROR_1": "Parola trebuie să aibă între 6 și 24 de caractere.",

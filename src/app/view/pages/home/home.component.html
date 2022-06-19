@@ -33,7 +33,7 @@
             {{text.IMPORT_Q}}
           </button>
         </div>
-        <div class="col d-flex justify-content-center">
+        <div *ngIf="!isSignedIn" class="col d-flex justify-content-center">
           <button (click)="uploadProgramImportFile()" class="btn btn-secondary btn-lg w-75" type="button">
             {{text.IMPORT_PROGRAM}}
           </button>

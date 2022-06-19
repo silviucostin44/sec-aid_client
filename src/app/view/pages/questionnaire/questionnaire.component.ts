@@ -1,7 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import ro from 'src/assets/text/ro.json';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Questionnaire} from '../../../models/questionnaire.model';
 import {DatePipe, ViewportScroller} from '@angular/common';
 import QuestionnaireHelper from '../../../helpers/questionnaire.helper';
@@ -15,6 +15,8 @@ import {Observable} from 'rxjs';
 import {SecurityService} from '../../../services/security.service';
 import {QuestionnaireServer} from '../../../models/server-api/questionnaire-server';
 import {ElementStartEnum} from '../../../models/enums/element-start.enum';
+import {finalize} from 'rxjs/operators';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-questionnaire',
@@ -23,11 +25,6 @@ import {ElementStartEnum} from '../../../models/enums/element-start.enum';
 })
 export class QuestionnaireComponent implements OnInit {
   readonly text = ro.QUEST;
-  readonly pageActionsNames: String[] = [
-    ro.PAGE.SAVE,
-    ro.PAGE.EXPORT
-  ];
-
   id: string;
   responses: FormArray = new FormArray([]);
   responsesGroup: FormGroup = new FormGroup({
@@ -37,10 +34,11 @@ export class QuestionnaireComponent implements OnInit {
   responseOptions: string[] = QuestionnaireHelper.getMaturityLevelsAsList();
   questionnaire: Questionnaire;
   questName: String;
-
+  isSaved: boolean = true;
   displayScores: boolean = false;
   hideCheck: boolean = true;
   isSignedIn: boolean;
+  pageActionsNames: String[];
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
@@ -49,19 +47,37 @@ export class QuestionnaireComponent implements OnInit {
               private ieService: IeService,
               private downloadService: UploadDownloadService,
               private securityService: SecurityService,
-              private datePipe: DatePipe) {
+              private router: Router,
+              private datePipe: DatePipe,
+              private toastrService: ToastrService) {
   }
 
   @HostListener('window:beforeunload')
   canDeactivate(): Observable<boolean> | boolean {
-    return !this.isAtLeastOneResponseCompleted();
+    return !this.isAtLeastOneResponseCompleted() || this.isSaved;
   }
 
   ngOnInit(): void {
+    this.checkSignedUser();
     this.id = this.route.snapshot.paramMap.get('id');
+    this.pageActionsNames = [
+      this.primaryActionName(),
+      ro.PAGE.EXPORT
+    ];
 
     this.initQuestionnaire();
-    this.checkSignedUser();
+  }
+
+  primaryActionName(): string {
+    return this.isSignedIn
+      ? ro.PAGE.SAVE
+      : ro.PAGE.EXPORT;
+  }
+
+  primaryAction(): void {
+    return this.isSignedIn
+      ? this.save()
+      : this.export();
   }
 
   isQuestionnaireComplete(): boolean {
@@ -78,6 +94,7 @@ export class QuestionnaireComponent implements OnInit {
     for (let section of this.questionnaire.sections) {
       this.updateFormControlResponseRecursive(section);
     }
+    this.startCheckingResponseControlsChanges();
   }
 
   isAtLeastOneResponseCompleted(): boolean {
@@ -121,10 +138,12 @@ export class QuestionnaireComponent implements OnInit {
 
   export(): void {
     this.updateQuestionsResponse();
-    this.ieService.getQuestionnaireExport(this.questionnaire).subscribe((fileData) => {
-      const blob = new Blob([fileData], {type: 'text/json; charset=utf-8'});
-      this.downloadService.saveAs(blob, 'questionnaire-' + this.getDateNow() + '.json');
-    });
+    this.ieService.getQuestionnaireExport(this.questionnaire)
+      .pipe(finalize(() => this.isSaved = true))
+      .subscribe((fileData) => {
+        const blob = new Blob([fileData], {type: 'text/json; charset=utf-8'});
+        this.downloadService.saveAs(blob, 'questionnaire-' + this.getDateNow() + '.json');
+      });
   }
 
   isQuestionResponseValid(responseControlIndex: number): boolean {
@@ -146,7 +165,13 @@ export class QuestionnaireComponent implements OnInit {
     }
     const questRealId = this.id.length > 8 ? this.id : null;  // todo v3: make it better than this
     this.updateQuestionsResponse();
-    this.questService.saveQuestionnaire(questRealId, this.questionnaire, this.questName).subscribe(this.updateSavedQuestionnaire);
+    this.questService.saveQuestionnaire(questRealId, this.questionnaire, this.questName)
+      .pipe(finalize(() => this.isSaved = true))
+      .subscribe((questionnaire) => {
+          this.updateSavedQuestionnaire(questionnaire);
+          this.toastrService.success(this.text.TOAST.SUCCESS + questionnaire.name, '', {timeOut: 3000});
+        }, () => this.toastrService.error(this.text.TOAST.ERROR, '', {disableTimeOut: true})
+      );
   }
 
   private initQuestionnaire() {
@@ -159,6 +184,9 @@ export class QuestionnaireComponent implements OnInit {
         break;
       }
       case ElementStartEnum.IMPORTED: {
+        if (!history.state.questionnaire) {
+          this.router.navigate(['/home']);
+        }
         this.questionnaire = new Questionnaire(QuestSection.fromServerListOfObjects(history.state.questionnaire));
         this.updateFormControlResponse();
         break;
@@ -180,8 +208,15 @@ export class QuestionnaireComponent implements OnInit {
     for (let question of section.questions) {
       const response = this.responses.at(question.responseControlIndex);
       // set to null if there is no value
-      question.response = response.dirty ? Response.formGroupToResponse(response) : null;
+      question.response = this.isResponseValid(response) ? Response.formGroupToResponse(response) : null;
     }
+  }
+
+  private isResponseValid(response: AbstractControl): boolean {
+    if (response.valid) {
+      return true;
+    }
+    return this.responseCriteriaKeys.some((crt) => response.value[crt] && response.value[crt] !== '');
   }
 
   private updateFormControlResponseRecursive(section: QuestSection): void {
@@ -198,6 +233,7 @@ export class QuestionnaireComponent implements OnInit {
     for (let i = 0; i < controlsNo; i++) {
       this.responses.push(Response.buildDefaultResponseControl());
     }
+    this.startCheckingResponseControlsChanges();
   }
 
   private checkSignedUser(): void {
@@ -215,5 +251,13 @@ export class QuestionnaireComponent implements OnInit {
 
   private getDateNow(): string {
     return this.datePipe.transform(new Date(), CONSTANTS.dateFormat);
+  }
+
+  /**
+   * After form control is updated during initialisation start checking for changes.
+   * @private
+   */
+  private startCheckingResponseControlsChanges() {
+    this.responses.valueChanges.subscribe(() => this.isSaved = false);
   }
 }

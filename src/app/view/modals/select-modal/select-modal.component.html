@@ -16,7 +16,7 @@
        *ngFor="let elem of displayedElementsToSelect; let i=index"
        [ngClass]="{'hover-disabled': editingState}"
        class="list-group-item list-group-item-primary list-group-item-action d-flex justify-content-between align-items-center">
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center flex-grow-1">
         <input *ngIf="editingState" [formControl]="checked.at(elem.index)" class="form-check-input me-3"
                type="checkbox">
         <input [formControl]="names.at(elem.index)" class="form-control" type="text">
@@ -27,8 +27,11 @@
       </button>
     </a>
   </div>
+  <div *ngIf="duplicateName" class="alert alert-danger">
+    {{text.MODAL.DUPLICATE_NAME}}
+  </div>
   <div footer>
-    <span class="d-inline-block">
+    <span *ngIf="elementsIsNotEmpty()" class="d-inline-block">
       <button (click)="cancelEditing()" *ngIf="editingState" class="btn btn-outline-secondary me-3" type="button">
         {{text.MODAL.CANCEL}}
       </button>

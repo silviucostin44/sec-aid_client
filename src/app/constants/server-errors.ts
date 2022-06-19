@@ -1,0 +1,4 @@
+export const ServerErrors = {
+  EXISTING_ACCOUNT: 'EXISTING_ACCOUNT',
+  BAD_CREDENTIALS: 'BAD_CREDENTIALS',
+};

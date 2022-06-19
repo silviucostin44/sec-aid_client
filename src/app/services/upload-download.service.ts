@@ -27,7 +27,8 @@ export class UploadDownloadService {
         multipleFiles: multiple,
         closeOnSuccess: closeOnSuccess
       } as Object,
-      class: 'modal-dialog-centered'
+      class: 'modal-dialog-centered',
+      ignoreBackdropClick: true
     };
     const modalRef = this.modalService.show(UploadModalComponent, initialState);
     return (modalRef.content as UploadModalComponent).responseEmitter;

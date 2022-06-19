@@ -39,6 +39,7 @@ import {DropDownListModule} from '@progress/kendo-angular-dropdowns';
 import {ActionAnalysisTableComponent} from './view/pages/program/steps/interactive-mode-steps/action-analysis-table/action-analysis-table.component';
 import {InteractiveModeStepsComponent} from './view/pages/program/steps/interactive-mode-steps/interactive-mode-steps.component';
 import {ThreatAnalysisTableComponent} from './view/pages/program/steps/interactive-mode-steps/threat-analysis-table/threat-analysis-table.component';
+import {ToastrModule} from 'ngx-toastr';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import {ThreatAnalysisTableComponent} from './view/pages/program/steps/interacti
     AngularFileUploaderModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
+    ToastrModule.forRoot(),
     FontAwesomeModule,
     TooltipModule,
     PopoverModule,

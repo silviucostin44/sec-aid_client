@@ -17,10 +17,10 @@ export class ThreatAnalysisTableComponent implements OnInit {
 
   formGroup: FormGroup;
   columns: ColumnSetting[];
+  editedRowIndex: number;
   @Input() view: any[];
   @Output() viewChange = new EventEmitter();
   @ViewChild(GridComponent) private grid: GridComponent;
-  private editedRowIndex: number;
 
   constructor() {
   }

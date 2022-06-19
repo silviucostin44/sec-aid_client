@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
   uploadQuestionnaireImportFile(): void {
     this.uploadService.openUploadModal(this.ieService.getQuestionnaireImportUrl(), this.text.QUESTIONNAIRE, false, true)
       .subscribe((questionnaire) => questionnaire
-          ? this.router.navigate([`/questionnaire/${ElementStartEnum.IMPORTED}`], {state: {defaultQuestionnaire: questionnaire}})
+          ? this.router.navigate([`/questionnaire/${ElementStartEnum.IMPORTED}`], {state: {questionnaire: questionnaire}})
           : noop(),
         () => console.log('Questionnaire import failed.'));
   }

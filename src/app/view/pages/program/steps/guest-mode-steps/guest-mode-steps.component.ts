@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import ro from '../../../../../../assets/text/ro.json';
 import {TemplateFileEnum} from '../../../../../models/enums/template-file.enum';
 import {UploadedFileEnum} from '../../../../../models/enums/uploaded-file.enum';
@@ -15,6 +15,7 @@ export class GuestModeStepsComponent {
 
   @Input() currentStep: number;
   @Input() updateFiles: () => void;
+  @Output() isSaved = new EventEmitter();
 
   constructor(private fileService: FileService,
               private uploadDownloadService: UploadDownloadService) {
@@ -85,6 +86,7 @@ export class GuestModeStepsComponent {
   }
 
   private manageFilesUpload(url: string, modalTitle?: string, multiple?: boolean): void {
+    this.isSaved.emit(false);
     this.uploadDownloadService.openUploadModal(url, modalTitle, multiple).subscribe(() => this.updateFiles());
   }
 

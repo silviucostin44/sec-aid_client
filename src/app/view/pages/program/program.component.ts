@@ -10,6 +10,7 @@ import ProgramHelper from '../../../helpers/program.helper';
 import {SecurityService} from '../../../services/security.service';
 import {ProgramService} from '../../../services/program.service';
 import {ElementStartEnum} from '../../../models/enums/element-start.enum';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-program',
@@ -26,6 +27,7 @@ export class ProgramComponent implements OnInit {
   initialStep: number;
   saveActionEvent = new EventEmitter();
   pageActionsNames: String[];
+  isSaved: boolean = true;
 
   isSignedIn: boolean;
   isStepCompletedInteractiveMode: boolean = true;
@@ -41,7 +43,7 @@ export class ProgramComponent implements OnInit {
 
   @HostListener('window:beforeunload')
   canDeactivate(): Observable<boolean> | boolean {
-    return this.fileService.isEmptyProgram();
+    return this.isSaved || (!this.isSignedIn && this.fileService.isEmptyProgram());
   }
 
   ngOnInit(): void {
@@ -51,7 +53,6 @@ export class ProgramComponent implements OnInit {
       this.primaryActionName(),
       ro.PAGE.ARCHIVE
     ];
-    setTimeout(() => this.nextStepEvent.emit(1), 1);
     this.getLatestStep();
   }
 
@@ -81,6 +82,7 @@ export class ProgramComponent implements OnInit {
   // FILES mode specific methods
   export(): void {
     this.uploadDownloadService.openDownload(this.ieService.getProgramJsonUrl());
+    this.isSaved = true;
   }
 
   archive() {
@@ -88,26 +90,30 @@ export class ProgramComponent implements OnInit {
   }
 
   deleteFile(id: any): void {
-    this.fileService.deleteFile(id).subscribe(() => this.updateFiles());
+    this.fileService.deleteFile(id)
+      .pipe(finalize(() => this.isSaved = false))
+      .subscribe(() => this.updateFiles());
   }
 
   /**
    * Upload step files.
    * @private
    */
-  updateFiles(): void {
+  updateFiles = () => {
     this.files = this.fileService.downloadFilesByType(ProgramHelper.getFileTypeFromStep(this.currentStep));
-  }
+  };
 
   // INTERACTIVE mode specific methods
   save() {
     this.saveActionEvent.emit();
+    this.isSaved = true;
   }
 
   updateStepValidityInteractiveMode(value: boolean) {
     this.isStepCompletedInteractiveMode = value;
     this.cdr.detectChanges();
   }
+
 
   // private methods
   private checkSignedUser(): void {
@@ -121,12 +127,12 @@ export class ProgramComponent implements OnInit {
   private getLatestStep(): void {
     if (this.isSignedIn) {
       if (this.id === ElementStartEnum.NEW) {
-        this.nextStepEvent.emit(1);
+        setTimeout(() => this.nextStepEvent.emit(1), 1);
       } else {
-        this.programService.lastProgramStep(Number(this.id)).subscribe(this.nextStepEvent.emit);
+        this.programService.lastProgramStep(Number(this.id)).subscribe((lastStep) => this.nextStepEvent.emit(lastStep));
       }
     } else {
-      this.fileService.lastProgramStep().subscribe(this.nextStepEvent.emit);
+      this.fileService.lastProgramStep().subscribe((lastStep) => this.nextStepEvent.emit(lastStep));
     }
   }
 }

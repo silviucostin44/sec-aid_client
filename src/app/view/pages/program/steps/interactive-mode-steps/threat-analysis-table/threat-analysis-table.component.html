@@ -42,18 +42,20 @@
   </kendo-grid-column>
   <kendo-grid-column [width]="186">
     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-      <button (click)="addAttribute(rowIndex, 2, 'regulations')"
-              class="btn btn-primary btn-sm" role="button" type="button">
-        {{text.STEP_2.TABLE.ADD_REGULATIONS}}
-      </button>
-      <button (click)="addAttribute(rowIndex, 3, 'vulnerabilities')"
-              class="btn btn-primary btn-sm" role="button" type="button">
-        {{text.STEP_2.TABLE.ADD_VULNERABILITIES}}
-      </button>
-      <button (click)="addAttribute(rowIndex, 4, 'threats')"
-              class="btn btn-primary btn-sm" role="button" type="button">
-        {{text.STEP_2.TABLE.ADD_THREATS}}
-      </button>
+      <ng-container *ngIf="rowIndex === editedRowIndex">
+        <button (click)="addAttribute(rowIndex, 2, 'regulations')"
+                class="btn btn-primary btn-sm" role="button" type="button">
+          {{text.STEP_2.TABLE.ADD_REGULATIONS}}
+        </button>
+        <button (click)="addAttribute(rowIndex, 3, 'vulnerabilities')"
+                class="btn btn-primary btn-sm" role="button" type="button">
+          {{text.STEP_2.TABLE.ADD_VULNERABILITIES}}
+        </button>
+        <button (click)="addAttribute(rowIndex, 4, 'threats')"
+                class="btn btn-primary btn-sm" role="button" type="button">
+          {{text.STEP_2.TABLE.ADD_THREATS}}
+        </button>
+      </ng-container>
     </ng-template>
   </kendo-grid-column>
 </kendo-grid>

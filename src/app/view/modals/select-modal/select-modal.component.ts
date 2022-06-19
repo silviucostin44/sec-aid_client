@@ -54,6 +54,7 @@ export class SelectModalComponent implements OnInit {
   names = this.fb.array([]);
   itemsToDelete: SelectableElement[] = [];
   itemsToAdd: SelectableElement[] = [];
+  duplicateName: boolean;
 
   constructor(private bsModalRef: BsModalRef,
               private router: Router,
@@ -78,6 +79,17 @@ export class SelectModalComponent implements OnInit {
       } else {
         this.allSelected = false;
         this.someSelected = false;
+      }
+    });
+
+    this.names.valueChanges.subscribe((values) => {
+      this.duplicateName = false;
+      for (let i = 0; i < values.length - 1; i++) {
+        for (let j = i + 1; j < values.length; j++) {
+          if (values[i] === values[j]) {
+            this.duplicateName = true;
+          }
+        }
       }
     });
   }
@@ -111,7 +123,7 @@ export class SelectModalComponent implements OnInit {
         this.names.clear();
         this.checked.clear();
         this.initFormArrays();
-      }, (error => noop())); // todo: deal with it
+      });
     } else {
       // edit action
       this.names.enable();
@@ -120,12 +132,10 @@ export class SelectModalComponent implements OnInit {
   }
 
   cancelEditing(): void {
-    let i = 0;
-    for (let nameControl of this.names.controls) {
-      nameControl.setValue(this.elementsToSelectInput[i].name);
-      i++;
-    }
-    this.checked.reset();
+    // resetting form arrays
+    this.checked = this.fb.array([]);
+    this.names = this.fb.array([]);
+    this.initFormArrays();
     this.resetForm();
     this.editingState = false;
   }
@@ -196,7 +206,7 @@ export class SelectModalComponent implements OnInit {
   }
 
   isSaveButtonDisabled(): boolean {
-    return this.editingState && this.itemsToDelete.length === 0 && (this.names.pristine || this.names.invalid);
+    return (this.editingState && this.itemsToDelete.length === 0 && (this.names.pristine || this.names.invalid)) || this.duplicateName;
   }
 
   addNewItem(): void {
@@ -212,6 +222,10 @@ export class SelectModalComponent implements OnInit {
     };
     this.displayedElementsToSelect.push(newItem);
     this.itemsToAdd.push(newItem);
+  }
+
+  elementsIsNotEmpty(): boolean {
+    return this.elementsToSelectInput && this.elementsToSelectInput.length > 0;
   }
 
   private initFormArrays() {

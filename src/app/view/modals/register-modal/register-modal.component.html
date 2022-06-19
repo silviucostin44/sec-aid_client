@@ -1,17 +1,15 @@
 <app-modal-wrapper (closeModalEvent)="closeModal()" title="{{text.HOME.REGISTER}}">
   <form [formGroup]="registerForm" novalidate>
-    <div *ngIf="false" class="alert alert-danger">  <!--todo: submit errors-->
-      <div *ngIf="false">
-        {{text.MODAL.EXISTING_ACCOUNT}}
-      </div>
+    <div *ngIf="existingAccountError" class="alert alert-danger">  <!--todo: submit errors-->
+      {{text.MODAL.EXISTING_ACCOUNT}}
     </div>
     <div class="mb-3">
-      <label class="form-label" for="inputEmail1">{{text.MODAL.EMAIL}}</label>   <!--todo: remove 1-->
-      <input class="form-control" formControlName="email" id="inputEmail1" type="email">
+      <label class="form-label" for="inputEmail">{{text.MODAL.EMAIL}}</label>
+      <input class="form-control" formControlName="email" id="inputEmail" type="email">
     </div>
     <div class="mb-3">
-      <label class="form-label" for="inputPassword1">{{text.MODAL.PASSWORD}}</label>
-      <input class="form-control" formControlName="password" id="inputPassword1" type="password">
+      <label class="form-label" for="inputPassword">{{text.MODAL.PASSWORD}}</label>
+      <input class="form-control" formControlName="password" id="inputPassword" type="password">
       <div *ngIf="passField.invalid && !passField.pristine" class="alert alert-danger">
         <div *ngIf="passField.errors?.pattern">
           {{text.MODAL.PASS_ERROR_1}} <br>

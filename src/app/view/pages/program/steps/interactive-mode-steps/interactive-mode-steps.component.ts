@@ -18,6 +18,7 @@ import {AssessmentLevelsEnum} from '../../../../../models/enums/assessment-level
 import {RiskAssessment} from '../../../../../models/risk-assessment.model';
 import {NistCoreSubcategory} from '../../../../../models/nist-core-subcategory.model';
 import {ActionAnalysis} from '../../../../../models/action-analysis.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-interactive-mode-steps',
@@ -28,6 +29,7 @@ export class InteractiveModeStepsComponent implements OnInit {
   readonly text = ro.PROGRAM;
   @Input() saveDataEmitter: EventEmitter<any>;
   @Output() isStepValid = new EventEmitter();
+  @Output() isSaved = new EventEmitter();
   currentStep: number;
   program: Program;
   implementationTiersOptions: string[] = ProgramHelper.getImplementationTiersAsList();
@@ -47,7 +49,8 @@ export class InteractiveModeStepsComponent implements OnInit {
   constructor(private programService: ProgramService,
               private datePipe: DatePipe,
               private uploadDownloadService: UploadDownloadService,
-              private fileService: FileService,) {
+              private fileService: FileService,
+              private toastrService: ToastrService) {
   }
 
   @Input() set programId(id: string) {
@@ -81,8 +84,10 @@ export class InteractiveModeStepsComponent implements OnInit {
     this.saveDataEmitter.subscribe(() => {
       this.updateProgramWithData();
       this.programService.saveProgram(this.program).subscribe((program) => {
-        this.program = program;
-      });
+          this.program = program;
+          this.toastrService.success(this.text.TOAST.SUCCESS + program.name, '', {timeOut: 3000});
+        }, () => this.toastrService.error(this.text.TOAST.ERROR, '', {disableTimeOut: true})
+      );
     });
 
     this.profileImplementationTierControl.valueChanges.subscribe((value) => this.isStepValid.emit(!!value && value !== ''));
@@ -121,12 +126,16 @@ export class InteractiveModeStepsComponent implements OnInit {
         break;
       }
       case 2: {
-        this.setThreatAnalysisData();
+        if (this.program) {
+          this.setThreatAnalysisData();
+        }
         this.isStepValid.emit(true);
         break;
       }
       case 3: {
-        this.setProfileData(this.program.targetProfile);
+        if (this.program) {
+          this.setProfileData(this.program.targetProfile);
+        }
         if (!this.program.targetProfile) {
           this.program.targetProfile = new Profile();
         }
@@ -134,12 +143,16 @@ export class InteractiveModeStepsComponent implements OnInit {
         break;
       }
       case 4: {
-        this.setRiskAssessmentData();
+        if (this.program) {
+          this.setRiskAssessmentData();
+        }
         this.isStepValid.emit(true);
         break;
       }
       case 5: {
-        this.setProfileData(this.program.currentProfile);
+        if (this.program) {
+          this.setProfileData(this.program.currentProfile);
+        }
         if (!this.program.currentProfile) {
           this.program.currentProfile = new Profile();
         }
@@ -147,7 +160,9 @@ export class InteractiveModeStepsComponent implements OnInit {
         break;
       }
       case 6:
-        this.setActionAnalysisData();
+        if (this.program) {
+          this.setActionAnalysisData();
+        }
         this.stepOneAndSixDataChange();
         break;
       case 7: {
@@ -159,6 +174,9 @@ export class InteractiveModeStepsComponent implements OnInit {
   }
 
   private updateProgramWithData(): void {
+    if (this.currentStep !== 7) {
+      this.isSaved.emit(false);
+    }
     switch (this.currentStep) {
       case 1:
         this.program.assets = this.data;
@@ -291,6 +309,7 @@ export class InteractiveModeStepsComponent implements OnInit {
       let dataObject = this.data.find((dataObject) => dataObject.subcategory === nistCoreSubcategory.subcategory);
       if (dataObject) {
         nistCoreSubcategory.actionAnalysis = new ActionAnalysis(
+          dataObject.id,
           dataObject.subcategory,
           dataObject.action,
           dataObject.costBenefitIndex,
@@ -332,6 +351,7 @@ export class InteractiveModeStepsComponent implements OnInit {
     this.program.currentProfile.nistCoreSubcategoryList.forEach((core) => {
       if (core.actionAnalysis) {
         this.data.push({
+          id: core.actionAnalysis.id,
           subcategory: core.subcategory,
           action: core.actionAnalysis.action,
           impact: ProfileTemplate[core.subcategory].impactRate,

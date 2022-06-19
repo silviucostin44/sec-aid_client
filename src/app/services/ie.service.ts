@@ -9,7 +9,7 @@ import {Questionnaire} from '../models/questionnaire.model';
 })
 export class IeService {
 
-  private readonly urlPrefix = environment.baseUrl;
+  private readonly urlPrefix = environment.baseUrl + '/ie';
 
   private readonly routesApi = {
     exportProgram: this.urlPrefix + '/export/program',

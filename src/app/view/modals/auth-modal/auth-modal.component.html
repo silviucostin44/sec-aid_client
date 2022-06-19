@@ -1,12 +1,7 @@
 <app-modal-wrapper (closeModalEvent)="closeModal()" title="{{text.HOME.AUTH}}">
   <form #authForm="ngForm" novalidate>
-    <div *ngIf="false" class="alert alert-danger">  <!--todo: submit errors-->
-      <div *ngIf="false">
-        {{text.MODAL.INEXISTENT_ACCOUNT}}
-      </div>
-      <div *ngIf="false">
-        {{text.MODAL.WRONG_PASS}}
-      </div>
+    <div *ngIf="badCredentials" class="alert alert-danger">
+      {{text.MODAL.WRONG_CREDENTIALS}}
     </div>
     <div class="mb-3">
       <label class="form-label" for="inputEmail">{{text.MODAL.EMAIL}}</label>
