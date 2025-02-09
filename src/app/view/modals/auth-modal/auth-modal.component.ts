@@ -27,11 +27,11 @@ export class AuthModalComponent {
   onSubmit() {
     this.securityService.login(this.email, this.password)
       .subscribe(() => this.closeModal(),
-        ((response: HttpErrorResponse) => {
+        (response: HttpErrorResponse) => {
           if (response.error && response.error.jwtToken === ServerErrors.BAD_CREDENTIALS) {
             this.badCredentials = true;
           }
-        }));
+        });
   }
 
   closeModal() {

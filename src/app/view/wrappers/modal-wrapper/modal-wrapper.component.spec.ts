@@ -22,4 +22,9 @@ describe('ModalWrapperComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('close', () => {
+    component.closeModalEvent.subscribe(() => expect().nothing());
+    component.close();
+  });
 });

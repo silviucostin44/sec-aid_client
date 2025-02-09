@@ -20,7 +20,7 @@ export class ThreatAnalysisTableComponent implements OnInit {
   editedRowIndex: number;
   @Input() view: any[];
   @Output() viewChange = new EventEmitter();
-  @ViewChild(GridComponent) private grid: GridComponent;
+  @ViewChild(GridComponent) grid: GridComponent;
 
   constructor() {
   }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {faTrashAlt} from '@fortawesome/free-regular-svg-icons';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AddEvent, CellClickEvent, GridComponent} from '@progress/kendo-angular-grid';
@@ -19,7 +19,7 @@ export type FieldType = 'text' | 'numeric' | 'boolean' | 'date';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent {
   readonly deleteIcon = faTrashAlt;
 
   formGroup: FormGroup;
@@ -28,26 +28,15 @@ export class TableComponent implements OnInit {
   @Input() canAddRows: boolean = true;
   @Input() canDeleteRows: boolean = true;
   @Input() equations: ((_: FormGroup) => void)[] = [];
-  @Input() view: unknown[];
+  @Input() view: any[];
   @Output() viewChange = new EventEmitter();
   subcategoryOptions: string[] = Object.keys(ProfileTemplate);
   @ViewChild(GridComponent) private grid: GridComponent;
   private editedRowIndex: number;
   private isNew = false;
 
-  constructor(private renderer: Renderer2) {
-    // this.renderer.listen('document', 'click', ({target}) => {
-    //   if (!this.isChildOf(target, 'k-grid')) {
-    //     this.saveCurrent();
-    //   }
-    // });
-  }
-
   public get isInEditingMode(): boolean {
     return this.editedRowIndex !== undefined || this.isNew;
-  }
-
-  ngOnInit(): void {
   }
 
   addHandler({sender}: AddEvent): void {

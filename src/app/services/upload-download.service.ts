@@ -9,7 +9,7 @@ import {Subject} from 'rxjs';
 })
 export class UploadDownloadService {
 
-  constructor(private modalService: BsModalService,) {
+  constructor(private modalService: BsModalService) {
   }
 
   openDownload(url: string): void {

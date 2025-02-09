@@ -39,7 +39,7 @@ export class UploadModalComponent implements OnInit {
       sizeLimit: this.text.MODAL.UPLOAD_CONFIG.LIMIT
     }
   };
-  @ViewChild('uploader') private uploader: AngularFileUploaderComponent;
+  @ViewChild('uploader') uploader: AngularFileUploaderComponent;
 
   constructor(private bsModalRef: BsModalRef) {
   }

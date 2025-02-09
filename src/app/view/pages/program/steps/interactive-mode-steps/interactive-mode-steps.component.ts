@@ -244,14 +244,14 @@ export class InteractiveModeStepsComponent implements OnInit {
    */
   private updateProfileFromData(profile: Profile): void {
     profile.implementationTier = this.profileImplementationTierControl.value;
-    for (let dataObject of this.data) {
+    for (const dataObject of this.data) {
       // set profile export data to be used in step 6
       if (this.currentStep === 5) {
         this.profileExportData.set(dataObject.subcategory, dataObject.implementationLevel);
       }
       // update nist core subcategory implementation level
       const nistCoreSubcategory = profile.nistCoreSubcategoryList.find((core) =>
-        core.subcategory = dataObject.subcategory);
+        core.subcategory === dataObject.subcategory);
       if (nistCoreSubcategory) {
         nistCoreSubcategory.implementationLevel = dataObject.implementationLevel;
       } else {
