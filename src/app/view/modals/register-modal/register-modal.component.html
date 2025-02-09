@@ -1,0 +1,33 @@
+<app-modal-wrapper (closeModalEvent)="closeModal()" title="{{text.HOME.REGISTER}}">
+  <form [formGroup]="registerForm" novalidate>
+    <div *ngIf="existingAccountError" class="alert alert-danger">  <!--todo: submit errors-->
+      {{text.MODAL.EXISTING_ACCOUNT}}
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="inputEmail">{{text.MODAL.EMAIL}}</label>
+      <input class="form-control" formControlName="email" id="inputEmail" type="email">
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="inputPassword">{{text.MODAL.PASSWORD}}</label>
+      <input class="form-control" formControlName="password" id="inputPassword" type="password">
+      <div *ngIf="passField.invalid && !passField.pristine" class="alert alert-danger">
+        <div *ngIf="passField.errors?.pattern">
+          {{text.MODAL.PASS_ERROR_1}} <br>
+          {{text.MODAL.PASS_ERROR_2}}
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="inputConfirmPassword">{{text.MODAL.CONFIRM_PASS}}</label>
+      <input [ngClass]="{'invalid': registerForm.errors?.unmatchingPass}" class="form-control"
+             formControlName="confirmPass"
+             id="inputConfirmPassword" type="password">
+    </div>
+  </form>
+  <div footer>
+    <span class="d-inline-block" data-bs-toggle="tooltip" tabindex="0" title="Toate campurile sunt obligatorii.">
+      <button (click)="onSubmit()" [disabled]="!registerForm.valid" class="btn btn-success"
+              type="submit">{{text.MODAL.REGISTER}}</button>
+    </span>
+  </div>
+</app-modal-wrapper>

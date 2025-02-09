@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+/* Customize Bootstrap Theme*/
+//@import "functions";
+//@import "variables";
+//
+//$primary: rgba(255, 204, 0, 0.47); // todo v3: the colors
+//$secondary: #dd2222;
+//
+//$theme-colors: (
+//  "primary": $primary,
+//  "secondary": $secondary
+//);
+
+/* Bootstrap */
+@import 'bootstrap';
+/* Custom styles */
+@import "./custom-styles/file-uploader.custom";
+@import "./custom-styles/kendo-grid.custom";
+
+/* Styles */
+#bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  // preserve aspect ratio
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
+
+.selectable {
+  cursor: pointer;
+}

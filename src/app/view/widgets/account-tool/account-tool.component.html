@@ -1,0 +1,10 @@
+<ng-template #popTemplate>
+  <div class="d-flex flex-column align-items-center">
+    <p>{{username}}</p>
+    <button (click)="logout()" class="btn btn-danger btn-sm w-5r" type="button">{{text.LOG_OUT}}</button>
+  </div>
+</ng-template>
+<button *ngIf="username" [outsideClick]="true" [popover]="popTemplate"
+        class="btn btn-info inherit-props" popoverTitle="{{text.USER + ':'}}" type="button">
+  <fa-icon [icon]="userIcon"></fa-icon>
+</button>

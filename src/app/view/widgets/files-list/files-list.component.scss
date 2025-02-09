@@ -1,0 +1,52 @@
+
+.files-list-container {
+  position: absolute;
+  left: 50%;
+  bottom: 1%;
+  transform: translate(-50%, 0);
+  display: flex;
+  height: 8%;
+  width: fit-content;
+  max-width: 66%;
+  overflow: auto;
+}
+
+.selectable:hover {
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.resizable {
+  font-size: 0.75rem;
+  z-index: 10;
+}
+
+.resizable:hover {
+  transform: scale(1.6);
+  color: #DC3545FF !important;
+}
+
+.fs-7 {
+  font-size: 0.8rem;
+}
+
+/* Scrollbar customisation */
+::-webkit-scrollbar {
+  width: 3px; /* width of the entire scrollbar */
+  height: 0.25rem;
+}
+
+::-webkit-scrollbar-track {
+  background: lightgrey; /* color of the tracking area */
+  padding-bottom: 1rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(13, 110, 253, 0.43); /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  padding-bottom: 1rem;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(13, 110, 253, 0.43) lightgrey;
+}

@@ -1,0 +1,18 @@
+<div class="btn-group d-inline-block" dropdown>
+  <p *ngIf="label" class="form-label">{{label}}</p>
+  <button (click)="onTouched($event)" [ngClass]="getButtonClass()" aria-controls="dropdown-animated"
+          class="btn dropdown-toggle rounded-left"
+          dropdownToggle
+          id="button-animated" type="button">
+    {{ selectedOption ? optionDisplayForm(selectedOption) : label }} <span class="caret"></span>
+  </button>
+
+  <ul *dropdownMenu aria-labelledby="button-animated" class="dropdown-menu"
+      id="dropdown-animated" role="menu">
+    <li (click)="changeSelectedOption(option)" *ngFor="let option of options" role="menuitem">
+      <span class="dropdown-item">
+          {{ optionDisplayForm(option) }}
+      </span>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,135 @@
+<app-page-wrapper (primaryAction)="primaryAction()" (secondaryAction)="export()" [actionsNames]="pageActionsNames"
+                  [needSecondaryAction]="isSignedIn">
+  <p class="display-4 text-center overlap-top-40">{{text.TITLE}}</p>
+
+  <widget-loading-card *ngIf="!questionnaire"></widget-loading-card>
+  <div *ngIf="questionnaire" class="row">
+    <div class="col-3">
+      <nav class="navbar navbar-light bg-warning content-panel fixed-panel" id="contents-navbar">
+        <span class="navbar-brand">{{text.CONTENTS}}</span>
+        <nav class="nav nav-pills flex-column">
+          <li *ngFor="let item of questionnaire.sections; let i1=index">
+            <a (click)="scrollTo('item' + i1)" class="nav-link">{{item.getDisplay()}}</a>
+            <nav class="nav nav-pills flex-column">
+              <a (click)="scrollTo('item' + i1 + i2)"
+                 *ngFor="let subtitle of item.subsections; let i2=index" class="nav-link ms-3">
+                {{subtitle.getDisplay()}}
+              </a>
+            </nav>
+          </li>
+        </nav>
+      </nav>
+    </div>
+
+    <div class="col-9">
+      <div class="accordion accordion-flush" id="accordionFlush">
+        <div *ngFor="let section of questionnaire.sections; let i1=index" [id]="'item' + i1" class="accordion-item">
+          <h2 [id]="'flush-heading' + i1" class="accordion-header">
+            <button [attr.aria-controls]="'flush-collapse' + i1" [attr.data-bs-target]="'#flush-collapse' + i1"
+                    aria-expanded="false" class="accordion-button collapsed"
+                    data-bs-toggle="collapse" type="button">
+              {{section.getDisplay()}}
+            </button>
+            <span [hidden]="isSectionValid(section) || hideCheck"
+                  class="fs-2 text-danger sign header-alert-mark-end">!</span>
+            <widget-score [color]="getScoreColor(section.getRating())" [hidden]="!displayScores"
+                          [number]="section.getRating()"
+                          class="sign header-score-end">
+            </widget-score>
+          </h2>
+          <div [attr.aria-labelledby]="'flush-heading' + i1" [formGroup]="responsesGroup"
+               [id]="'flush-collapse' + i1" class="accordion-collapse collapse">
+            <div class="accordion-body" formArrayName="responses">
+              <li *ngFor="let subsection of section.subsections; let i2=index">
+                <span [id]="'item' + i1 + i2" class="fw-bold sign-holder">
+                  {{subsection.getDisplay()}}
+                  <widget-score [color]="getScoreColor(subsection.getRating())" [hidden]="!displayScores"
+                                [number]="subsection.getRating()"
+                                class="sign subsection-score-end">
+                  </widget-score>
+                  <span [hidden]="isSectionValid(subsection) || hideCheck"
+                        class="fs-2 text-danger sign subsection-alert-mark-end">!
+                  </span>
+                </span>
+
+
+                <div *ngFor="let subSubsection of subsection.subsections">
+                  <span class="fw-bold sign-holder">
+                    {{subSubsection.getDisplay()}}
+                    <widget-score [color]="getScoreColor(subSubsection.getRating())" [hidden]="!displayScores"
+                                  [number]="subSubsection.getRating()"
+                                  class="sign subsection-score-end">
+                    </widget-score>
+                    <span [hidden]="isSectionValid(subSubsection) || hideCheck"
+                          class="fs-2 text-danger sign subsection-alert-mark-end">!
+                    </span>
+                  </span>
+
+                  <div *ngFor="let question of subSubsection.questions" [formGroupName]="question.responseControlIndex"
+                       class="mb-3 border-bottom pb-1">
+                    <div class="sign-holder w-100">
+                      <p class="form-label">
+                        {{question.getDisplay()}}
+                        <widget-score [color]="getScoreColor(question.getRating())" [fontSize]="10"
+                                      [hidden]="!displayScores"
+                                      [number]="question.getRating()" class="sign question-score-end">
+                        </widget-score>
+                        <span [hidden]="isQuestionResponseValid(question.responseControlIndex) || hideCheck"
+                              class="fs-2 text-danger sign question-alert-mark-end">!</span>
+                      </p>
+                    </div>
+                    <div class="row align-items-start">
+                      <widget-c-dropdown *ngFor="let crtKey of responseCriteriaKeys; let crtIndex=index"
+                                         [formControlName]="crtKey"
+                                         [optionDisplayForm]="translateMaturityLevel"
+                                         [options]="responseOptions"
+                                         class="col"
+                                         label="{{getLabelBySection(i1, crtIndex)}}">
+                      </widget-c-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div *ngFor="let question of subsection.questions" [formGroupName]="question.responseControlIndex"
+                     class="mb-3 border-bottom pb-1">
+                  <div class="sign-holder w-100">
+                    <p class="form-label">
+                      {{question.getDisplay()}}
+                      <widget-score [color]="getScoreColor(question.getRating())" [fontSize]="10"
+                                    [hidden]="!displayScores"
+                                    [number]="question.getRating()" class="sign question-score-end">
+                      </widget-score>
+                      <span [hidden]="isQuestionResponseValid(question.responseControlIndex) || hideCheck"
+                            class="fs-2 text-danger sign question-alert-mark-end">!</span>
+                    </p>
+                  </div>
+                  <div class="row align-items-start">
+                    <widget-c-dropdown *ngFor="let crtKey of responseCriteriaKeys; let crtIndex=index"
+                                       [formControlName]="crtKey"
+                                       [optionDisplayForm]="translateMaturityLevel"
+                                       [options]="responseOptions"
+                                       class="col"
+                                       label="{{getLabelBySection(i1, crtIndex)}}">
+                    </widget-c-dropdown>
+                  </div>
+                </div>
+              </li>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="questionnaire" [ngClass]="{ 'position-sticky bottom-20': isQuestionnaireComplete() }"
+       class="float-end my-3">  <!--todo: add z index to bring front-->
+    <button (click)="generateDoc()" class="btn btn-info me-2" hidden role="button">{{text.DOC}}</button>
+    <button (click)="reset()" *ngIf="!hideCheck || displayScores" class="btn btn-danger me-2" role="button">
+      {{text.RESET}}
+    </button>
+    <button (click)="checkResponses()" class="btn btn-light me-2" role="button">{{text.CHECK}}</button>
+    <button (click)="generateScores()" class="btn btn-primary" role="button">{{text.GENERATE_SCORE}}</button>
+  </div>
+</app-page-wrapper>
+

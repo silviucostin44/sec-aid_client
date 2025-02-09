@@ -1,0 +1,26 @@
+<app-page-wrapper (primaryAction)="primaryAction()" (secondaryAction)="archive()" [actionsNames]="pageActionsNames"
+                  [needSecondaryAction]="!isSignedIn">
+  <div class="d-float align-self-center" style="width: 75%; margin: auto">
+    <widget-progress-buttons (currentStep)="updateStep($event)" [initialLastComputedStep]="initialStep"
+                             [next]="nextStepEvent"></widget-progress-buttons>
+  </div>
+  <p class="display-6 text-center">{{text.TITLES["TITLE_" + currentStep]}}</p>
+
+  <app-guest-mode-steps (isSaved)="isSaved=false" *ngIf="!isSignedIn"
+                        [currentStep]="currentStep" [updateFiles]="updateFiles">
+  </app-guest-mode-steps>
+  <app-interactive-mode-steps (isSaved)="isSaved=false" (isStepValid)="updateStepValidityInteractiveMode($event)"
+                              *ngIf="isSignedIn" [programId]="id"
+                              [saveDataEmitter]="saveActionEvent" [step]="currentStep">
+  </app-interactive-mode-steps>
+
+  <button (click)="nextStep()" [hidden]="currentStep == 7"
+          [ngClass]="{ 'disabled': (!(files | async)?.length && !isSignedIn) || !isStepCompletedInteractiveMode }"
+          class="btn btn-primary bottom-right-corner my-3"
+          type="button">
+    {{text.NEXT_STEP}}
+  </button>
+
+  <widget-files-list (deleteEvent)="deleteFile($event)" *ngIf="!isSignedIn"
+                     [files]="files"></widget-files-list>
+</app-page-wrapper>

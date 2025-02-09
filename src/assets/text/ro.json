@@ -1,0 +1,259 @@
+{
+  "HOME": {
+    "WELCOME": "Bine ați venit!",
+    "APP_TITLE": {
+      "FIRST_HALF": "Sec",
+      "SECOND_HALF": "Aid"
+    },
+    "START_NEW_Q": "Începe evaluare nouă",
+    "START_NEW_PROGRAM": "Începe program nou",
+    "LOAD_Q": "Selectare evaluare",
+    "LOAD_PROGRAM": "Selectare program",
+    "IMPORT_Q": "Importă evaluare",
+    "IMPORT_PROGRAM": "Importă program",
+    "PROGRAM": "program",
+    "QUESTIONNAIRE": "chestionar",
+    "AUTH": "Autentificare",
+    "REGISTER": "Înregistrare",
+    "USER": "Utilizator",
+    "LOG_OUT": "Log out"
+  },
+  "QUEST": {
+    "TITLE": "Chestionar",
+    "CONTENTS": "Cuprins",
+    "GENERATE_SCORE": "Generează scoruri",
+    "CHECK": "Verifică",
+    "RESET": "Resetează",
+    "EXPORT": "Exportă",
+    "DOC": "Generează PDF",
+    "CONTENT": {
+      "TITLE_C": "C. Contextul organizației",
+      "TITLE_C_1": "C.1 Descrierea organizației",
+      "TITLE_C_2": "C.2 Situația strategică a organizației",
+      "TITLE_1": "1. Conducerea organizației",
+      "TITLE_1_1": "1.1 Atitudinea conducerii",
+      "TITLE_1_2": "1.2 Guvernanță și responsabilitatea socială",
+      "TITLE_2": "2. Strategia",
+      "TITLE_2_1": "2.1 Planificarea strategiei",
+      "TITLE_2_2": "2.2 Implementarea strategiei",
+      "TITLE_3": "3. Pacienții/Clienții",
+      "TITLE_3_1": "3.1 Satisfacerea pacienților",
+      "TITLE_3_2": "3.2 Implicarea pacienților",
+      "TITLE_4": "4. Măsurători, analiză și managementul informației",
+      "TITLE_4_1": "4.1 Măsurători, analiză și îmbunătățirea performanțelor",
+      "TITLE_4_2": "4.2 Managementul informației",
+      "TITLE_5": "5. Angajații",
+      "TITLE_5_1": "5.1 Mediul de lucru",
+      "TITLE_5_2": "5.2 Implicarea angajaților",
+      "TITLE_6": "6. Angajații",
+      "TITLE_6_1": "6.1 Procese de lucru",
+      "TITLE_6_2": "6.2 Eficiența operațională",
+      "TITLE_7": "7. Rezultate",
+      "TITLE_7_1": "7.1 Procese",
+      "TITLE_7_2": "7.2 Pacienți",
+      "TITLE_7_3": "7.3 Angajați",
+      "TITLE_7_4": "7.4 Conducere și guvernanță",
+      "TITLE_7_5": "7.5 Strategie și rezultate financiare"
+    },
+    "EVAL": {
+      "MAT_LVL_0": "Inexistent",
+      "MAT_LVL_1": "Reactiv",
+      "MAT_LVL_2": "Incipient",
+      "MAT_LVL_3": "În dezvoltare",
+      "MAT_LVL_4": "Matur",
+      "MAT_LVL_5": "De top",
+      "MAT_LVL_6": "Exemplar",
+      "P_CRT_1": "Abordare",
+      "P_CRT_2": "Dezvoltare",
+      "P_CRT_3": "Învățare",
+      "P_CRT_4": "Integrare",
+      "R_CRT_1": "Nivelul actual",
+      "R_CRT_2": "Trend",
+      "R_CRT_3": "Comparativ",
+      "R_CRT_4": "Integrare"
+    },
+    "TOAST": {
+      "SUCCESS": "Chestionar salvat cu success: ",
+      "ERROR": "A apărut o eroare, chestionarul nu a fost salvat."
+    }
+  },
+  "PROGRAM": {
+    "TITLES": {
+      "TITLE_1": "Stabilirea obiectivelor",
+      "TITLE_2": "Orientare",
+      "TITLE_3": "Profil țintă",
+      "TITLE_4": "Evaluarea riscului",
+      "TITLE_5": "Profil curent",
+      "TITLE_6": "Analiza diferențelor",
+      "TITLE_7": "Implementare acțiuni"
+    },
+    "NEXT_STEP": "Următorul pas",
+    "PRECONDITIONS": "Precondiții",
+    "TEMPLATE_DESC": "Va trebui să completați un tabel conform imaginii de mai jos. Template-ul poate fi descărcat de aici: ",
+    "TASK_DESC": "Va trebui să completați tabelul de mai jos:",
+    "ASSIGNMENT_DESC": "După completare puteți încărca documentul obținut aici:",
+    "UPLOAD_DOC": "Încarcă document",
+    "TEMPLATE_DOWNLOAD": "Puteți drescărca un template de aici:",
+    "STEP_1": {
+      "PRECONDITION_1": "a fost decis scopul aplicării programului, dacă se aplică pe întreaga organizație sau doar pe una sau mai multe secții.",
+      "PRECONDITION_2": "au fost stabilite obiectivele și prioritățile în ceea ce privește securitatea cibernetică.",
+      "ACTIVITY": "Realizați inventarul activelor (fizice sau virtuale) companiei. Pot fi împărțite în categorii în funcție de",
+      "ASSET_CATEGORY_1": "manipularea sau nu a informațiilor privind starea pacienților.",
+      "ASSET_CATEGORY_2": "importanța pentru desfășurarea activităților.",
+      "ASSET_CATEGORY_3": "cât de sensibile și critice sunt informațiile manipulate.",
+      "TEMPLATE_NAME": "model inventar active",
+      "UPLOAD_NAME": "inventar active",
+      "TABLE": {
+        "COLUMNS": {
+          "TYPE": "Tipul Activelor",
+          "NAME": "Numele Activelor",
+          "DESCRIPTION": "Descrierea activului",
+          "INFO_TYPE": "Tipul activului informational",
+          "CLIENT_DATA": "Date ale clientului",
+          "CLASSIFICATION": "Clasificare",
+          "ASSET_OWNER": "Custodele activului"
+        }
+      }
+    },
+    "STEP_2": {
+      "INITIAL_DIRECTIVE": "Pentru activele inventariate la pasul 1 va trebui să:",
+      "DIRECTIVE_1": "realizați analiza vulnerabilităților și a amenințărilor.",
+      "DIRECTIVE_2": "identificați cerințele legale și regulatorii care vizează activele respective, precum și abordările practice.",
+      "TEMPLATE_NAME": "model analiză amenințări",
+      "UPLOAD_NAME": "analiză amenințări",
+      "TABLE": {
+        "COLUMNS": {
+          "REGULATIONS": "Proceduri și prevederi legale",
+          "VULNERABILITIES": "Vulnerabilități",
+          "THREATS": "Amenințări"
+        },
+        "ADD_REGULATIONS": "Adaugă procedură",
+        "ADD_VULNERABILITIES": "Adaugă vulnerabilitate",
+        "ADD_THREATS": "Adaugă amenințare"
+      }
+    },
+    "STEP_3": {
+      "PRECONDITION_1": "analizați nucleul framework-ului NIST, acesta poate fi gasit aici: ",
+      "PRECONDITION_2": "analizați nivelurile de implementare propuse de noi, acestea pot fi gasite aici: ",
+      "TEMPLATE_NAME_1": "nucleu framework NIST",
+      "TEMPLATE_NAME_2": "nivele de implementare",
+      "TEMPLATE_NAME_3": "model profil",
+      "UPLOAD_NAME": "profil țintă",
+      "ACTIVITY_PREFACE": "În urma analizei va trebui să:",
+      "ACTIVITY_1": "stabiliți pentru fiecare element al nucleului framework-ului NIST un grad de implementare la care organizația își propune să ajungă.",
+      "ACTIVITY_1_POSTFACE": "Gradele de implementare sunt descrise în imaginea de mai jos:",
+      "ACTIVITY_2": "stabiliți un nivel de implementare la care organizația dorește să ajungă.",
+      "IMPLEMENTATION_TIER": "Nivel de implementare",
+      "IMPLEMENTATION_TIERS": {
+        "PARTIAL": "Parțial",
+        "RISK_INFORMED": "Conștient de riscuri",
+        "REPEATABLE": "Repetabil",
+        "ADAPTIVE": "Adaptiv"
+      },
+      "TABLE": {
+        "COLUMNS": {
+          "FUNCTION": "Funcție",
+          "CATEGORY": "Categorie",
+          "SUBCATEGORY": "Subcategorie",
+          "IMPLEMENTATION_LEVEL": "Grad de implementare",
+          "IMPACT_RATE": "Rată impact",
+          "PRIORITY_CODE": "Cod prioritate"
+        }
+      }
+    },
+    "STEP_4": {
+      "INITIAL_DIRECTIVE": "În acest pas se contabilizează rezultatul procesului de evaluare a riscurilor identificate în pasul al doilea pentru fiecare bun al companiei. În cazul în care acest proces era deja prevăzut în guvernanța organizației se va prelua direct rezultatul.",
+      "ACTIVITY": "Pentru fiecare activ din inventar trebuie definit nivelul riscului în funcție de probabilitatea de apariție și de impactul estimat (calculat ca sumă a acestora), după cum se poate observa în ",
+      "ACTIVITY_SUFFIX_1": "imaginea următoare:",
+      "ACTIVITY_SUFFIX_2": "tabelul următor:",
+      "TEMPLATE_NAME": "model evaluarea riscului",
+      "UPLOAD_NAME": "evaluarea riscului",
+      "TABLE": {
+        "COLUMNS": {
+          "RESOURCE": "Resursă informatică",
+          "PA": "Probabilitate de apariție",
+          "IMPACT": "Impactul",
+          "RISK_LEVEL": "Nivelul riscului"
+        }
+      }
+    },
+    "STEP_5": {
+      "INITIAL_DIRECTIVE_1": "În urma realizării pasului 4, o mai bună cunoaștere a organizației este obținută, astfel este un moment prielnic pentru conturarea profilului curent.",
+      "INITIAL_DIRECTIVE_2": "Structura este aceeași ca în cazul profilului țintă, scopul fiind de a identifica diferențele pozitive și, mai ales, negative pentru a fi analizate în pasul următor.",
+      "TEMPLATE_DESC_1": "Puteți descărca documentele descriptive de aici:",
+      "TEMPLATE_DESC_2": "iar modelul de aici:",
+      "UPLOAD_NAME": "profil curent"
+    },
+    "STEP_6": {
+      "INITIAL_DIRECTIVE": "Scopul acestui pas este de a identifica diferențele negative dintre profilul țintă și profilul curent și de a stabili o serie de acțiuni ce vor fi integrate în activitatea organizației (pasul 7) pentru a obține obiectivele selectate în cadrul pasului 4. Nu este neapărat ca toate diferențele să fie tratate, în acest pas se stabilește și pentru care diferențe riscul aferent este tolerat.",
+      "TEMPLATE_EXPLANATION_1": "acțiune - acțiune stabilită pentru îmbunătățirea securității cibernetice.",
+      "TEMPLATE_EXPLANATION_2": "subcategorie - subcategoria din profiluri vizată de acțiune.",
+      "TEMPLATE_EXPLANATION_3": "rată impact - furnizată pentru fiecare subcategorie în următorul document:",
+      "TEMPLATE_EXPLANATION_4": "grad de implementare - stabilit la pasul 5, documentul poate fi descărcat de aici:",
+      "TEMPLATE_EXPLANATION_5": "scorul de risc - este calculat conform formulei: [(100 - GI) / 100] x [(RI - 1) x 25].",
+      "TEMPLATE_EXPLANATION_6": "indice cost beneficiu - este stabilit in pasul curent de către utilizator folosind un sistem propriu de cuantificare.",
+      "TEMPLATE_EXPLANATION_7": "cod prioritate - furnizat pentru fiecare subcategorie în următorul document:",
+      "TEMPLATE_EXPLANATION_8": "prioritate - ordinea priorității finale, stabilită de utilizator pe baza metricilor din tabel, este indicată compararea metricilor de la dreapta la stânga.",
+      "TEMPLATE_NAME_1": "model prioritate acțiuni",
+      "TEMPLATE_NAME_2": "tabel rate impact",
+      "TEMPLATE_NAME_3": "profil curent",
+      "TEMPLATE_NAME_4": "tabel coduri prioritate",
+      "UPLOAD_NAME": "prioritate acțiuni",
+      "TABLE": {
+        "COLUMNS": {
+          "ACTION": "Acțiune",
+          "SUBCATEGORY": "Subcategorie",
+          "IMPACT_RATE": "Rată impact",
+          "IMPLEMENTATION_LEVEL": "Grad de implementare",
+          "RISK_SCORE": "Scorul de risc",
+          "CORE_BENEFIT_INDEX": "Indice cost/beneficiu",
+          "PRIORITY_CODE": "Cod prioritate",
+          "PRIORITY": "Prioritate"
+        }
+      }
+    },
+    "STEP_7": {
+      "INITIAL_DIRECTIVE": "Felicitări! Ați parcurs întregul program se securitate cibernetică din cadrul aplicației noastre.",
+      "FINAL_DIRECTIVE": "Acest ultim pas este, cel mai probabil, cel mai lung ca durată și nu se desfășoară în cadrul aplicației. El prevede implementarea acțiunilor stabilite la pasul anterior în cadrul și în concordanță cu celelalte activități desfășurate de organizație. Pentru urmărirea progresului se va modela profilul curent, marcând subcategoriile unde s-au înregistrat schimbări și ținând evidența celor care nu s-au modificat, dar care sunt vizate de obținerea unor îmbunătățiri. De asemenea, stadiul curent al nivelul de implementare poate fi actualizat în cadrul profilului. Este indicată stabilirea și urmărirea unor indici de performanță, diferiți de cei din cadrul profilului, care să ofere informații mai detaliate despre evoluția înregistrată. Pentru fiecare subcategorie unde este nevoie de îmbunătățiri, descrierea nucleul menționează o listă de standarde de referință care definesc soluții adecvate.",
+      "ASSIGNMENT_DESC": "Cu toate acestea puteți încărca mai multe documente în acest pas care să vă ajute în implementarea lui. Tipul și scopul acestoara este la latitudinea dumneavoastră:",
+      "UPLOAD_NAME": "documente implementare"
+    },
+    "TOAST": {
+      "SUCCESS": "Program salvat cu success: ",
+      "ERROR": "A apărut o eroare, programul nu a fost salvat."
+    }
+  },
+  "PAGE": {
+    "BACK": "Înapoi",
+    "SAVE": "Salvează",
+    "EXPORT": "Exportă",
+    "ARCHIVE": "Arhivează"
+  },
+  "MODAL": {
+    "INEXISTENT_ACCOUNT": "Nu există un cont asociat acestei adrese.",
+    "WRONG_CREDENTIALS": "Contul și/sau parola sunt greșite.",
+    "DUPLICATE_NAME": "Nume deja existent.",
+    "EMAIL": "Adresa de email",
+    "PASSWORD": "Parolă",
+    "PASS_ERROR_1": "Parola trebuie să aibă între 6 și 24 de caractere.",
+    "PASS_ERROR_2": "Minim o literă mare, una mică și un caracter special.",
+    "AUTH": "Autentifică",
+    "EXISTING_ACCOUNT": "Există deja un cont asociat acestei adrese.",
+    "CONFIRM_PASS": "Confirmă parola",
+    "REGISTER": "Înregistreză",
+    "SELECT": "Selecteză",
+    "UPLOAD": "Încarcă",
+    "UPLOAD_CONFIG": {
+      "CHOOSE_FILE": "Alege fișier",
+      "RESET": "Resetează",
+      "D![](C:/Users/User/AppData/Local/Temp/tour-of-turkey-2022-stage-6-profile.jpg)RAG_N_DROP": "Trage fișierul aici",
+      "SUCCESS": "Fișier încărcat cu succes.",
+      "FAIL": "Încărcarea fișierului a eșuat.",
+      "LIMIT": "Dimensiunea maximă a fișierului"
+    },
+    "EDIT": "Editare",
+    "SAVE": "Salvează",
+    "CANCEL": "Anulează",
+    "ADD": "Adaugă"
+  }
+}

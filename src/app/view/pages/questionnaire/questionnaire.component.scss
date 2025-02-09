@@ -1,0 +1,76 @@
+.overlap-top-40 {
+  margin-top: -40px;
+}
+.bottom-20 {
+  bottom: 20px;
+}
+
+.content-panel {
+  flex-direction: column;
+  align-items: stretch;
+  // margin-left: -6rem;  /*todo quest page aspect: content movement to left side*/
+  border-radius: 0.25rem;
+  padding: 0 0.5rem;
+}
+
+.fixed-panel {
+  position: fixed;
+  width: 310px;
+  // z-index: -1; /*todo quest page aspect: find better solution for zoom in problem*/
+}
+
+.sign {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  z-index: 100;
+}
+
+.header-score-end {
+  right: 4rem;
+}
+
+.header-alert-mark-end {
+  right: 8rem;
+}
+
+.sign-holder {
+  position: relative;
+  display: inline-flex;
+
+  p {
+    width: 97%;
+  }
+}
+
+.subsection-score-end {
+  right: -3rem;
+}
+
+.question-score-end {
+  right: 0;
+}
+
+.subsection-alert-mark-end {
+  right: -5rem;
+}
+
+.question-alert-mark-end {
+  right: -1rem;
+}
+
+/* Overwritten */
+.nav-link {
+  display: block;
+  padding: 0 0.5rem;
+  font-size: smaller;
+}
+
+.accordion-header {
+  position: relative;
+  display: flex;
+}
+
+/*position: absolute;
+    right: 3rem;
+    top: -1rem;*/

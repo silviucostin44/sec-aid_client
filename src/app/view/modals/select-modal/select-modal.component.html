@@ -1,0 +1,46 @@
+<app-modal-wrapper (closeModalEvent)="closeModalHandler()" title="{{text.MODAL.SELECT + ' ' + objectNameInput}}">
+  <div *ngIf="editingState" class="list-group-header d-flex align-items-center">
+    <input (click)="selectAll()" [(ngModel)]="allSelected"
+           class="form-check-input me-3 mt-0 select-all-input border-primary" type="checkbox"
+    >
+    <button (click)="addNewItem()" *ngIf="editingState" class="btn btn-outline-info btn-sm btn-icon"
+            tooltip="{{text.MODAL.ADD}}">
+      <fa-icon [icon]="plusIcon"></fa-icon>
+    </button>
+    <button (click)="deleteSelected()" *ngIf="someSelected" class="btn btn-outline-danger btn-sm rounded-pill ms-auto">
+      <fa-icon [icon]="deleteIcon"></fa-icon>
+    </button>
+  </div>
+  <div class="list-group list-group-flush">
+    <a (click)="startById(elem.id)"
+       *ngFor="let elem of displayedElementsToSelect; let i=index"
+       [ngClass]="{'hover-disabled': editingState}"
+       class="list-group-item list-group-item-primary list-group-item-action d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center flex-grow-1">
+        <input *ngIf="editingState" [formControl]="checked.at(elem.index)" class="form-check-input me-3"
+               type="checkbox">
+        <input [formControl]="names.at(elem.index)" class="form-control" type="text">
+      </div>
+      <button (click)="deleteOne(elem.index, i)" *ngIf="editingState"
+              class="btn btn-outline-danger btn-sm rounded-pill">
+        <fa-icon [icon]="deleteIcon"></fa-icon>
+      </button>
+    </a>
+  </div>
+  <div *ngIf="duplicateName" class="alert alert-danger">
+    {{text.MODAL.DUPLICATE_NAME}}
+  </div>
+  <div footer>
+    <span *ngIf="elementsIsNotEmpty()" class="d-inline-block">
+      <button (click)="cancelEditing()" *ngIf="editingState" class="btn btn-outline-secondary me-3" type="button">
+        {{text.MODAL.CANCEL}}
+      </button>
+      <button (click)="editOrSave()" [disabled]="isSaveButtonDisabled()"
+              [ngClass]="{'btn-outline-info': !editingState, 'btn-outline-success': editingState}"
+              class="btn btn-outline-info"
+              type="button">
+        {{actionButtonText()}}
+      </button>
+    </span>
+  </div>
+</app-modal-wrapper>

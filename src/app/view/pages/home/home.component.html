@@ -1,0 +1,57 @@
+<div class="container d-flex flex-column align-items-center">
+  <p class="display-4 fw-bold m-5" style="font-family: Cambria,serif">
+    <span style="color: cornflowerblue">{{text.APP_TITLE.FIRST_HALF}}</span>
+    <span style="color: cadetblue">{{text.APP_TITLE.SECOND_HALF}}</span>
+  </p>
+  <div class="border border-dark border-2 rounded shadow" style="width: 60%">
+    <p [ngClass]="{'pb-8p': isSignedIn}" class="display-6 fs-4 text-center mt-5">{{text.WELCOME}}</p>
+    <br>
+    <div class="container">
+      <div class="row row-cols-2 g-4 m-3">
+        <div class="col d-flex justify-content-center">
+          <a class="btn btn-primary btn-lg w-75" role="button" routerLink="/questionnaire/{{new}}">
+            {{text.START_NEW_Q}}
+          </a>
+        </div>
+        <div class="col d-flex justify-content-center">
+          <a class="btn btn-primary btn-lg w-75" role="button" routerLink="/program/{{new}}">
+            {{text.START_NEW_PROGRAM}}
+          </a>
+        </div>
+        <div *ngIf="isSignedIn" class="col d-flex justify-content-center">
+          <button (click)="selectQuestionnaire()" class="btn btn-primary btn-lg w-75" type="button">
+            {{text.LOAD_Q}}
+          </button>
+        </div>
+        <div *ngIf="isSignedIn" class="col d-flex justify-content-center">
+          <button (click)="selectProgram()" class="btn btn-primary btn-lg w-75" type="button">
+            {{text.LOAD_PROGRAM}}
+          </button>
+        </div>
+        <div class="col d-flex justify-content-center">
+          <button (click)="uploadQuestionnaireImportFile()" class="btn btn-secondary btn-lg w-75" type="button">
+            {{text.IMPORT_Q}}
+          </button>
+        </div>
+        <div *ngIf="!isSignedIn" class="col d-flex justify-content-center">
+          <button (click)="uploadProgramImportFile()" class="btn btn-secondary btn-lg w-75" type="button">
+            {{text.IMPORT_PROGRAM}}
+          </button>
+        </div>
+        <div *ngIf="!isSignedIn" class="col d-flex justify-content-center">
+          <button (click)="openAuthModal()" class="btn btn-link btn-lg w-75" type="button">
+            {{text.AUTH}}
+          </button>
+        </div>
+        <div *ngIf="!isSignedIn" class="col d-flex justify-content-center">
+          <button (click)="openRegisterModal()" class="btn btn-link btn-lg w-75" type="button">
+            {{text.REGISTER}}
+          </button>
+        </div>
+      </div>
+      <div *ngIf="isSignedIn" class="d-flex justify-content-center my-4">
+        <widget-account-tool class="logout-button"></widget-account-tool>
+      </div>
+    </div>
+  </div>
+</div>
